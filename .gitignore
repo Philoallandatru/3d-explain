@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.site-build-*/
+__pycache__/
+.venv/
+.playwright-cli/
+.env
+.env.*
+*.log

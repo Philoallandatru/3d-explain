@@ -1,0 +1,3061 @@
+{
+  "units": "mm",
+  "model": "Samsung 990 PRO 2 TB, no heatsink, 2022 review sample",
+  "frame": "+X extends from x=0 at the M.2 mating edge to x=80 at the mounting-notch end. +Y is upward in the top view, y=0..22 nominal width. Component side faces +Z. Bottom features use the same physical XY system.",
+  "source": {
+    "review": "https://www.kitguru.net/components/ssd-drives/simon-crisp/samsung-990-pro-2tb-review/2/",
+    "component_face": "https://www.kitguru.net/wp-content/uploads/2022/10/Samsung-SSD990-PRO-2TB-Review-on-KitGuru-PCB.jpg",
+    "bottom_with_label": "https://www.kitguru.net/wp-content/uploads/2022/10/Samsung-SSD990-PRO-2TB-Review-on-KitGuru-DriveRear.jpg",
+    "top_with_label": "https://www.kitguru.net/wp-content/uploads/2022/10/Samsung-SSD990-PRO-2TB-Review-on-KitGuru-DriveFront.jpg",
+    "secondary_review": "https://www.techpowerup.com/review/samsung-990-pro-2-tb/2.html",
+    "unlabelled_reverse_comparison_2tb": "https://tpucdn.com/review/samsung-990-pro-2-tb/images/pcb2.jpg",
+    "dram_macro_2tb": "https://tpucdn.com/review/samsung-990-pro-2-tb/images/dram.jpg",
+    "load_switch_macro": "https://theoverclockingpage.com/wp-content/uploads/2023/06/SSD-Samsung-990-Pro-2TB-PMIC.jpg",
+    "load_switch_package": "https://www.ti.com/lit/ds/symlink/tps22990.pdf#page=31",
+    "controller_macro": "https://www.techpowerup.com/review/samsung-990-pro-2-tb/images/controller.jpg",
+    "flash_macro": "https://www.techpowerup.com/review/samsung-990-pro-2-tb/images/flash.jpg"
+  },
+  "measurement": "The KitGuru 2048 px top view is perspectively rectified to the nominal 80 x 22 mm bounding rectangle. Estimated XY accuracy 0.2-0.6 mm. Package and SMD heights are illustrative estimates. Verified visible NAND markings take precedence over differing text transcription. The exposed metal controller lid is modeled by its main silhouette.",
+  "outline_mm": [
+    [
+      0.067,
+      20.87
+    ],
+    [
+      3.085,
+      20.889
+    ],
+    [
+      3.623,
+      21.03
+    ],
+    [
+      3.825,
+      21.238
+    ],
+    [
+      3.959,
+      21.719
+    ],
+    [
+      4.094,
+      21.926
+    ],
+    [
+      4.699,
+      21.999
+    ],
+    [
+      5.305,
+      22.004
+    ],
+    [
+      5.777,
+      21.801
+    ],
+    [
+      11.458,
+      21.703
+    ],
+    [
+      12.273,
+      21.916
+    ],
+    [
+      66.663,
+      21.873
+    ],
+    [
+      67.387,
+      21.664
+    ],
+    [
+      71.596,
+      21.621
+    ],
+    [
+      72.323,
+      21.84
+    ],
+    [
+      79.927,
+      21.964
+    ],
+    [
+      79.927,
+      12.776
+    ],
+    [
+      80.0,
+      12.705
+    ],
+    [
+      79.699,
+      12.671
+    ],
+    [
+      79.41,
+      12.573
+    ],
+    [
+      79.144,
+      12.413
+    ],
+    [
+      78.91,
+      12.199
+    ],
+    [
+      78.719,
+      11.938
+    ],
+    [
+      78.576,
+      11.64
+    ],
+    [
+      78.489,
+      11.317
+    ],
+    [
+      78.459,
+      10.981
+    ],
+    [
+      78.489,
+      10.645
+    ],
+    [
+      78.576,
+      10.322
+    ],
+    [
+      78.719,
+      10.025
+    ],
+    [
+      78.91,
+      9.764
+    ],
+    [
+      79.144,
+      9.55
+    ],
+    [
+      79.41,
+      9.391
+    ],
+    [
+      79.699,
+      9.293
+    ],
+    [
+      80.0,
+      9.259
+    ],
+    [
+      79.927,
+      0.0
+    ],
+    [
+      72.906,
+      0.04
+    ],
+    [
+      72.323,
+      0.257
+    ],
+    [
+      67.677,
+      0.282
+    ],
+    [
+      66.736,
+      0.074
+    ],
+    [
+      12.341,
+      0.239
+    ],
+    [
+      11.797,
+      0.38
+    ],
+    [
+      7.599,
+      0.403
+    ],
+    [
+      5.44,
+      0.071
+    ],
+    [
+      4.43,
+      0.077
+    ],
+    [
+      4.094,
+      0.217
+    ],
+    [
+      3.959,
+      0.63
+    ],
+    [
+      3.757,
+      0.974
+    ],
+    [
+      3.287,
+      1.114
+    ],
+    [
+      0.067,
+      1.13
+    ],
+    [
+      0.067,
+      16.278
+    ],
+    [
+      0.201,
+      16.415
+    ],
+    [
+      2.884,
+      16.426
+    ],
+    [
+      2.884,
+      16.426
+    ],
+    [
+      3.023,
+      16.448
+    ],
+    [
+      3.152,
+      16.514
+    ],
+    [
+      3.264,
+      16.618
+    ],
+    [
+      3.349,
+      16.753
+    ],
+    [
+      3.403,
+      16.911
+    ],
+    [
+      3.421,
+      17.08
+    ],
+    [
+      3.403,
+      17.249
+    ],
+    [
+      3.349,
+      17.406
+    ],
+    [
+      3.264,
+      17.541
+    ],
+    [
+      3.152,
+      17.644
+    ],
+    [
+      3.023,
+      17.708
+    ],
+    [
+      2.884,
+      17.73
+    ],
+    [
+      0.201,
+      17.717
+    ],
+    [
+      0.067,
+      17.854
+    ]
+  ],
+  "holes": [
+    {
+      "x": 5.912,
+      "y": 20.22,
+      "diameter": 1.5,
+      "ring_od": 0
+    },
+    {
+      "x": 78.459,
+      "y": 1.658,
+      "diameter": 1.49,
+      "ring_od": 0
+    }
+  ],
+  "packages": [
+    {
+      "id": "U_CTRL",
+      "group": "controller",
+      "label": "Pascal controller S4LV008",
+      "x": 14.653,
+      "y": 11.044,
+      "w": 13.759,
+      "d": 13.426,
+      "h": 1.05,
+      "side": "top",
+      "lines": [
+        "SAMSUNG",
+        "S4LV008",
+        "PASCAL",
+        "ARM"
+      ]
+    },
+    {
+      "id": "U_DRAM",
+      "group": "dram",
+      "label": "Samsung K4F6E6S4HM-BGCJ 2 GB LPDDR4",
+      "x": 29.736,
+      "y": 16.495,
+      "w": 13.934,
+      "d": 7.71,
+      "h": 0.78,
+      "side": "top",
+      "lines": [
+        "SEC",
+        "K4F6E6S",
+        "4HMBGCJ"
+      ]
+    },
+    {
+      "id": "U_N1",
+      "group": "nand",
+      "label": "Samsung TLC V-NAND package 1",
+      "x": 53.526,
+      "y": 11.213,
+      "w": 14.963,
+      "d": 18.376,
+      "h": 1.05,
+      "side": "top",
+      "lines": [
+        "SEC 222",
+        "DCK0",
+        "K9DVGY8J5D"
+      ]
+    },
+    {
+      "id": "U_N2",
+      "group": "nand",
+      "label": "Samsung TLC V-NAND package 2",
+      "x": 69.416,
+      "y": 11.189,
+      "w": 14.657,
+      "d": 18.474,
+      "h": 1.05,
+      "side": "top",
+      "lines": [
+        "SEC 222",
+        "DCK0",
+        "K9DVGY8J5D"
+      ]
+    },
+    {
+      "id": "U_PWR",
+      "group": "power",
+      "label": "Power-management area IC (role inferred)",
+      "x": 36.207,
+      "y": 8.259,
+      "w": 5.518,
+      "d": 5.661,
+      "h": 0.73,
+      "side": "top",
+      "lines": []
+    }
+  ],
+  "smd": [
+    {
+      "id": "T_A_ic_01",
+      "kind": "ic",
+      "x": 6.148,
+      "y": 5.742,
+      "w": 2.495,
+      "d": 3.198,
+      "h": 0.55,
+      "side": "top"
+    },
+    {
+      "id": "T_A_metal_01",
+      "kind": "metal",
+      "x": 9.899,
+      "y": 2.286,
+      "w": 1.795,
+      "d": 1.344,
+      "h": 0.45,
+      "side": "top"
+    },
+    {
+      "id": "T_A_mlcc_01",
+      "kind": "mlcc",
+      "x": 17.826,
+      "y": 20.743,
+      "w": 1.778,
+      "d": 0.727,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_A_mlcc_02",
+      "kind": "mlcc",
+      "x": 6.991,
+      "y": 2.437,
+      "w": 1.047,
+      "d": 0.654,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_A_mlcc_03",
+      "kind": "mlcc",
+      "x": 15.71,
+      "y": 2.295,
+      "w": 1.194,
+      "d": 0.83,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_A_mlcc_04",
+      "kind": "mlcc",
+      "x": 16.085,
+      "y": 1.255,
+      "w": 1.024,
+      "d": 0.553,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_A_mlcc_11",
+      "kind": "mlcc",
+      "x": 7.228,
+      "y": 14.894,
+      "w": 0.777,
+      "d": 0.447,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_A_mlcc_12",
+      "kind": "mlcc",
+      "x": 7.261,
+      "y": 13.139,
+      "w": 0.777,
+      "d": 0.413,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_A_mlcc_13",
+      "kind": "mlcc",
+      "x": 7.261,
+      "y": 11.349,
+      "w": 0.709,
+      "d": 0.378,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_A_mlcc_14",
+      "kind": "mlcc",
+      "x": 7.261,
+      "y": 9.525,
+      "w": 0.743,
+      "d": 0.378,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_A_mlcc_15",
+      "kind": "mlcc",
+      "x": 7.16,
+      "y": 8.045,
+      "w": 0.709,
+      "d": 0.379,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_A_resistor_02",
+      "kind": "resistor",
+      "x": 5.002,
+      "y": 17.671,
+      "w": 0.707,
+      "d": 0.31,
+      "h": 0.25,
+      "side": "top"
+    },
+    {
+      "id": "T_A_resistor_04",
+      "kind": "resistor",
+      "x": 6.35,
+      "y": 17.643,
+      "w": 0.776,
+      "d": 0.378,
+      "h": 0.25,
+      "side": "top"
+    },
+    {
+      "id": "T_A_resistor_10",
+      "kind": "resistor",
+      "x": 7.228,
+      "y": 14.24,
+      "w": 0.675,
+      "d": 0.378,
+      "h": 0.25,
+      "side": "top"
+    },
+    {
+      "id": "T_A_resistor_11",
+      "kind": "resistor",
+      "x": 7.16,
+      "y": 12.519,
+      "w": 0.776,
+      "d": 0.412,
+      "h": 0.25,
+      "side": "top"
+    },
+    {
+      "id": "T_A_resistor_12",
+      "kind": "resistor",
+      "x": 7.194,
+      "y": 10.626,
+      "w": 0.742,
+      "d": 0.31,
+      "h": 0.25,
+      "side": "top"
+    },
+    {
+      "id": "T_A_resistor_13",
+      "kind": "resistor",
+      "x": 7.16,
+      "y": 8.802,
+      "w": 0.675,
+      "d": 0.309,
+      "h": 0.25,
+      "side": "top"
+    },
+    {
+      "id": "T_B_ic_01",
+      "part_number": "TPS22990",
+      "marking": "RB990",
+      "kind": "ic",
+      "x": 38.62,
+      "y": 19.473,
+      "w": 2.031,
+      "d": 2.769,
+      "h": 0.55,
+      "side": "top"
+    },
+    {
+      "id": "T_B_ic_02",
+      "part_number": "TPS22990",
+      "marking": "RB990",
+      "kind": "ic",
+      "x": 42.833,
+      "y": 19.497,
+      "w": 2.111,
+      "d": 2.741,
+      "h": 0.55,
+      "side": "top"
+    },
+    {
+      "id": "T_B_ic_03",
+      "part_number": "TPS22990",
+      "marking": "RB990",
+      "kind": "ic",
+      "x": 23.554,
+      "y": 10.251,
+      "w": 2.237,
+      "d": 1.703,
+      "h": 0.55,
+      "side": "top"
+    },
+    {
+      "id": "T_B_ic_04",
+      "part_number": "TPS22990",
+      "marking": "RB990",
+      "kind": "ic",
+      "x": 25.242,
+      "y": 4.165,
+      "w": 2.276,
+      "d": 1.947,
+      "h": 0.55,
+      "side": "top"
+    },
+    {
+      "id": "T_B_inductor_01",
+      "kind": "inductor",
+      "x": 37.745,
+      "y": 14.108,
+      "w": 1.259,
+      "d": 3.118,
+      "h": 0.87,
+      "side": "top"
+    },
+    {
+      "id": "T_B_inductor_02",
+      "kind": "inductor",
+      "x": 42.059,
+      "y": 12.468,
+      "w": 2.215,
+      "d": 3.02,
+      "h": 0.87,
+      "side": "top"
+    },
+    {
+      "id": "T_B_inductor_03",
+      "kind": "inductor",
+      "x": 30.222,
+      "y": 9.939,
+      "w": 3.226,
+      "d": 2.302,
+      "h": 0.87,
+      "side": "top"
+    },
+    {
+      "id": "T_B_inductor_04",
+      "kind": "inductor",
+      "x": 30.256,
+      "y": 7.428,
+      "w": 3.087,
+      "d": 1.744,
+      "h": 0.87,
+      "side": "top"
+    },
+    {
+      "id": "T_B_inductor_05",
+      "kind": "inductor",
+      "x": 30.36,
+      "y": 5.021,
+      "w": 3.295,
+      "d": 2.441,
+      "h": 0.87,
+      "side": "top"
+    },
+    {
+      "id": "T_B_inductor_06",
+      "kind": "inductor",
+      "x": 34.08,
+      "y": 1.934,
+      "w": 2.752,
+      "d": 1.503,
+      "h": 0.87,
+      "side": "top"
+    },
+    {
+      "id": "T_B_inductor_07",
+      "kind": "inductor",
+      "x": 37.605,
+      "y": 2.408,
+      "w": 2.344,
+      "d": 3.222,
+      "h": 0.87,
+      "side": "top"
+    },
+    {
+      "id": "T_B_inductor_08",
+      "kind": "inductor",
+      "x": 41.813,
+      "y": 7.903,
+      "w": 1.827,
+      "d": 2.107,
+      "h": 0.87,
+      "side": "top"
+    },
+    {
+      "id": "T_B_mlcc_01",
+      "kind": "mlcc",
+      "x": 40.97,
+      "y": 15.555,
+      "w": 1.018,
+      "d": 2.036,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_B_mlcc_02",
+      "kind": "mlcc",
+      "x": 42.34,
+      "y": 15.56,
+      "w": 1.02,
+      "d": 2.037,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_B_mlcc_03",
+      "kind": "mlcc",
+      "x": 43.819,
+      "y": 15.565,
+      "w": 0.986,
+      "d": 2.039,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_B_mlcc_04",
+      "kind": "mlcc",
+      "x": 39.707,
+      "y": 14.043,
+      "w": 0.947,
+      "d": 2.104,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_B_mlcc_05",
+      "kind": "mlcc",
+      "x": 39.707,
+      "y": 12.044,
+      "w": 1.262,
+      "d": 0.736,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_B_mlcc_06",
+      "kind": "mlcc",
+      "x": 34.881,
+      "y": 11.583,
+      "w": 1.429,
+      "d": 0.77,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_B_mlcc_07",
+      "kind": "mlcc",
+      "x": 26.139,
+      "y": 10.182,
+      "w": 1.001,
+      "d": 1.983,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_B_mlcc_08",
+      "kind": "mlcc",
+      "x": 27.59,
+      "y": 10.183,
+      "w": 1.106,
+      "d": 1.915,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_B_mlcc_09",
+      "kind": "mlcc",
+      "x": 32.548,
+      "y": 9.45,
+      "w": 0.695,
+      "d": 1.292,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_B_mlcc_10",
+      "kind": "mlcc",
+      "x": 26.484,
+      "y": 7.398,
+      "w": 1.036,
+      "d": 1.88,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_B_mlcc_11",
+      "kind": "mlcc",
+      "x": 27.763,
+      "y": 7.361,
+      "w": 1.072,
+      "d": 1.811,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_B_mlcc_12",
+      "kind": "mlcc",
+      "x": 32.513,
+      "y": 7.529,
+      "w": 0.731,
+      "d": 1.362,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_B_mlcc_13",
+      "kind": "mlcc",
+      "x": 27.728,
+      "y": 4.68,
+      "w": 1.072,
+      "d": 1.985,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_B_mlcc_14",
+      "kind": "mlcc",
+      "x": 27.659,
+      "y": 2.103,
+      "w": 1.176,
+      "d": 1.777,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_B_mlcc_15",
+      "kind": "mlcc",
+      "x": 29.216,
+      "y": 2.096,
+      "w": 1.143,
+      "d": 1.777,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_B_mlcc_16",
+      "kind": "mlcc",
+      "x": 31.749,
+      "y": 2.189,
+      "w": 1.112,
+      "d": 1.885,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_B_mlcc_17",
+      "kind": "mlcc",
+      "x": 40.268,
+      "y": 5.624,
+      "w": 0.842,
+      "d": 1.438,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_B_mlcc_18",
+      "kind": "mlcc",
+      "x": 41.286,
+      "y": 5.622,
+      "w": 0.844,
+      "d": 1.439,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_B_mlcc_19",
+      "kind": "mlcc",
+      "x": 42.376,
+      "y": 5.619,
+      "w": 0.844,
+      "d": 1.44,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_B_mlcc_20",
+      "kind": "mlcc",
+      "x": 43.431,
+      "y": 5.616,
+      "w": 0.809,
+      "d": 1.441,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_B_mlcc_21",
+      "kind": "mlcc",
+      "x": 39.777,
+      "y": 2.784,
+      "w": 0.947,
+      "d": 1.929,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_B_mlcc_22",
+      "kind": "mlcc",
+      "x": 41.391,
+      "y": 2.778,
+      "w": 0.913,
+      "d": 1.861,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_B_mlcc_23",
+      "kind": "mlcc",
+      "x": 39.466,
+      "y": 6.223,
+      "w": 0.67,
+      "d": 1.368,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_B_mlcc_24",
+      "kind": "mlcc",
+      "x": 36.801,
+      "y": 4.932,
+      "w": 1.573,
+      "d": 0.841,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_B_resistor_01",
+      "kind": "resistor",
+      "x": 40.057,
+      "y": 10.22,
+      "w": 0.597,
+      "d": 0.456,
+      "h": 0.25,
+      "side": "top"
+    },
+    {
+      "id": "T_B_resistor_02",
+      "kind": "resistor",
+      "x": 39.321,
+      "y": 10.185,
+      "w": 0.526,
+      "d": 0.456,
+      "h": 0.25,
+      "side": "top"
+    },
+    {
+      "id": "T_B_resistor_03",
+      "kind": "resistor",
+      "x": 40.654,
+      "y": 19.169,
+      "w": 0.738,
+      "d": 1.263,
+      "h": 0.25,
+      "side": "top"
+    },
+    {
+      "id": "T_B_resistor_04",
+      "kind": "resistor",
+      "x": 39.356,
+      "y": 16.427,
+      "w": 0.876,
+      "d": 0.701,
+      "h": 0.25,
+      "side": "top"
+    },
+    {
+      "id": "T_B_resistor_05",
+      "kind": "resistor",
+      "x": 39.356,
+      "y": 15.455,
+      "w": 0.876,
+      "d": 0.596,
+      "h": 0.25,
+      "side": "top"
+    },
+    {
+      "id": "T_B_resistor_06",
+      "kind": "resistor",
+      "x": 37.465,
+      "y": 11.586,
+      "w": 0.979,
+      "d": 0.525,
+      "h": 0.25,
+      "side": "top"
+    },
+    {
+      "id": "T_B_resistor_07",
+      "kind": "resistor",
+      "x": 41.391,
+      "y": 9.483,
+      "w": 1.125,
+      "d": 0.526,
+      "h": 0.25,
+      "side": "top"
+    },
+    {
+      "id": "T_B_resistor_08",
+      "kind": "resistor",
+      "x": 38.795,
+      "y": 4.681,
+      "w": 1.226,
+      "d": 0.526,
+      "h": 0.25,
+      "side": "top"
+    },
+    {
+      "id": "T_C_mlcc_01",
+      "kind": "mlcc",
+      "x": 50.752,
+      "y": 20.819,
+      "w": 1.243,
+      "d": 0.706,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_C_mlcc_02",
+      "kind": "mlcc",
+      "x": 55.488,
+      "y": 20.802,
+      "w": 1.286,
+      "d": 0.672,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_C_mlcc_03",
+      "kind": "mlcc",
+      "x": 64.821,
+      "y": 20.829,
+      "w": 1.299,
+      "d": 0.676,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_C_mlcc_04",
+      "kind": "mlcc",
+      "x": 71.887,
+      "y": 20.759,
+      "w": 1.164,
+      "d": 0.536,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_C_mlcc_05",
+      "kind": "mlcc",
+      "x": 59.532,
+      "y": 1.497,
+      "w": 1.328,
+      "d": 0.674,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_C_mlcc_06",
+      "kind": "mlcc",
+      "x": 61.831,
+      "y": 1.415,
+      "w": 1.438,
+      "d": 0.711,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_C_mlcc_07",
+      "kind": "mlcc",
+      "x": 64.821,
+      "y": 1.365,
+      "w": 1.118,
+      "d": 0.605,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_C_mlcc_08",
+      "kind": "mlcc",
+      "x": 72.214,
+      "y": 1.365,
+      "w": 1.456,
+      "d": 0.643,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_C_mlcc_09",
+      "kind": "mlcc",
+      "x": 61.363,
+      "y": 7.384,
+      "w": 0.503,
+      "d": 0.675,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_C_mlcc_10",
+      "kind": "mlcc",
+      "x": 61.327,
+      "y": 2.59,
+      "w": 0.503,
+      "d": 0.604,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_C_mlcc_11",
+      "kind": "mlcc",
+      "x": 61.291,
+      "y": 17.966,
+      "w": 0.503,
+      "d": 0.497,
+      "h": 0.42,
+      "side": "top"
+    },
+    {
+      "id": "T_C_resistor_01",
+      "kind": "resistor",
+      "x": 66.446,
+      "y": 20.669,
+      "w": 0.615,
+      "d": 0.356,
+      "h": 0.25,
+      "side": "top"
+    },
+    {
+      "id": "T_C_resistor_02",
+      "kind": "resistor",
+      "x": 73.999,
+      "y": 20.688,
+      "w": 0.693,
+      "d": 0.394,
+      "h": 0.25,
+      "side": "top"
+    },
+    {
+      "id": "T_C_resistor_03",
+      "kind": "resistor",
+      "x": 61.399,
+      "y": 18.889,
+      "w": 0.396,
+      "d": 0.603,
+      "h": 0.25,
+      "side": "top"
+    },
+    {
+      "id": "T_C_resistor_04",
+      "kind": "resistor",
+      "x": 61.327,
+      "y": 16.439,
+      "w": 0.395,
+      "d": 0.568,
+      "h": 0.25,
+      "side": "top"
+    },
+    {
+      "id": "T_C_resistor_05",
+      "kind": "resistor",
+      "x": 61.327,
+      "y": 15.232,
+      "w": 0.359,
+      "d": 0.533,
+      "h": 0.25,
+      "side": "top"
+    },
+    {
+      "id": "T_C_resistor_06",
+      "kind": "resistor",
+      "x": 61.363,
+      "y": 10.899,
+      "w": 0.36,
+      "d": 0.568,
+      "h": 0.25,
+      "side": "top"
+    },
+    {
+      "id": "T_micro_topband_01",
+      "kind": "resistor",
+      "x": 16.221,
+      "y": 20.733,
+      "w": 0.939,
+      "d": 0.397,
+      "h": 0.23,
+      "side": "top"
+    },
+    {
+      "id": "T_micro_topband_02",
+      "kind": "mlcc",
+      "x": 14.636,
+      "y": 20.169,
+      "w": 0.681,
+      "d": 0.277,
+      "h": 0.28,
+      "side": "top"
+    },
+    {
+      "id": "T_micro_topband_03",
+      "kind": "mlcc",
+      "x": 14.602,
+      "y": 19.461,
+      "w": 0.715,
+      "d": 0.277,
+      "h": 0.28,
+      "side": "top"
+    },
+    {
+      "id": "T_micro_topband_04",
+      "kind": "mlcc",
+      "x": 14.602,
+      "y": 18.527,
+      "w": 0.715,
+      "d": 0.277,
+      "h": 0.28,
+      "side": "top"
+    },
+    {
+      "id": "T_micro_topband_05",
+      "kind": "mlcc",
+      "x": 16.068,
+      "y": 19.919,
+      "w": 0.716,
+      "d": 0.259,
+      "h": 0.28,
+      "side": "top"
+    },
+    {
+      "id": "T_micro_topband_06",
+      "kind": "mlcc",
+      "x": 16.051,
+      "y": 19.209,
+      "w": 0.716,
+      "d": 0.259,
+      "h": 0.28,
+      "side": "top"
+    },
+    {
+      "id": "T_micro_topband_07",
+      "kind": "resistor",
+      "x": 17.553,
+      "y": 19.858,
+      "w": 0.734,
+      "d": 0.294,
+      "h": 0.23,
+      "side": "top"
+    },
+    {
+      "id": "T_micro_topband_08",
+      "kind": "mlcc",
+      "x": 13.122,
+      "y": 20.16,
+      "w": 0.731,
+      "d": 0.311,
+      "h": 0.28,
+      "side": "top"
+    },
+    {
+      "id": "T_micro_topband_09",
+      "kind": "mlcc",
+      "x": 13.122,
+      "y": 19.487,
+      "w": 0.748,
+      "d": 0.294,
+      "h": 0.28,
+      "side": "top"
+    },
+    {
+      "id": "T_micro_topband_10",
+      "kind": "mlcc",
+      "x": 10.475,
+      "y": 19.489,
+      "w": 0.729,
+      "d": 0.293,
+      "h": 0.28,
+      "side": "top"
+    },
+    {
+      "id": "T_micro_topband_11",
+      "kind": "resistor",
+      "x": 18.51,
+      "y": 18.703,
+      "w": 0.257,
+      "d": 0.676,
+      "h": 0.23,
+      "side": "top"
+    },
+    {
+      "id": "T_micro_lowerband_01",
+      "kind": "mlcc",
+      "x": 5.137,
+      "y": 3.39,
+      "w": 0.724,
+      "d": 0.31,
+      "h": 0.28,
+      "side": "top"
+    },
+    {
+      "id": "T_micro_lowerband_02",
+      "kind": "mlcc",
+      "x": 10.254,
+      "y": 3.543,
+      "w": 0.677,
+      "d": 0.258,
+      "h": 0.28,
+      "side": "top"
+    },
+    {
+      "id": "T_micro_lowerband_03",
+      "kind": "mlcc",
+      "x": 14.364,
+      "y": 3.355,
+      "w": 0.748,
+      "d": 0.259,
+      "h": 0.28,
+      "side": "top"
+    },
+    {
+      "id": "T_micro_lowerband_04",
+      "kind": "mlcc",
+      "x": 14.364,
+      "y": 2.664,
+      "w": 0.714,
+      "d": 0.294,
+      "h": 0.28,
+      "side": "top"
+    },
+    {
+      "id": "T_micro_lowerband_05",
+      "kind": "mlcc",
+      "x": 14.364,
+      "y": 1.972,
+      "w": 0.714,
+      "d": 0.293,
+      "h": 0.28,
+      "side": "top"
+    },
+    {
+      "id": "T_micro_lowerband_06",
+      "kind": "resistor",
+      "x": 15.897,
+      "y": 3.28,
+      "w": 0.699,
+      "d": 0.26,
+      "h": 0.23,
+      "side": "top"
+    },
+    {
+      "id": "T_micro_lowerband_07",
+      "kind": "mlcc",
+      "x": 17.638,
+      "y": 3.671,
+      "w": 0.717,
+      "d": 0.277,
+      "h": 0.28,
+      "side": "top"
+    },
+    {
+      "id": "T_micro_lowerband_08",
+      "kind": "resistor",
+      "x": 19.349,
+      "y": 3.717,
+      "w": 0.736,
+      "d": 0.278,
+      "h": 0.23,
+      "side": "top"
+    },
+    {
+      "id": "T_micro_lowerband_09",
+      "kind": "resistor",
+      "x": 17.621,
+      "y": 2.979,
+      "w": 0.735,
+      "d": 0.26,
+      "h": 0.23,
+      "side": "top"
+    },
+    {
+      "id": "T_micro_lowerband_10",
+      "kind": "mlcc",
+      "x": 21.166,
+      "y": 2.843,
+      "w": 0.686,
+      "d": 0.26,
+      "h": 0.28,
+      "side": "top"
+    },
+    {
+      "id": "T_micro_lowerband_11",
+      "kind": "resistor",
+      "x": 17.621,
+      "y": 2.286,
+      "w": 0.769,
+      "d": 0.277,
+      "h": 0.23,
+      "side": "top"
+    },
+    {
+      "id": "T_micro_lowerband_13",
+      "kind": "mlcc",
+      "x": 22.23,
+      "y": 3.551,
+      "w": 0.292,
+      "d": 0.729,
+      "h": 0.28,
+      "side": "top"
+    }
+  ],
+  "test_pads": [
+    {
+      "x": 78.826,
+      "y": 4.597,
+      "w": 1.394,
+      "d": 0.645,
+      "side": "top",
+      "shape": "rect"
+    },
+    {
+      "x": 78.826,
+      "y": 3.665,
+      "w": 1.394,
+      "d": 0.717,
+      "side": "top",
+      "shape": "rect"
+    },
+    {
+      "x": 4.969,
+      "y": 1.311,
+      "w": 0.808,
+      "d": 0.825,
+      "side": "top",
+      "shape": "circle"
+    },
+    {
+      "x": 76.994,
+      "y": 18.432,
+      "w": 0.805,
+      "d": 0.789,
+      "side": "top",
+      "shape": "circle"
+    }
+  ],
+  "vias": [
+    {
+      "x": 78.533,
+      "y": 21.237,
+      "od": 0.72,
+      "drill": 0.36,
+      "side": "both",
+      "drill_through": true
+    },
+    {
+      "x": 78.533,
+      "y": 20.233,
+      "od": 0.72,
+      "drill": 0.36,
+      "side": "both",
+      "drill_through": true
+    },
+    {
+      "x": 78.533,
+      "y": 19.229,
+      "od": 0.72,
+      "drill": 0.36,
+      "side": "both",
+      "drill_through": true
+    },
+    {
+      "x": 78.533,
+      "y": 18.225,
+      "od": 0.72,
+      "drill": 0.36,
+      "side": "both",
+      "drill_through": true
+    },
+    {
+      "x": 78.533,
+      "y": 17.221,
+      "od": 0.72,
+      "drill": 0.36,
+      "side": "both",
+      "drill_through": true
+    },
+    {
+      "x": 79.633,
+      "y": 21.244,
+      "od": 0.72,
+      "drill": 0.36,
+      "side": "both",
+      "drill_through": true
+    },
+    {
+      "x": 79.633,
+      "y": 20.239,
+      "od": 0.72,
+      "drill": 0.36,
+      "side": "both",
+      "drill_through": true
+    },
+    {
+      "x": 79.633,
+      "y": 19.235,
+      "od": 0.72,
+      "drill": 0.36,
+      "side": "both",
+      "drill_through": true
+    },
+    {
+      "x": 79.633,
+      "y": 18.23,
+      "od": 0.72,
+      "drill": 0.36,
+      "side": "both",
+      "drill_through": true
+    },
+    {
+      "x": 79.633,
+      "y": 17.225,
+      "od": 0.72,
+      "drill": 0.36,
+      "side": "both",
+      "drill_through": true
+    }
+  ],
+  "tracks": [
+    {
+      "side": "top",
+      "width": 0.095,
+      "points": [
+        [
+          2.612,
+          12.135
+        ],
+        [
+          3.199,
+          12.317
+        ],
+        [
+          5.417,
+          14.503
+        ],
+        [
+          5.733,
+          14.714
+        ]
+      ]
+    },
+    {
+      "side": "top",
+      "width": 0.095,
+      "points": [
+        [
+          2.735,
+          11.87
+        ],
+        [
+          3.446,
+          12.15
+        ],
+        [
+          5.664,
+          14.266
+        ],
+        [
+          6.007,
+          14.462
+        ]
+      ]
+    },
+    {
+      "side": "top",
+      "width": 0.095,
+      "points": [
+        [
+          2.598,
+          9.174
+        ],
+        [
+          3.063,
+          9.454
+        ],
+        [
+          3.788,
+          10.683
+        ],
+        [
+          5.733,
+          12.755
+        ]
+      ]
+    },
+    {
+      "side": "top",
+      "width": 0.095,
+      "points": [
+        [
+          2.748,
+          8.895
+        ],
+        [
+          3.268,
+          9.132
+        ],
+        [
+          4.048,
+          10.53
+        ],
+        [
+          5.966,
+          12.517
+        ]
+      ]
+    },
+    {
+      "side": "top",
+      "width": 0.095,
+      "points": [
+        [
+          2.598,
+          6.032
+        ],
+        [
+          2.912,
+          6.311
+        ],
+        [
+          3.131,
+          6.632
+        ],
+        [
+          3.131,
+          7.861
+        ],
+        [
+          3.227,
+          8.238
+        ],
+        [
+          6.24,
+          11.132
+        ]
+      ]
+    },
+    {
+      "side": "top",
+      "width": 0.095,
+      "points": [
+        [
+          2.844,
+          5.78
+        ],
+        [
+          3.227,
+          6.073
+        ],
+        [
+          3.432,
+          6.422
+        ],
+        [
+          3.418,
+          7.777
+        ],
+        [
+          3.514,
+          8.07
+        ],
+        [
+          6.473,
+          10.922
+        ]
+      ]
+    },
+    {
+      "side": "top",
+      "width": 0.095,
+      "points": [
+        [
+          2.625,
+          3.225
+        ],
+        [
+          3.186,
+          3.53
+        ],
+        [
+          3.61,
+          4.13
+        ],
+        [
+          3.746,
+          4.772
+        ],
+        [
+          3.733,
+          6.854
+        ],
+        [
+          3.856,
+          7.385
+        ],
+        [
+          5.691,
+          9.327
+        ]
+      ]
+    },
+    {
+      "side": "top",
+      "width": 0.095,
+      "points": [
+        [
+          3.09,
+          3.237
+        ],
+        [
+          3.473,
+          3.585
+        ],
+        [
+          3.856,
+          4.143
+        ],
+        [
+          4.02,
+          4.729
+        ],
+        [
+          4.006,
+          6.84
+        ],
+        [
+          4.157,
+          7.189
+        ],
+        [
+          5.856,
+          9.033
+        ]
+      ]
+    }
+  ],
+  "label_geometry": {
+    "bottom": {
+      "label": "Regulatory sticker with copper foil",
+      "corners_mm": [
+        [
+          27.485,
+          1.452
+        ],
+        [
+          72.72,
+          1.576
+        ],
+        [
+          72.883,
+          19.897
+        ],
+        [
+          27.566,
+          19.854
+        ]
+      ],
+      "geometry": "Perspective-aligned approximate sticker corners, slightly rounded in original. SAMSUNG SSD to the left of this smaller regulatory sticker is separately printed on the black reverse."
+    }
+  },
+  "bottom_observation": "In the KitGuru rear photograph only the rectangular regulatory sticker covers the central-to-right area. Both ends outside the sticker show the black board, mounting rims, the mating edge, and opposite face of the ten plated contacts. Do not infer internal routing, unobserved copper or packages under the sticker.",
+  "edge_fingers": {
+    "top": {
+      "short_count": 5,
+      "long_count": 29,
+      "method": "Counts from photographs, stripe centers fitted to a uniform pitch per segment. No electrical assignment.",
+      "contacts": [
+        {
+          "x": 1.038,
+          "y": 20.259,
+          "w": 1.944,
+          "d": 0.322,
+          "segment": "short"
+        },
+        {
+          "x": 1.038,
+          "y": 19.779,
+          "w": 1.944,
+          "d": 0.322,
+          "segment": "short"
+        },
+        {
+          "x": 1.038,
+          "y": 19.299,
+          "w": 1.944,
+          "d": 0.323,
+          "segment": "short"
+        },
+        {
+          "x": 1.038,
+          "y": 18.75,
+          "w": 1.944,
+          "d": 0.322,
+          "segment": "short"
+        },
+        {
+          "x": 1.038,
+          "y": 18.27,
+          "w": 1.944,
+          "d": 0.322,
+          "segment": "short"
+        },
+        {
+          "x": 1.038,
+          "y": 15.801,
+          "w": 1.944,
+          "d": 0.322,
+          "segment": "long"
+        },
+        {
+          "x": 1.038,
+          "y": 15.297,
+          "w": 1.944,
+          "d": 0.322,
+          "segment": "long"
+        },
+        {
+          "x": 1.038,
+          "y": 14.793,
+          "w": 1.944,
+          "d": 0.322,
+          "segment": "long"
+        },
+        {
+          "x": 1.038,
+          "y": 14.289,
+          "w": 1.944,
+          "d": 0.322,
+          "segment": "long"
+        },
+        {
+          "x": 1.038,
+          "y": 13.785,
+          "w": 1.944,
+          "d": 0.322,
+          "segment": "long"
+        },
+        {
+          "x": 1.038,
+          "y": 13.281,
+          "w": 1.944,
+          "d": 0.322,
+          "segment": "long"
+        },
+        {
+          "x": 1.038,
+          "y": 12.777,
+          "w": 1.944,
+          "d": 0.322,
+          "segment": "long"
+        },
+        {
+          "x": 1.038,
+          "y": 12.273,
+          "w": 1.944,
+          "d": 0.322,
+          "segment": "long"
+        },
+        {
+          "x": 1.038,
+          "y": 11.769,
+          "w": 1.944,
+          "d": 0.322,
+          "segment": "long"
+        },
+        {
+          "x": 1.038,
+          "y": 11.265,
+          "w": 1.944,
+          "d": 0.322,
+          "segment": "long"
+        },
+        {
+          "x": 1.038,
+          "y": 10.761,
+          "w": 1.944,
+          "d": 0.322,
+          "segment": "long"
+        },
+        {
+          "x": 1.038,
+          "y": 10.257,
+          "w": 1.944,
+          "d": 0.323,
+          "segment": "long"
+        },
+        {
+          "x": 1.038,
+          "y": 9.753,
+          "w": 1.944,
+          "d": 0.323,
+          "segment": "long"
+        },
+        {
+          "x": 1.038,
+          "y": 9.249,
+          "w": 1.944,
+          "d": 0.323,
+          "segment": "long"
+        },
+        {
+          "x": 1.038,
+          "y": 8.744,
+          "w": 1.944,
+          "d": 0.323,
+          "segment": "long"
+        },
+        {
+          "x": 1.038,
+          "y": 8.24,
+          "w": 1.944,
+          "d": 0.323,
+          "segment": "long"
+        },
+        {
+          "x": 1.038,
+          "y": 7.736,
+          "w": 1.944,
+          "d": 0.323,
+          "segment": "long"
+        },
+        {
+          "x": 1.038,
+          "y": 7.232,
+          "w": 1.944,
+          "d": 0.323,
+          "segment": "long"
+        },
+        {
+          "x": 1.038,
+          "y": 6.728,
+          "w": 1.944,
+          "d": 0.322,
+          "segment": "long"
+        },
+        {
+          "x": 1.038,
+          "y": 6.224,
+          "w": 1.944,
+          "d": 0.322,
+          "segment": "long"
+        },
+        {
+          "x": 1.038,
+          "y": 5.72,
+          "w": 1.944,
+          "d": 0.322,
+          "segment": "long"
+        },
+        {
+          "x": 1.038,
+          "y": 5.216,
+          "w": 1.944,
+          "d": 0.322,
+          "segment": "long"
+        },
+        {
+          "x": 1.038,
+          "y": 4.712,
+          "w": 1.944,
+          "d": 0.322,
+          "segment": "long"
+        },
+        {
+          "x": 1.038,
+          "y": 4.208,
+          "w": 1.944,
+          "d": 0.322,
+          "segment": "long"
+        },
+        {
+          "x": 1.038,
+          "y": 3.704,
+          "w": 1.944,
+          "d": 0.322,
+          "segment": "long"
+        },
+        {
+          "x": 1.038,
+          "y": 3.2,
+          "w": 1.944,
+          "d": 0.322,
+          "segment": "long"
+        },
+        {
+          "x": 1.038,
+          "y": 2.696,
+          "w": 1.944,
+          "d": 0.322,
+          "segment": "long"
+        },
+        {
+          "x": 1.038,
+          "y": 2.192,
+          "w": 1.944,
+          "d": 0.322,
+          "segment": "long"
+        },
+        {
+          "x": 1.038,
+          "y": 1.688,
+          "w": 1.944,
+          "d": 0.322,
+          "segment": "long"
+        }
+      ]
+    },
+    "bottom": {
+      "short_count": 4,
+      "long_count": 29,
+      "method": "Counts from photographs, stripe centers fitted to a uniform pitch per segment. No electrical assignment.",
+      "contacts": [
+        {
+          "x": 1.227,
+          "y": 18.575,
+          "w": 2.29,
+          "d": 0.327,
+          "segment": "short"
+        },
+        {
+          "x": 1.227,
+          "y": 19.107,
+          "w": 2.29,
+          "d": 0.327,
+          "segment": "short"
+        },
+        {
+          "x": 1.227,
+          "y": 19.655,
+          "w": 2.29,
+          "d": 0.327,
+          "segment": "short"
+        },
+        {
+          "x": 1.227,
+          "y": 20.17,
+          "w": 2.29,
+          "d": 0.327,
+          "segment": "short"
+        },
+        {
+          "x": 1.227,
+          "y": 1.973,
+          "w": 2.29,
+          "d": 0.327,
+          "segment": "long"
+        },
+        {
+          "x": 1.227,
+          "y": 2.48,
+          "w": 2.29,
+          "d": 0.327,
+          "segment": "long"
+        },
+        {
+          "x": 1.227,
+          "y": 2.987,
+          "w": 2.29,
+          "d": 0.328,
+          "segment": "long"
+        },
+        {
+          "x": 1.227,
+          "y": 3.494,
+          "w": 2.29,
+          "d": 0.328,
+          "segment": "long"
+        },
+        {
+          "x": 1.227,
+          "y": 4.001,
+          "w": 2.29,
+          "d": 0.327,
+          "segment": "long"
+        },
+        {
+          "x": 1.227,
+          "y": 4.508,
+          "w": 2.29,
+          "d": 0.327,
+          "segment": "long"
+        },
+        {
+          "x": 1.227,
+          "y": 5.015,
+          "w": 2.29,
+          "d": 0.327,
+          "segment": "long"
+        },
+        {
+          "x": 1.227,
+          "y": 5.522,
+          "w": 2.29,
+          "d": 0.327,
+          "segment": "long"
+        },
+        {
+          "x": 1.227,
+          "y": 6.029,
+          "w": 2.29,
+          "d": 0.327,
+          "segment": "long"
+        },
+        {
+          "x": 1.227,
+          "y": 6.536,
+          "w": 2.29,
+          "d": 0.327,
+          "segment": "long"
+        },
+        {
+          "x": 1.227,
+          "y": 7.043,
+          "w": 2.29,
+          "d": 0.327,
+          "segment": "long"
+        },
+        {
+          "x": 1.227,
+          "y": 7.551,
+          "w": 2.29,
+          "d": 0.327,
+          "segment": "long"
+        },
+        {
+          "x": 1.227,
+          "y": 8.058,
+          "w": 2.29,
+          "d": 0.327,
+          "segment": "long"
+        },
+        {
+          "x": 1.227,
+          "y": 8.565,
+          "w": 2.29,
+          "d": 0.327,
+          "segment": "long"
+        },
+        {
+          "x": 1.227,
+          "y": 9.072,
+          "w": 2.29,
+          "d": 0.327,
+          "segment": "long"
+        },
+        {
+          "x": 1.227,
+          "y": 9.579,
+          "w": 2.29,
+          "d": 0.327,
+          "segment": "long"
+        },
+        {
+          "x": 1.227,
+          "y": 10.086,
+          "w": 2.29,
+          "d": 0.327,
+          "segment": "long"
+        },
+        {
+          "x": 1.227,
+          "y": 10.593,
+          "w": 2.29,
+          "d": 0.328,
+          "segment": "long"
+        },
+        {
+          "x": 1.227,
+          "y": 11.1,
+          "w": 2.29,
+          "d": 0.328,
+          "segment": "long"
+        },
+        {
+          "x": 1.227,
+          "y": 11.607,
+          "w": 2.29,
+          "d": 0.328,
+          "segment": "long"
+        },
+        {
+          "x": 1.227,
+          "y": 12.114,
+          "w": 2.29,
+          "d": 0.327,
+          "segment": "long"
+        },
+        {
+          "x": 1.227,
+          "y": 12.621,
+          "w": 2.29,
+          "d": 0.327,
+          "segment": "long"
+        },
+        {
+          "x": 1.227,
+          "y": 13.128,
+          "w": 2.29,
+          "d": 0.327,
+          "segment": "long"
+        },
+        {
+          "x": 1.227,
+          "y": 13.635,
+          "w": 2.29,
+          "d": 0.327,
+          "segment": "long"
+        },
+        {
+          "x": 1.227,
+          "y": 14.142,
+          "w": 2.29,
+          "d": 0.327,
+          "segment": "long"
+        },
+        {
+          "x": 1.227,
+          "y": 14.649,
+          "w": 2.29,
+          "d": 0.327,
+          "segment": "long"
+        },
+        {
+          "x": 1.227,
+          "y": 15.157,
+          "w": 2.29,
+          "d": 0.327,
+          "segment": "long"
+        },
+        {
+          "x": 1.227,
+          "y": 15.664,
+          "w": 2.29,
+          "d": 0.327,
+          "segment": "long"
+        },
+        {
+          "x": 1.227,
+          "y": 16.171,
+          "w": 2.29,
+          "d": 0.327,
+          "segment": "long"
+        }
+      ]
+    }
+  },
+  "detail_notes": "Small packages were digitized from the top photograph. Their classifications are estimates from package color and termination style, not an electrical BOM. The two exposed ICs alongside the DRAM and the small ICs beside the controller are retained; exact functions unknown. Selected faint outer-layer traces record visible fan-out direction and approximate bends, without assigning any signal or endpoint. Ten upper-right plated contacts are visible on both faces; list contains the top view once to avoid duplicating board drill holes. The two dense bands adjacent to the controller were re-read in the source raster. Where only bright metal terminations are resolved, individual solder_lands reproduce the optical centers; no hidden resistor/capacitor bodies or values are assigned to these sites. Arrays are partial feature counts, not a production BOM.",
+  "clearance_adjustments": "Outer silhouettes from the slanted edge of BGA bodies and bright SMD solder fillets have 1-2 px localization uncertainty. Six tiny parts along the upper edge of the two NAND BGAs were shifted outward <=0.15 mm, the width and position of T_B_mlcc_23 were refined between adjacent packages and T_B_resistor_05 shifted 0.045 mm, using the visible inter-package dark gaps. No coordinates are factory land-pattern or tolerance data.",
+  "solder_lands": [
+    {
+      "id": "SOLDER_001",
+      "x": 10.249,
+      "y": 20.852,
+      "w": 0.322,
+      "d": 0.294,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_002",
+      "x": 10.732,
+      "y": 20.857,
+      "w": 0.271,
+      "d": 0.241,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_003",
+      "x": 12.924,
+      "y": 20.814,
+      "w": 0.306,
+      "d": 0.38,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_004",
+      "x": 13.425,
+      "y": 20.843,
+      "w": 0.272,
+      "d": 0.242,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_005",
+      "x": 8.717,
+      "y": 20.67,
+      "w": 0.288,
+      "d": 0.31,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_006",
+      "x": 9.212,
+      "y": 20.682,
+      "w": 0.288,
+      "d": 0.258,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_007",
+      "x": 7.737,
+      "y": 20.576,
+      "w": 0.27,
+      "d": 0.258,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_008",
+      "x": 7.229,
+      "y": 20.551,
+      "w": 0.304,
+      "d": 0.309,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_009",
+      "x": 10.723,
+      "y": 20.2,
+      "w": 0.255,
+      "d": 0.31,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_010",
+      "x": 12.229,
+      "y": 20.192,
+      "w": 0.237,
+      "d": 0.328,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_011",
+      "x": 10.182,
+      "y": 20.192,
+      "w": 0.203,
+      "d": 0.258,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_012",
+      "x": 11.632,
+      "y": 20.185,
+      "w": 0.152,
+      "d": 0.293,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_013",
+      "x": 8.505,
+      "y": 19.964,
+      "w": 0.44,
+      "d": 0.362,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_014",
+      "x": 7.237,
+      "y": 19.854,
+      "w": 0.321,
+      "d": 0.31,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_015",
+      "x": 7.733,
+      "y": 19.882,
+      "w": 0.237,
+      "d": 0.259,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_016",
+      "x": 9.502,
+      "y": 19.576,
+      "w": 0.406,
+      "d": 0.414,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_017",
+      "x": 11.441,
+      "y": 19.478,
+      "w": 0.238,
+      "d": 0.259,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_018",
+      "x": 11.919,
+      "y": 19.468,
+      "w": 0.272,
+      "d": 0.225,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_019",
+      "x": 8.516,
+      "y": 19.166,
+      "w": 0.389,
+      "d": 0.396,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_020",
+      "x": 7.216,
+      "y": 19.17,
+      "w": 0.304,
+      "d": 0.327,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_021",
+      "x": 7.728,
+      "y": 19.2,
+      "w": 0.253,
+      "d": 0.241,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_022",
+      "x": 10.187,
+      "y": 18.519,
+      "w": 0.186,
+      "d": 0.258,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_023",
+      "x": 10.725,
+      "y": 18.515,
+      "w": 0.22,
+      "d": 0.294,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_024",
+      "x": 8.603,
+      "y": 18.469,
+      "w": 0.254,
+      "d": 0.293,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_025",
+      "x": 9.097,
+      "y": 18.496,
+      "w": 0.237,
+      "d": 0.224,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_026",
+      "x": 11.434,
+      "y": 18.512,
+      "w": 0.221,
+      "d": 0.189,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_027",
+      "x": 11.92,
+      "y": 18.507,
+      "w": 0.221,
+      "d": 0.224,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_028",
+      "x": 12.938,
+      "y": 18.495,
+      "w": 0.221,
+      "d": 0.224,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_029",
+      "x": 13.43,
+      "y": 18.503,
+      "w": 0.238,
+      "d": 0.207,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_030",
+      "x": 15.594,
+      "y": 18.501,
+      "w": 0.204,
+      "d": 0.225,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_031",
+      "x": 4.564,
+      "y": 18.391,
+      "w": 0.32,
+      "d": 0.344,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_032",
+      "x": 5.079,
+      "y": 18.423,
+      "w": 0.252,
+      "d": 0.24,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_033",
+      "x": 6.034,
+      "y": 18.401,
+      "w": 0.287,
+      "d": 0.31,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_034",
+      "x": 6.531,
+      "y": 18.421,
+      "w": 0.203,
+      "d": 0.241,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_035",
+      "x": 16.059,
+      "y": 18.493,
+      "w": 0.204,
+      "d": 0.208,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_036",
+      "x": 7.539,
+      "y": 18.138,
+      "w": 0.236,
+      "d": 0.241,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_037",
+      "x": 22.247,
+      "y": 18.19,
+      "w": 0.292,
+      "d": 0.243,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_038",
+      "x": 7.536,
+      "y": 17.69,
+      "w": 0.203,
+      "d": 0.155,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_039",
+      "x": 22.258,
+      "y": 17.727,
+      "w": 0.223,
+      "d": 0.156,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_040",
+      "x": 21.441,
+      "y": 3.73,
+      "w": 0.257,
+      "d": 0.261,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_041",
+      "x": 20.878,
+      "y": 3.732,
+      "w": 0.172,
+      "d": 0.208,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_042",
+      "x": 8.529,
+      "y": 3.511,
+      "w": 0.169,
+      "d": 0.258,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_043",
+      "x": 9.052,
+      "y": 3.518,
+      "w": 0.135,
+      "d": 0.259,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_044",
+      "x": 11.445,
+      "y": 3.495,
+      "w": 0.136,
+      "d": 0.173,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_045",
+      "x": 11.962,
+      "y": 3.486,
+      "w": 0.237,
+      "d": 0.172,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_046",
+      "x": 12.67,
+      "y": 3.492,
+      "w": 0.255,
+      "d": 0.19,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_047",
+      "x": 13.1,
+      "y": 3.501,
+      "w": 0.136,
+      "d": 0.19,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_048",
+      "x": 20.267,
+      "y": 3.45,
+      "w": 0.257,
+      "d": 0.191,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_049",
+      "x": 19.072,
+      "y": 2.973,
+      "w": 0.257,
+      "d": 0.208,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_050",
+      "x": 19.554,
+      "y": 2.972,
+      "w": 0.274,
+      "d": 0.226,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_051",
+      "x": 20.258,
+      "y": 2.977,
+      "w": 0.24,
+      "d": 0.208,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_052",
+      "x": 8.488,
+      "y": 2.854,
+      "w": 0.254,
+      "d": 0.173,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_053",
+      "x": 11.418,
+      "y": 2.771,
+      "w": 0.39,
+      "d": 0.276,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_054",
+      "x": 13.081,
+      "y": 2.795,
+      "w": 0.255,
+      "d": 0.172,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_055",
+      "x": 4.586,
+      "y": 2.494,
+      "w": 0.488,
+      "d": 0.395,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_056",
+      "x": 5.951,
+      "y": 2.498,
+      "w": 0.489,
+      "d": 0.361,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_057",
+      "x": 12.407,
+      "y": 2.37,
+      "w": 0.391,
+      "d": 0.397,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_058",
+      "x": 13.075,
+      "y": 2.328,
+      "w": 0.255,
+      "d": 0.224,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_059",
+      "x": 8.518,
+      "y": 2.329,
+      "w": 0.22,
+      "d": 0.189,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_060",
+      "x": 21.392,
+      "y": 2.154,
+      "w": 0.257,
+      "d": 0.278,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_061",
+      "x": 20.841,
+      "y": 2.158,
+      "w": 0.154,
+      "d": 0.208,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_062",
+      "x": 22.356,
+      "y": 2.153,
+      "w": 0.206,
+      "d": 0.208,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_063",
+      "x": 18.947,
+      "y": 2.102,
+      "w": 0.222,
+      "d": 0.259,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_064",
+      "x": 16.576,
+      "y": 2.083,
+      "w": 0.137,
+      "d": 0.208,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_065",
+      "x": 11.4,
+      "y": 1.988,
+      "w": 0.441,
+      "d": 0.362,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_066",
+      "x": 20.186,
+      "y": 1.685,
+      "w": 0.171,
+      "d": 0.346,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_067",
+      "x": 17.392,
+      "y": 1.621,
+      "w": 0.257,
+      "d": 0.208,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_068",
+      "x": 17.863,
+      "y": 1.622,
+      "w": 0.257,
+      "d": 0.207,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_069",
+      "x": 6.193,
+      "y": 1.651,
+      "w": 0.27,
+      "d": 0.206,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_070",
+      "x": 8.472,
+      "y": 1.425,
+      "w": 0.304,
+      "d": 0.534,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_071",
+      "x": 7.063,
+      "y": 1.441,
+      "w": 0.49,
+      "d": 0.533,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_072",
+      "x": 7.789,
+      "y": 1.45,
+      "w": 0.49,
+      "d": 0.533,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_073",
+      "x": 18.999,
+      "y": 1.266,
+      "w": 0.222,
+      "d": 0.347,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_074",
+      "x": 13.255,
+      "y": 1.289,
+      "w": 0.238,
+      "d": 0.225,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_075",
+      "x": 14.455,
+      "y": 1.279,
+      "w": 0.272,
+      "d": 0.224,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_076",
+      "x": 8.043,
+      "y": 1.293,
+      "w": 0.169,
+      "d": 0.206,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_077",
+      "x": 11.344,
+      "y": 1.272,
+      "w": 0.271,
+      "d": 0.207,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_078",
+      "x": 11.82,
+      "y": 1.281,
+      "w": 0.254,
+      "d": 0.224,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_079",
+      "x": 12.779,
+      "y": 1.278,
+      "w": 0.255,
+      "d": 0.207,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_080",
+      "x": 13.963,
+      "y": 1.272,
+      "w": 0.255,
+      "d": 0.208,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    },
+    {
+      "id": "SOLDER_081",
+      "x": 6.223,
+      "y": 1.119,
+      "w": 0.286,
+      "d": 0.223,
+      "side": "top",
+      "finish": "solder",
+      "source": "KitGuru PCB macro crop"
+    }
+  ],
+  "through_hole_evidence": "The two aligned 2 x 5 arrays have copper annuli and a recessed, reflective center on both faces; drilled plated-through geometry is the reconstruction used. The photos cannot establish the hidden barrel continuity, diameter tolerance, connectivity, or electrical purpose."
+}

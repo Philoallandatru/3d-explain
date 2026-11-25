@@ -1,0 +1,39 @@
+{
+  "train": [
+    {"title":"上电、给时钟、解除复位","direction":"side","packet":"3.3 V / REFCLK / PERST#","detail":"主机供电并提供共同时钟示例中的 100 MHz REFCLK−/+（#53/55）。PERST#（背面 #50）在电源和时钟稳定并满足时序后解除。","targets":["on_refclk","on_perst","on_power_vin","on_asic_host_macro"]},
+    {"title":"Detect · 检测对端","direction":"both","packet":"电气接收端检测","detail":"链路两端的发射器检测对端接收端终端，找出有接收器的 Lane。此时尚未传输 NVMe 命令。","targets":["on_asic_host_macro"]},
+    {"title":"Polling / Configuration","direction":"both","packet":"训练序列 TS1 / TS2","detail":"两端从 2.5 GT/s 开始交换训练序列，取得锁定、处理极性、协商 Lane 编号和宽度后进入初始 L0。四条 Lane 都成功时示例为 ×4。","targets":["on_asic_host_macro"]},
+    {"title":"Recovery · 升速与均衡","direction":"both","packet":"8 GT/s → 16 GT/s 示例","detail":"共同支持 Gen4 时，可经 Recovery 到 8 GT/s 进行均衡并回到 L0，再训练至 16 GT/s。两端调节发射与接收参数。最终代际和宽度取决于共同能力及训练结果。","targets":["on_asic_host_macro"]},
+    {"title":"L0 · 四条 Lane 传数据","direction":"both","packet":"16 GT/s ×4 · 128b/130b","detail":"收发分别占用四对线。每个方向编码后的理论上限为 16 × 4 × 128/130 ÷ 8 ≈ 7.877 GB/s，尚须扣除协议开销。四条活动 Lane 共同条带化传输数据。","targets":["on_asic_host_macro"]},
+    {"title":"数据链路 · 校验和重放","direction":"both","packet":"TLP / LCRC / ACK、NAK","detail":"收发两端按方向维护序号和重放缓冲。LCRC 检查、ACK/NAK 与超时重放负责逐跳可靠性；流控 credit 单独管理对端接收缓存。NVMe 的命令状态在更高层返回。","targets":["on_asic_host_macro"]},
+    {"title":"低功耗与恢复","direction":"wake","packet":"CLKREQ# · L1 子状态示例","detail":"双方启用对应能力时可以进入 L1 子状态。#52 是开漏、低有效的时钟请求信号；在相应子状态中，任一端均可请求退出，恢复时钟后再恢复链路。","targets":["on_clkreq","on_refclk","on_asic_host_macro"]}
+  ],
+  "read": [
+    {"title":"主机填写提交队列","direction":"host","packet":"64 B SQE · 主机内存","detail":"主机把 Read 命令、起始 LBA、块数和缓冲区指针放入主机内存中的提交队列。本步发生在主机本地。示例传 4 KiB：512 B 逻辑块对应 NLB=7，4 KiB 逻辑块对应 NLB=0。","targets":[],"through":["host_sq"]},
+    {"title":"敲提交队列门铃","direction":"down","packet":"MWr · SQ Tail","detail":"主机把新的队尾索引写入 SSD 的 MMIO 门铃。这个短写事务只携带索引，64 B 命令仍在主机内存。","targets":["on_asic_host_macro"],"through":["host_root","pcie","host"]},
+    {"title":"主控请求读取命令","direction":"up","packet":"MRd · 取 SQE","detail":"控制器的 DMA 发出 PCIe Memory Read 请求。请求从 SSD 发出，命令内容在反方向返回。","targets":["on_asic_host_macro","on_asic_dma_macro"],"through":["dma","host","pcie","host_sq"]},
+    {"title":"主机返回命令内容","direction":"down","packet":"CplD · SQE","detail":"主机侧用带数据的 PCIe Completion 返回命令。本例的控制器页为 4 KiB，页首对齐的单页数据缓冲区只需 PRP1。","targets":["on_asic_host_macro","on_asic_dma_macro"],"through":["host_sq","pcie","host","dma"]},
+    {"title":"查映射，选定物理页","direction":"dram","packet":"FTL / SRAM / LPDDR4","detail":"访问介质的示例中，固件把逻辑地址映射为物理位置。热映射可能命中片上 SRAM，需要时才访问板上 LPDDR4。","targets":["on_asic_ftl_macro","on_asic_sram_macro","on_asic_dram_macro","on_dram_wl","on_ddr_dq"],"through":["ftl","sram"]},
+    {"title":"向 NAND 发读页命令","direction":"nand_out","packet":"主控 → NAND · 命令与地址","detail":"选择一个封装作为示例。主控发出读页命令和地址，NAND 阵列把所选页感测到页缓冲，控制器等待就绪。","targets":["on_asic_nand_macro","on_nand_link_0","on_a_array"],"through":["nand","nand_bus","io","addr","row","select","wordline","sense","page"]},
+    {"title":"NAND 输出数据，主控纠错","direction":"nand_in","packet":"NAND → 主控 · DQ / DQS","detail":"现在由 NAND 驱动数据与读选通。主控采样、执行 ECC 解码，必要时重读。图中只跟踪 NAND A 的代表性总线。","targets":["on_asic_nand_macro","on_asic_ecc_macro","on_asic_sram_macro","on_nand_link_0","on_a_array"],"through":["page","column","io","nand_bus","nand_rx","ecc_word","ecc_check","ecc_fix","ecc_out"]},
+    {"title":"读数据送入主机缓冲区","direction":"up","packet":"MWr · 4 KiB 读负载","detail":"NVMe Read 的用户数据由 SSD 的 DMA 以 posted Memory Write 发往主机，不要求对每笔 MWr 返回 CplD。4 KiB 可拆为多个 TLP。","targets":["on_asic_host_macro","on_asic_dma_macro"],"through":["ecc_out","dma_addr","dma_pack","host","pcie","host_data"]},
+    {"title":"主控写完成队列","direction":"up","packet":"MWr · 16 B CQE","detail":"SSD 用 posted Memory Write 把状态等写入主机内存的完成队列。若分多笔写，Phase Tag 最后更新。NVMe CQE 与 PCIe CplD 属于不同层次。","targets":["on_asic_host_macro","on_asic_dma_macro"],"through":["dma","host","pcie","host_cq"]},
+    {"title":"可选中断通知","direction":"up","packet":"MWr · MSI-X（可选）","detail":"启用 MSI-X 并满足通知条件时，SSD 另向主机指定的中断地址发出一次写。中断可合并，轮询模式可跳过这一步。","targets":["on_asic_host_macro"],"through":["host","pcie","host_irq"]},
+    {"title":"主机消费完成项","direction":"host","packet":"主机本地读 · Phase Tag","detail":"主机在自己的内存中检查 Phase Tag、状态和命令 ID。队列绕回到同一槽位后，预期相位翻转。","targets":[],"through":["host_cq"]},
+    {"title":"归还完成队列槽位","direction":"down","packet":"MWr · CQ Head","detail":"主机更新 SSD 的完成队列头门铃，表明哪些条目已经消费。门铃可批量更新。","targets":["on_asic_host_macro"],"through":["host_root","pcie","host"]}
+  ],
+  "write": [
+    {"title":"主机填写提交队列","direction":"host","packet":"64 B SQE · 主机内存","detail":"主机把 Write 命令、起始 LBA、块数和缓冲区指针放入主机内存中的提交队列。本步发生在主机本地。示例传 4 KiB：512 B 逻辑块对应 NLB=7，4 KiB 逻辑块对应 NLB=0。","targets":[],"through":["host_sq"]},
+    {"title":"敲提交队列门铃","direction":"down","packet":"MWr · SQ Tail","detail":"主机把新的队尾索引写入 SSD 的 MMIO 门铃。这个短写事务只携带索引，64 B 命令仍在主机内存。","targets":["on_asic_host_macro"],"through":["host_root","pcie","host"]},
+    {"title":"主控请求读取命令","direction":"up","packet":"MRd · 取 SQE","detail":"控制器的 DMA 发出 PCIe Memory Read 请求。请求从 SSD 发出，命令内容在反方向返回。","targets":["on_asic_host_macro","on_asic_dma_macro"],"through":["dma","host","pcie","host_sq"]},
+    {"title":"主机返回命令内容","direction":"down","packet":"CplD · SQE","detail":"主机侧用带数据的 PCIe Completion 返回命令。本例的控制器页为 4 KiB，页首对齐的单页数据缓冲区只需 PRP1。","targets":["on_asic_host_macro","on_asic_dma_macro"],"through":["host_sq","pcie","host","dma"]},
+    {"title":"主控请求主机缓冲区","direction":"up","packet":"MRd · 请求写入的数据","detail":"SSD 根据 PRP 读取主机内存，先发出一个或多个 Memory Read 请求。MRRS、页边界和实现影响请求的拆分。","targets":["on_asic_host_macro","on_asic_dma_macro"],"through":["dma","host","pcie","host_data"]},
+    {"title":"主机返回待写数据","direction":"down","packet":"CplD · 4 KiB 写负载","detail":"主机返回一个或多个带数据的 Completion。这里的数据从主机送入 SSD，与前一步的 MRd 请求方向相反。","targets":["on_asic_host_macro","on_asic_dma_macro","on_asic_sram_macro"],"through":["host_data","pcie","host","dma","sram"]},
+    {"title":"选页并生成纠错码","direction":"dram","packet":"FTL / ECC / 工作存储","detail":"示例选择新物理页并编码纠错信息。映射可以命中 SRAM，必要时访问 LPDDR4。具体缓存策略和调度由固件决定。","targets":["on_asic_ftl_macro","on_asic_dram_macro","on_asic_ecc_macro","on_asic_sram_macro","on_ddr_dq"],"through":["ftl","sram","ecc_encode"]},
+    {"title":"NAND 接收数据并编程","direction":"nand_out","packet":"主控 → NAND · DQ / DQS","detail":"主控驱动写数据与选通，把数据装入 NAND 页缓冲，再发起编程并检查状态。本例展示访问介质的一条路径；易失写缓存、FUA 与 Flush 决定主机可依赖的持久性边界。","targets":["on_asic_nand_macro","on_asic_ecc_macro","on_nand_link_0","on_a_array"],"through":["sram","nand","nand_bus","io","column","page","program"]},
+    {"title":"主控写完成队列","direction":"up","packet":"MWr · 16 B CQE","detail":"SSD 用 posted Memory Write 把状态等写入主机内存的完成队列。若分多笔写，Phase Tag 最后更新。NVMe CQE 与 PCIe CplD 属于不同层次。","targets":["on_asic_host_macro","on_asic_dma_macro"],"through":["dma","host","pcie","host_cq"]},
+    {"title":"可选中断通知","direction":"up","packet":"MWr · MSI-X（可选）","detail":"启用 MSI-X 并满足通知条件时，SSD 另向主机指定的中断地址发出一次写。中断可合并，轮询模式可跳过这一步。","targets":["on_asic_host_macro"],"through":["host","pcie","host_irq"]},
+    {"title":"主机消费完成项","direction":"host","packet":"主机本地读 · Phase Tag","detail":"主机在自己的内存中检查 Phase Tag、状态和命令 ID。队列绕回到同一槽位后，预期相位翻转。","targets":[],"through":["host_cq"]},
+    {"title":"归还完成队列槽位","direction":"down","packet":"MWr · CQ Head","detail":"主机更新 SSD 的完成队列头门铃，表明哪些条目已经消费。门铃可批量更新。","targets":["on_asic_host_macro"],"through":["host_root","pcie","host"]}
+  ]
+}

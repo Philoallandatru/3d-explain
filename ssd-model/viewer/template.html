@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="model-sha256" content="__GLB_HASH__"><meta name="framework-sha256" content="__FRAMEWORK_HASH__"><meta name="color-scheme" content="light">
+<link rel="icon" href="data:,">
+<title>Samsung 990 PRO 2 TB · 三维结构</title>
+<style>
+:root{font-family:"Segoe UI","Microsoft YaHei",sans-serif;color:#222d2a;--ink:#222d2a;--muted:#58675f;--line:#c7ccc2;--paper:#f7f8f3;--active:#126451;--pale:#e0ebe2;--head:91px}
+*{box-sizing:border-box}body{margin:0;background:var(--paper)}button{font:inherit;color:inherit;cursor:pointer}button:focus-visible,canvas:focus-visible{outline:3px solid #16836b;outline-offset:2px}button:disabled{cursor:default;opacity:.44}button[hidden],[hidden]{display:none!important}header{border-bottom:1px solid var(--line);padding:17px 29px 15px;display:flex;align-items:center;gap:16px;justify-content:space-between;background:var(--paper)}
+h1{font:650 clamp(28px,2.8vw,45px)/1 "Bahnschrift","Segoe UI",sans-serif;letter-spacing:-.045em;margin:0}.title-line{display:flex;gap:14px;align-items:baseline}.capacity{font:600 17px "Bahnschrift","Segoe UI",sans-serif;color:var(--active)}.sub{margin:5px 0 0;font-size:13px;letter-spacing:.045em;color:var(--muted)}
+.modes{display:flex;border:1px solid #9cab9e;gap:2px;border-radius:5px;padding:3px}.modes button,.action,.nav button,.item,.step{border:0;background:transparent}.modes button{font-weight:650;font-size:14px;border-radius:3px;padding:9px 14px}.modes button:hover,.item:hover,.nav button:hover,.step:hover,.action:hover{background:#dce6dd}.modes button[aria-pressed=true]{color:#fff;background:#244b3d}
+main{display:grid;grid-template-columns:minmax(0,1fr) 275px;min-height:530px;height:calc(100dvh - var(--head))}.stage{overflow:hidden;isolation:isolate;position:relative;background-color:#e9ede6;background-image:radial-gradient(#788c7945 .7px,transparent .95px),radial-gradient(ellipse at 43% 38%,#f3f4ef,#e7ebe4 80%);background-size:19px 19px,100% 100%}canvas{width:100%;height:100%;display:block;touch-action:none;cursor:grab}canvas:active{cursor:grabbing}
+.stamp{position:absolute;left:26px;top:21px;pointer-events:none}.stamp h2{margin:0;font-size:22px;line-height:1.25}.stamp p{font-size:12px;color:var(--muted);margin:5px 0 0;max-width:750px}.nav{position:absolute;bottom:16px;right:19px;display:flex;border:1px solid #a1afa0;border-radius:5px;overflow:hidden;background:#f8faf4ed}.nav button{font-size:12px;min-width:39px;min-height:36px;padding:2px 10px}.nav button.symbol{font-size:19px}.nav button:nth-child(n+3){border-left:1px solid var(--line)}
+#anno{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.leader{stroke:#61756b;stroke-width:1.3;fill:none}.leader.active{stroke:#a74a13;stroke-width:2}.dot{fill:#2f5140;stroke:#f4f5ef;stroke-width:1.25}.dot.active{fill:#c7681b}.caption{fill:#2a4335;font:650 13px "Segoe UI","Microsoft YaHei",sans-serif;paint-order:stroke;stroke:#edf1ea;stroke-width:4px;stroke-linejoin:round}.caption.active{fill:#813d11}
+.axes{position:absolute;left:18px;bottom:13px;width:68px;height:59px;pointer-events:none}#loading,#error{position:absolute;top:44%;left:8%;right:8%;text-align:center;font-weight:600}.notice{padding:16px 18px;background:#fff9eb;border:1px solid #bc9c57}
+aside{padding:18px 17px 15px;border-left:1px solid var(--line);display:flex;flex-direction:column;gap:16px;overflow:auto;background:#f8faf5}aside h2{font-size:15px;margin:0;font-weight:650}.row{display:flex;align-items:center;justify-content:space-between;gap:6px}.mini,.action{border:1px solid #9dae9f;background:#f3f6ef;border-radius:3px;min-height:27px;padding:3px 7px;font-size:11px}.mini[aria-pressed=true],.action[aria-pressed=true]{background:#dce9df;border-color:#719c84;color:#134833}
+.toggles{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}.hint,.details small,.foot{font-size:12px;line-height:1.55;color:var(--muted)}.hint{margin:5px 0}.parts{display:flex;flex-direction:column;gap:1px;margin-top:6px}.item{text-align:left;display:flex;gap:9px;align-items:center;padding:4px 5px;border-radius:3px;min-height:27px;font-size:13px}.item[aria-pressed=true]{background:#dfeadf;font-weight:600}.chip{width:11px;height:11px;flex:0 0 11px;border:1px solid #51605666;border-radius:3px}.details,.guide,.foot{border-top:1px solid var(--line);padding-top:11px}.details p{font-weight:650;margin:6px 0 2px;font-size:14px;overflow-wrap:anywhere}.details small{display:block;margin-bottom:5px}.details .action{margin-top:3px}.foot{margin-top:auto}.foot p{margin:0}.foot p+p{margin-top:4px}
+.flow-selector{display:flex;gap:4px;margin:6px 0}.flow-selector button{flex:1}.steps{display:flex;flex-direction:column;gap:1px}.step{text-align:left;display:flex;align-items:center;gap:7px;border-radius:3px;min-height:25px;font-size:12px;padding:3px 5px}.step .number{font-family:"Bahnschrift",sans-serif;font-weight:650;color:#657268}.step[aria-pressed=true]{background:#f1ddc1;color:#64350d;font-weight:650}.explain{font-size:12px;line-height:1.55;margin:6px 0 0;color:#3e5144}.step-status{font-size:11px;color:var(--muted)}#display-info{margin-top:8px}
+.windows{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:2px;margin:8px 0 3px}.windows button{font:650 11px "Segoe UI",sans-serif;cursor:pointer;padding:6px 0;background:#e5ece1;border:1px solid #c5cec1;border-radius:2px}.windows button[aria-pressed=true]{background:#345b45;color:white;border-color:#345b45}
+@media(max-width:880px){main{grid-template-columns:minmax(0,1fr) 218px}aside{padding:13px 10px;gap:12px}header{padding:13px 16px}.modes button{padding:7px 9px}.stamp{left:16px;top:13px}.stamp h2{font-size:18px}.stamp p{max-width:85%}}
+@media(max-width:630px){header{display:grid;gap:10px}.modes{justify-self:start}.modes button{font-size:12px}.sub{font-size:12px}main{height:auto;display:block;min-height:0}.stage{height:clamp(390px,63dvh,600px)}aside{border:0;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr;gap:11px}.parts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.item{min-height:25px}.nav{right:8px;bottom:8px}.axes{left:7px;bottom:7px}.caption{font-size:11px}.stamp p{max-width:95%}.foot{margin-top:0}}
+@media(max-width:430px){.modes{display:grid;grid-template-columns:repeat(2,1fr);justify-self:stretch}.modes button{padding:6px 5px}.stamp p{max-width:calc(100vw - 32px)}}
+.zones{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:9px}.zones button{text-align:left;min-height:30px;padding:4px 7px}.zones button[aria-pressed=true]{background:#d6e7db;color:#164e39}.nets{display:flex;align-items:center;gap:6px;font-size:12px;margin:9px 0 0}.nets input{accent-color:#225d47}
+.zoom-tag{pointer-events:all;cursor:zoom-in}.zoom-tag:hover,.zoom-tag:focus-visible{fill:#0b7659;text-decoration:underline;outline:none}
+.story-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin:7px 0}.story-panel{border:1px solid #bdcbbf;border-radius:5px;padding:10px;background:#edf2ea}.story-panel h3{font-size:14px;margin:6px 0 3px}.story-panel p{margin:4px 0 7px}.story-panel select{font:inherit;color:inherit;max-width:100%;border:1px solid #9dae9f;background:#fffef9;border-radius:3px;padding:3px}.story-panel .row{font-size:12px}.story-bottom{margin-top:8px;flex-wrap:wrap}.lane-key{font-size:11px;line-height:1.55;color:#3d584d;margin:6px 0 0;overflow-wrap:anywhere}.flow-badge{position:absolute;bottom:23px;left:96px;border-left:3px solid #277866;background:#f8faf2ed;border-radius:3px;padding:6px 10px;pointer-events:none;color:#234638;font-size:12px}.flow-badge strong{display:block;font-size:14px;line-height:1.55}.flow-badge span{font-size:11px}.story-vector{pointer-events:none}.mount-notes{display:block}.mount-notes p{margin:6px 0}
+@media(max-width:630px){.flow-badge{bottom:54px;left:12px;max-width:calc(100% - 24px);padding:3px 7px}.flow-badge strong{font-size:12px}.modes button{white-space:nowrap}}
+.stage[data-magnified=true] .stamp{background:#f7f9f1ed;border:1px solid #c2cdc1;border-radius:4px;padding:8px 12px;max-width:calc(100% - 36px)}
+@media(min-width:631px) and (max-width:1120px){header{flex-wrap:wrap;gap:9px}.modes button{padding:7px 10px}}
+@media(max-width:630px){.modes{display:grid;grid-template-columns:repeat(3,1fr);justify-self:stretch}.modes button{padding:6px 3px}}
+.stack-panel{display:grid;gap:12px}
+.stack-panel h2{font-size:15px}.stack-panel h3{margin:0;font-size:13px;font-weight:650}
+.stack-mode,.stack-path,.stack-actions{display:flex;gap:4px;flex-wrap:wrap}
+.stack-mode button{flex:1}.stack-path button{flex:1;padding-inline:2px}
+.stack-layers{display:grid;gap:3px;margin:0}
+.stack-layers button{display:grid;grid-template-columns:27px 1fr max-content;gap:4px;align-items:center;text-align:left;font-size:12px;padding:6px;border:1px solid #ccd5c8;background:#f4f7ef;border-radius:3px}
+.stack-layers button small{font:10px "Consolas",monospace;color:var(--muted);white-space:nowrap}
+.stack-layers button b{font:600 13px "Bahnschrift","Segoe UI",sans-serif;color:#315347}
+.stack-layers button[aria-pressed=true]{border-color:#678876;background:#dcebe0;color:#194637}
+.stack-layers button:hover{border-color:#729481}.stack-layers button[data-removed=true]:not([aria-pressed=true]){opacity:.54}
+.stack-note{margin:0;font-size:12px;line-height:1.5;color:#46574b}
+.stack-checks{display:flex;gap:7px 12px;flex-wrap:wrap;font-size:11px}
+.stack-checks label{display:flex;gap:4px;align-items:center}.stack-checks input{accent-color:#245b4e;margin:0}
+.stack-picker{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.stack-picker label{display:grid;gap:3px;font-size:11px;color:var(--muted)}
+.stack-picker select{font:12px "Segoe UI","Microsoft YaHei",sans-serif;color:var(--ink);min-width:0;width:100%;min-height:27px;border-radius:3px;border:1px solid #a4b3a7;background:#f7faf3}
+.stack-rule{border-top:1px solid var(--line);padding-top:10px;display:grid;gap:7px}
+.stack-key{display:flex;align-items:center;flex-wrap:wrap;gap:5px 12px;margin:0;padding:6px 10px;background:#f8faf3ed;border:1px solid #b8c7ba;border-radius:4px;font-size:11px;line-height:1.3;list-style:none}
+.stack-key li{display:flex;gap:5px;align-items:center;white-space:nowrap}
+.stack-key i,.evidence-chip::before{display:block;content:"";width:8px;height:8px;border-radius:50%;background:var(--evidence);flex:none}
+[data-evidence=photo]{--evidence:#36947e}[data-evidence=standard]{--evidence:#5485ce}[data-evidence=model]{--evidence:#c68743}
+[data-evidence=dielectric]{--evidence:#68787a}[data-evidence=cad]{--evidence:#596882}
+.stack-layer-line{stroke:#5d7168;stroke-width:1}.stack-layer-label{font:600 12px "Segoe UI","Microsoft YaHei",sans-serif;fill:#2c4a3f;paint-order:stroke;stroke:#edf2ea;stroke-width:3px}
+.evidence-chip{display:inline-flex;align-items:center;gap:5px;margin-top:2px;font-size:11px;color:#45564c}
+.stack-overlay{position:absolute;bottom:19px;left:97px;display:flex;align-items:flex-start;gap:6px;flex-direction:column;max-width:calc(100% - 110px);pointer-events:none}
+.stackQuick{display:flex;align-items:center;gap:4px;background:#f8faf4ed;border:1px solid #9eafa1;border-radius:4px;padding:3px;pointer-events:auto}
+.stackQuick button{min-height:27px;padding:2px 6px;border:0;background:none;border-radius:3px;font-size:13px}.stackQuick button:hover{background:#e1ece2}
+.stackQuick span{font:600 12px "Bahnschrift","Segoe UI",sans-serif;color:#315347;padding-inline:4px;white-space:nowrap}
+.stack-strong{color:#62431f}
+body:is([data-view=stack],[data-view=system]) aside{gap:10px}
+.system-options{padding:10px 11px;border:1px solid #bec8ce;border-radius:6px;background:#edf1f0;display:grid;gap:8px}
+.system-options h2{font:650 16px "Bahnschrift","Segoe UI","Microsoft YaHei",sans-serif}
+.system-options .system-sub{margin:0;color:#495e66;font-size:14px;line-height:1.45}
+.system-options details{color:#47606b;font-size:14px}
+.system-options summary{width:max-content;cursor:pointer}
+.system-options details p{margin:5px 0 1px;line-height:1.6}
+.system-options .stack-checks label:has(input:disabled){opacity:.56}
+.system-options .mini{background:#f6f8f4;border-color:#adbcbd;font-size:14px}
+.system-options .stack-checks{font-size:14px}
+body[data-view=system] :is(.stack-note,.io-phase,.io-panel label,.io-panel summary,.io-panel #stack-io-auto-label,.io-panel select){font-size:14px}
+.system-options .mini:hover{background:#e4ecea}
+.system-options .assembly-trigger{justify-self:start;padding-inline:12px;color:#fff;background:#245243;border-color:#245243}
+.system-options .assembly-trigger:hover{background:#316553}
+.assembly-control{display:grid;gap:6px;width:min(290px,100%);padding:7px 9px;border:1px solid #9eafa1;border-radius:5px;background:#f8faf4f7;pointer-events:auto;color:#2c463d}
+.assembly-control .row{gap:7px;justify-content:flex-start}
+.assembly-control button{font-size:14px}
+.assembly-control #assembly-play{color:#fff;background:#245243;border-color:#245243}
+.assembly-control #assembly-stage{font-size:14px;font-weight:650}
+.assembly-scrub{display:grid;grid-template-columns:minmax(0,1fr) 41px;gap:8px;align-items:center}
+.assembly-scrub input{width:100%;margin:0;accent-color:#245243;cursor:pointer}
+.assembly-scrub output{font:600 14px "Bahnschrift","Segoe UI",sans-serif;text-align:right}
+.assembly-datum{stroke:#748785;stroke-width:1.4;stroke-dasharray:5 4;opacity:.82}
+body[data-assembly-view=system] .stack-key :is([data-evidence=standard],[data-evidence=model]){display:none}
+.modes{flex-wrap:wrap;justify-content:flex-end}
+.modes button{white-space:nowrap}
+.modes button[data-view=ssd-explode]:not([aria-pressed=true]){color:#245243;background:#e7efe5}
+body[data-view=ssd-explode] .stamp p{font-size:14px}
+#ssd-explode-options .stack-actions button{flex:1;min-width:max-content}
+@media(max-width:630px){
+ .modes button[data-view=ssd-explode]{grid-row:1;grid-column:1/-1}
+ body[data-view=ssd-explode] .stage{position:sticky;top:0;z-index:2;height:clamp(350px,53dvh,500px)}
+ body[data-view=ssd-explode] .stamp p{display:none}
+}
+body[data-view=system] .stage{background-color:#e7ece9;background-image:radial-gradient(#708a8542 .7px,transparent .95px),radial-gradient(ellipse at 48% 38%,#f4f6ef,#e2e9e6 83%)}
+#stack-io-flights{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.io-panel{border:1px solid #becdbf;border-radius:5px;padding:9px;background:#edf2e9;display:grid;gap:8px}
+.io-panel .row{flex-wrap:wrap}.io-panel h3{font-size:13px;margin:0;line-height:1.4}
+.io-panel strong{font-weight:650}.io-panel select{font:12px "Segoe UI","Microsoft YaHei",sans-serif;color:var(--ink);width:100%;min-height:29px;border-radius:3px;border:1px solid #a4b3a7;background:#f8faf4}
+.io-panel label{display:grid;gap:3px;font-size:11px;color:var(--muted)}
+.io-panel .stack-actions{justify-content:space-between}.io-panel summary{cursor:pointer;font-size:12px;color:#335447}
+.io-panel p{margin:3px 0 0}.io-phase{font-size:11px;color:#4d5d51;line-height:1.45}
+.io-panel #stack-io-auto-label{display:flex;align-items:center;gap:5px;color:#355246;font-size:12px}
+.io-panel #stack-io-auto{margin:0;accent-color:#245b4e}
+#stack-io-chip-note{padding:6px 8px;border-left:2px solid #b37a40;background:#f7f3e5;color:#493721}
+#stack-io-transport button{min-width:28px}.stackQuick #stack-io-play{background:#245243;color:#fff;padding-inline:8px}
+.io-flight{fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.io-flow-logic{stroke-dasharray:3.5 4}
+.io-arrow{stroke:#fff9e8;stroke-width:1.2;stroke-linejoin:round}
+@media(min-width:631px) and (max-width:1000px){.stack-layers button{grid-template-columns:24px 1fr}.stack-layers button small{display:none}}
+@media(max-width:630px){body:is([data-view=stack],[data-view=system]) .stage{position:sticky;top:0;z-index:2;height:clamp(268px,46dvh,470px)}.stack-overlay{left:9px;bottom:50px;max-width:calc(100% - 18px)}.stack-key{padding:4px 6px;gap:4px 8px}.stackQuick{padding:2px}.stackQuick button{min-height:24px}.stack-layers{grid-template-columns:1fr 1fr}.stack-layers button{grid-template-columns:25px 1fr}.stack-layers button small{display:none}}
+@media(max-width:630px){body[data-view=stack][data-stack-io-chip]:not([data-stack-io-chip=""]) #stack-layer-quick{display:none}}
+</style>
+</head>
+<body>
+<header><div><div class="title-line"><h1>Samsung 990 PRO</h1><span class="capacity">2 TB</span></div><p class="sub">M.2 2280 · PCIe 4.0 ×4 · NVMe SSD</p></div>
+<nav class="modes" aria-label="显示内容"><button data-view="system" aria-pressed="false">整机读写</button><button data-view="mounted" aria-pressed="true">整板原位剖视</button><button data-view="ssd-explode" aria-pressed="false">SSD 爆炸展开</button><button data-view="stack" aria-pressed="false">PCB 逐层剥开</button><button data-view="physical" aria-pressed="false">实物结构</button><button data-view="installed" aria-pressed="false">上机装配</button><button data-view="pcb" aria-pressed="false">独立电路示意</button><button data-view="asic" aria-pressed="false">主控 ASIC 剖视</button><button data-view="cell" aria-pressed="false">6T SRAM 单元</button><button data-view="flash" aria-pressed="false">V-NAND 单元</button></nav></header>
+<main><section class="stage" aria-label="三维视图"><canvas id="model" tabindex="0" aria-label="拖动旋转，滚轮缩放，点选零件，双击聚焦"></canvas><svg id="stack-io-flights" aria-hidden="true"></svg><svg id="anno" aria-hidden="true"></svg>
+<div class="stamp"><h2 id="mode-name">整板原位剖视</h2><p id="mode-tip"></p></div><svg class="axes" id="axes" viewBox="0 0 64 60" aria-hidden="true"></svg>
+<div class="flow-badge" id="trace-badge" hidden><strong id="trace-packet"></strong><span id="trace-direction"></span></div>
+<div class="stack-overlay" id="stack-overlay" hidden>
+<div class="stackQuick" id="stack-layer-quick" aria-label="逐层控制"><button id="stack-prev-layer" aria-label="上一层" title="上一层">↑</button><span id="stack-position" aria-live="polite"></span><button id="stack-next-layer" aria-label="往下剥一层" title="往下剥一层">↓</button></div>
+<div class="stackQuick" id="stack-io-transport" aria-label="读写播放控制" hidden><button id="stack-io-prev" aria-label="上一段" title="上一段">‹</button><button id="stack-io-play">播放</button><button id="stack-io-next" aria-label="下一段" title="下一段">›</button><span id="stack-io-tally"></span></div>
+<div class="assembly-control" id="assembly-control" role="group" aria-label="爆炸展开播放控制" hidden>
+<div class="row"><button class="mini" id="assembly-play">播放</button><button class="mini" id="assembly-collapse">合拢</button><span id="assembly-stage" aria-live="polite">已合拢</span></div>
+<div class="assembly-scrub"><input id="assembly-position" type="range" min="0" max="100" step="1" value="0" aria-label="展开进度"><output id="assembly-percent" for="assembly-position" aria-hidden="true">0%</output></div>
+</div>
+<ul class="stack-key" aria-label="证据颜色"><li id="system-cad-key" data-evidence="cad" hidden><i></i>原厂主板 CAD</li><li data-evidence="photo"><i></i>照片可辨</li><li data-evidence="standard"><i></i>M.2 针位</li><li data-evidence="model"><i></i>原理推演</li><li id="stack-dielectric-key" data-evidence="dielectric"><i></i>示意介质</li></ul></div>
+<div class="nav"><button class="symbol" id="minus" aria-label="缩小">−</button><button class="symbol" id="plus" aria-label="放大">＋</button><button id="flip">翻面</button><button id="reset">全景复位</button></div><div id="loading">正在读取模型…</div><div hidden id="error" role="alert" class="notice"></div></section>
+<aside><section class="system-options" id="system-options" hidden>
+<h2>Framework Desktop</h2><p class="system-sub">正面 M.2 2280 主槽 · PCIe 4.0 ×4</p>
+<div class="stack-actions"><button class="mini" id="system-overview">主板全景</button><button class="mini" id="system-slot">放大主槽</button></div>
+<button class="mini assembly-trigger" id="system-explode" aria-expanded="false" aria-controls="assembly-control">爆炸展开</button>
+<div class="stack-checks"><label><input type="checkbox" id="system-spreader">显示散热片</label><label><input type="checkbox" id="system-confirmed">隐藏推演</label></div>
+<details><summary>主板来源</summary><p>几何来自 Framework Computer Inc. 的原厂 STEP。模型重新着色、替换了参考 SSD，并叠加功能示意。<br><a href="host-board-sources.md">装配与信号依据</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></p></details>
+</section>
+<section class="system-options" id="ssd-explode-options" hidden>
+<h2>展开阶段</h2>
+<div class="stack-actions" role="group" aria-label="跳到展开阶段"><button class="mini" data-ssd-stage="18">正背标签</button><button class="mini" data-ssd-stage="57">芯片和小件</button><button class="mini" data-ssd-stage="100">PCB 铜层</button></div>
+<div class="stack-checks"><label><input type="checkbox" id="ssd-explode-dielectric" checked>显示介质</label><label><input type="checkbox" id="ssd-explode-proof">隐藏推演</label></div>
+<p class="system-sub">原理模型包含六层铜、接地面、PCIe 差分对、NAND 总线和过孔。</p>
+</section>
+<section id="stack-io" hidden><div class="row"><h2>4 KiB 读写</h2><button class="mini" id="stack-io-close" hidden>退出播放</button></div>
+<div class="flow-selector" aria-label="选择读写流程"><button class="mini" data-stack-io="read" aria-pressed="false">读 4 KiB</button><button class="mini" data-stack-io="write" aria-pressed="false">写 4 KiB</button></div>
+<div class="io-panel" id="stack-io-panel" hidden>
+<label>事务<select id="stack-io-transaction"></select></label>
+<div class="stack-actions"><button class="mini" id="stack-io-prev-transaction">上一事务</button><button class="mini" id="stack-io-next-transaction">下一事务</button></div>
+<h3 id="stack-io-packet"></h3>
+<label>经过的部位<select id="stack-io-leg"></select></label>
+<div class="row"><span class="io-phase" id="stack-io-location"></span><button class="mini" id="stack-io-focus">放大本段</button></div>
+<p id="stack-io-chip-note" class="stack-note" hidden></p>
+<label id="stack-io-auto-label"><input type="checkbox" id="stack-io-auto" checked><span id="stack-io-auto-text">跟随信号放大芯片</span></label>
+<div class="stack-picker"><label>观察的 PCIe 通道<select id="stack-io-lane"><option value="0">Lane 0</option><option value="1">Lane 1</option><option value="2">Lane 2</option><option value="3">Lane 3</option></select></label>
+<label>闪存封装<select id="stack-io-nand"><option value="a">NAND A</option><option value="b">NAND B</option></select></label></div>
+<details id="stack-io-detail"><summary>本步协议含义</summary><p id="stack-io-note" class="stack-note"></p></details>
+</div></section>
+<section class="stack-panel" id="stack-options" hidden><div class="row"><h2>PCB 叠层</h2><span class="step-status">六铜层示例</span></div>
+<div class="stack-mode" aria-label="叠层显示方式"><button class="mini" id="stack-peel">逐层剥开</button><button class="mini" id="stack-explode">展开叠层</button></div>
+<div class="stack-layers" id="stack-layers" aria-label="选择铜层"></div>
+<p class="stack-note" id="stack-layer-note"></p>
+<div class="stack-checks"><label><input type="checkbox" id="stack-components">显示封装</label><label><input type="checkbox" id="stack-dielectric" checked>显示介质</label><label><input type="checkbox" id="stack-confirmed">只看实物与标准</label></div>
+<div class="stack-rule" id="stack-manual"><div class="row"><h3>从金手指追到 NAND</h3><button class="mini" id="stack-clear" hidden>结束追踪</button></div>
+<div class="stack-picker"><label>差分通道<select id="stack-lane"><option value="0">Lane 0</option><option value="1">Lane 1</option><option value="2">Lane 2</option><option value="3">Lane 3</option></select></label>
+<label>发送方向<select id="stack-direction"><option value="down">主机 → SSD</option><option value="up">SSD → 主机</option></select></label>
+<label>闪存封装<select id="stack-target"><option value="a">NAND A</option><option value="b">NAND B</option></select></label></div>
+<div class="stack-path" aria-label="追线步骤"><button class="mini" data-stack-step="edge">金手指</button><button class="mini" data-stack-step="pcie">差分对</button><button class="mini" data-stack-step="ctrl">主控</button><button class="mini" data-stack-step="nand">NAND</button></div>
+<p class="stack-note stack-strong" id="stack-path-note" hidden></p>
+<div class="stack-actions"><button class="mini" id="stack-focus" hidden>放大本段</button><button class="mini" id="stack-route">展开整条路径</button><button class="mini" id="stack-vias">看信号孔与地孔</button></div></div></section>
+<section id="link-options"><div class="row"><h2>沿整板追踪链路</h2><button class="mini" id="trace-stop" hidden>结束追踪</button></div>
+<div class="story-tabs"><button class="mini" data-story="train">建立链路</button><button class="mini" data-story="read">读 4 KiB</button><button class="mini" data-story="write">写 4 KiB</button></div>
+<div class="story-panel" id="story-panel" hidden><div class="row"><span id="story-count"></span><label>通道 <select id="trace-lane" aria-label="观察的 PCIe 通道"><option value="-1">全部 ×4</option><option value="0">Lane 0</option><option value="1">Lane 1</option><option value="2">Lane 2</option><option value="3">Lane 3</option></select></label></div><h3 id="story-title" aria-live="polite"></h3><p id="story-text" class="explain"></p><div id="lane-key" class="lane-key"></div><div class="row story-bottom"><button class="mini" id="story-prev">上一步</button><button class="mini" id="story-next">下一步</button><button class="mini" id="trace-focus">放大落点</button><button class="mini" id="story-stack" hidden>在剥层中播放</button></div></div></section>
+<section id="mount-options" hidden><h2>上机装配</h2><div class="toggles"><button class="mini" id="mount-lid">剖开插座上盖</button><button class="mini" id="mount-board">隐藏主板基材</button><button class="mini" id="mount-screw">提起螺钉</button></div><div class="toggles"><button class="mini" data-mount="socket">两排弹片</button><button class="mini" data-mount="fix">M2 螺钉与承柱</button></div><p class="hint">TE M-key 插座配 JAE 有肩承柱。板底距主板 1.50 mm，模型处于压平固定的位置。</p></section>
+<section id="mounted-options"><h2>在板上放大</h2><div class="zones">
+<button class="mini" data-zone="ctrl">Pascal 主控</button><button class="mini" data-zone="sram">片上 6T SRAM</button>
+<button class="mini" data-zone="dram">LPDDR4 阵列</button><button class="mini" data-zone="pmic">供电区 IC</button>
+<button class="mini" data-zone="coil">电感绕组</button><button class="mini" data-zone="cap">电容内电极</button>
+<button class="mini" data-zone="nand_a">NAND A 叠片</button><button class="mini" data-zone="nand_b">NAND B 存储串</button><button class="mini" data-zone="switch">RB990 负载开关</button><button class="mini" data-zone="phy">PCIe 收发器</button></div>
+<label class="nets"><input type="checkbox" id="show-nets" checked>显示板上电路连线</label></section>
+<section id="physical-options" hidden><div class="row"><h2>标签层</h2></div><div class="toggles"><button class="mini" id="top_label" aria-pressed="false">正面标签</button><button class="mini" id="bottom_label" aria-pressed="false">背面标签</button><button class="mini" id="peel-label" aria-pressed="false">翻看背标铜箔</button></div></section>
+<section id="flow" hidden><div class="row"><h2>命令路径</h2><span class="step-status" id="step-status"></span></div><div class="flow-selector"><button class="mini" id="read" aria-pressed="true">读命令</button><button class="mini" id="write" aria-pressed="false">写命令</button></div><div id="steps" class="steps"></div><p id="step-desc" class="explain"></p></section>
+<section id="cell-options" hidden><h2>单元工况</h2><div class="toggles"><button class="mini" data-cell="hold">保持 Q=1</button><button class="mini" data-cell="read1">读 Q=1</button><button class="mini" data-cell="read0">读 Q=0</button></div><p class="explain" id="cell-desc"></p></section>
+<section id="flash-options" hidden><div class="row"><h2>TLC 阈值窗口</h2><button class="mini" id="return-board">返回实物</button></div><div class="windows" id="windows"></div><p class="explain" id="flash-desc"></p></section>
+<section id="pcb-options" hidden><h2>板内局部</h2><div class="toggles"><button class="mini" data-detail="diff">差分束</button><button class="mini" data-detail="via">换层与回流</button><button class="mini" data-detail="coil">输出电感</button><button class="mini" data-detail="plane">参考铜面</button></div></section>
+<section id="legend-panel"><div class="row"><h2 id="legend-title">器件图例</h2><button class="mini" id="annotate" aria-pressed="true">视图标注</button></div><div class="parts" id="parts"></div></section>
+<section class="details" aria-live="polite"><div class="row"><h2>当前选择</h2><span id="pick-evidence" class="evidence-chip" hidden></span></div><p id="selection">整板</p><small id="selection-info">点选模型或图例查看名称。</small><button class="action" id="focus" disabled>聚焦所选</button> <button class="action" id="drill" hidden></button></section>
+<section class="foot"><p>拖动旋转 · 滚轮或双指缩放<br>点选识别 · 双击聚焦</p><p id="display-info">外观与器件布局据公开实物资料重建。</p><details style="margin-top:6px"><summary>模型包中的资料依据</summary><p><a href="layer-stack-evidence.md">PCB 叠层与证据颜色</a><br><a href="mechanical-detail-evidence.md">器件照片与装配尺寸</a><br><a href="pcie-link-evidence.md">M.2 引脚与 PCIe 训练</a><br><a href="io-path-evidence.md">NVMe 与 NAND 读写路径</a></p></details></section></aside></main>
+<script type="application/octet-stream" id="asset">__MODEL__</script>
+<script type="application/octet-stream" id="framework-asset">__FRAMEWORK_MODEL__</script>
+<script type="application/json" id="link-guide">__LINK_GUIDE__</script>
+<script type="application/json" id="stack-guide">__STACK_GUIDE__</script>
+<script>/*__THREE_LICENSE__*/</script>
+<script>/*__VENDOR__*/</script>
+<script>/*__ASSEMBLY_EXPLODE__*/</script>
+<script>/*__STACK_PLAYBACK__*/</script>
+<script>/*__STACK_APPLICATION__*/</script>
+<script>/*__APPLICATION__*/</script>
+</body></html>

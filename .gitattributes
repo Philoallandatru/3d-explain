@@ -1,0 +1,8 @@
+* text=auto eol=lf
+*.glb binary
+*.step -text -diff
+equipment-layout/*.html -text
+ssd-model/parts.csv -text
+ssd-model/view.html -text -diff linguist-generated=true
+ssd-model/viewer/three.bundle.js linguist-vendored=true
+skills/upstream/** linguist-vendored=true
