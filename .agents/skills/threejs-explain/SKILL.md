@@ -1,17 +1,16 @@
 ---
 name: threejs-explain
-description: 在 3d-explain 中维护交互式 Three.js 货架、硬件装配剖视或协议动画。用于设备拖放、可逆爆炸展开、CAD 与 GLB 对位、逐动作信号追踪和浏览器验收。
+description: 在 3d-explain 中维护 Three.js 硬件装配剖视或协议动画。用于可逆爆炸展开、CAD 与 GLB 对位、逐动作信号追踪和浏览器验收。
 ---
 
 # Three.js 交互模型
 
-先找对应的编辑入口。货架是 `equipment-layout/设备货架布局.html`。SSD 的可编辑查看器和几何分别在 `ssd-model/viewer/` 与 `ssd-model/*.py`。NVMe 的动作、场景与 React 控件分别在 `nvme-power-cycle/src/content/power-demo-*.js`、`power-demo-scene.js` 和 `PowerDemo3D.jsx`。项目目前使用 Three.js r170，先核对该版本的 API。可按需读 [上游技能索引](../../../skills/README.md)。
+SSD 的可编辑查看器和几何分别在 `ssd-model/viewer/` 与 `ssd-model/*.py`。NVMe 的动作、场景与 React 控件分别在 `nvme-power-cycle/src/content/power-demo-*.js`、`power-demo-scene.js` 和 `PowerDemo3D.jsx`。项目目前使用 Three.js r170，先核对该版本的 API。可按需读 [上游技能索引](../../../skills/README.md)。
 
 ## 资产与交互
 
 - 跨 CAD 与 GLB 记录单位和轴向，先用两个以上的物理锚点检查比例、朝向和插接位置。保留脚位、封装、层与功能区的稳定名称或 `extras`，让镜头、射线拾取和信号路径引用同一个零件。
 - 爆炸展开从闭合姿态加上按组的偏移。用同一个进度值实现展开、暂停及复原。剥层切换和点击高亮可独立控制，恢复时保留原始材质与变换。
-- 货架三维、二维展开图、搜索和持久化共同使用设备与工位 ID。用射线把指针投到可落点区域，拖动先预览，松手再提交交换或新增。处理取消、触屏和已有存档的迁移。
 - 硬件解释按证据区分可见外形、规范定义的针位、推演走线及芯片功能块。协议动作单独记录发起者、响应者、方向、字段与规范链接。时间轴的视觉速率服务于阅读，规范时限或实测值另行注明。
 
 ## 渲染与验证

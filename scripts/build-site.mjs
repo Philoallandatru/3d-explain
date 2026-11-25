@@ -11,7 +11,6 @@ const output = at('dist')
 try {
   await copyFile(at('index.html'), inStage('index.html'))
   await copyFile(at('NOTICE.md'), inStage('NOTICE.md'))
-  await cp(at('equipment-layout'), inStage('equipment-layout'), { recursive: true })
   await mkdir(inStage('ssd-model'))
   const ssdFiles = await readdir(at('ssd-model'))
   const viewerFiles = ssdFiles.filter(entry => entry === 'view.html' || /\.(md|json|csv|png)$/.test(entry))

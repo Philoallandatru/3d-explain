@@ -1,6 +1,6 @@
 # Three.js 技能
 
-[项目技能](../.agents/skills/threejs-explain/SKILL.md) 可用于修改货架、SSD 查看器与协议动画。它记录了此处的资产命名、拖拽状态、镜头与渲染预算，以及离线和协议路径的验收经验。
+[项目技能](../.agents/skills/threejs-explain/SKILL.md) 可用于修改 SSD 查看器与协议动画。它记录了此处的资产命名、镜头与渲染预算，以及离线和协议路径的验收经验。
 
 ## 上游搜索结果
 

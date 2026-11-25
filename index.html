@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="交互式设备货架、990 PRO SSD 剖层和 NVMe 协议模型。">
+  <meta name="description" content="交互式 990 PRO SSD 剖层和 NVMe 协议模型。">
   <link rel="icon" href="data:,">
   <title>3D Explain · 交互模型</title>
   <style>
@@ -19,7 +19,7 @@
     h1 { margin: 0 0 12px; font-size: clamp(2.6rem, 6vw, 4.5rem); letter-spacing: -.06em; line-height: 1.05; }
     h2 { margin: 0; font-size: 1.2rem; }
     p { margin: 0; color: #475878; line-height: 1.65; }
-    .scenes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 36px; }
+    .scenes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 36px; }
     .scene {
       display: flex;
       flex-direction: column;
@@ -46,12 +46,8 @@
 <body>
   <main>
     <h1>3D Explain</h1>
-    <p>浏览设备布局、拆开 SSD，再沿主板追踪 NVMe 的信号与数据。</p>
+    <p>拆开 990 PRO SSD，再沿主板追踪 NVMe 的信号与数据。</p>
     <div class="scenes">
-      <a class="scene" href="./equipment-layout/设备货架布局.html">
-        <img src="./equipment-layout/场景预览.png" alt="" width="1560" height="1058">
-        <div><h2>设备货架布局</h2><p>拖拽设备、调整工位，切换控制平面与人物视角。</p></div>
-      </a>
       <a class="scene" href="./ssd-model/view.html#ssd-explode">
         <img src="./ssd-model/ssd-explosion-preview.png" alt="" width="1536" height="960">
         <div><h2>990 PRO SSD 结构</h2><p>爆炸展开、翻面、剥开 PCB，查看主控、NAND 和走线。</p></div>
