@@ -75,6 +75,7 @@ def write_viewer(dest,glb):
     host=(HERE/"framework-desktop.glb").read_bytes()
     fields={"/*__THREE_LICENSE__*/":"/* Three.js r170\n"+(source/"THREE-LICENSE.txt").read_text(encoding="utf-8")+"\n*/",
             "__LINK_GUIDE__":(HERE/"link-guide.json").read_text(encoding="utf-8"),
+            "__IO_WHY__":(source/"why-io.json").read_text(encoding="utf-8"),
             "__STACK_GUIDE__":json.dumps({"layers":LAYERS,"copper_mm":LAYER_HEIGHT},ensure_ascii=False),
             "/*__VENDOR__*/":(source/"three.bundle.js").read_text(encoding="utf-8"),
             "/*__ASSEMBLY_EXPLODE__*/":(source/"assembly.js").read_text(encoding="utf-8"),

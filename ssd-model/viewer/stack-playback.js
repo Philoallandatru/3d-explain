@@ -3,6 +3,12 @@ window.createStackPlayback = function ({
   T, $, guides, byId, all, visible, box, project, svg, choose, frame, begin, changed, inspected, system, hostPart
 }) {
   const name = {read:"读", write:"写"};
+  const reasons = JSON.parse($("link-why").textContent);
+  const chipReason = {
+    addr:"nand-command",row:"wordline",select:"wordline",wordline:"wordline",sense:"sense",page:"page",
+    column:"nand-out",program:"verify",nand_rx:"ecc",ecc_word:"ecc",ecc_check:"ecc",ecc_fix:"ecc",
+    ecc_encode:"ecc-encode",ecc_out:"ecc",dma_addr:"map",dma_pack:"data-mwr",
+  };
   const actors = {
     host_sq:["io_host_sq","主机提交队列 SQ"], host_data:["io_host_data","主机数据缓冲区"],
     host_cq:["io_host_cq","主机完成队列 CQ"], host_root:["io_host_root","主机 PCIe 根端口"],
@@ -346,6 +352,19 @@ window.createStackPlayback = function ({
     select.value = String(value);
   }
 
+  function syncReason(segment,filtered) {
+    const id=(!filtered&&chipReason[segment.key])||current().why;
+    const key=reasons[id+"-"+operation]?id+"-"+operation:id;
+    const reason=reasons[key],panel=$("stack-io-why");
+    panel.hidden=!reason;
+    if(!reason||panel.dataset.reason===key)return;
+    panel.dataset.reason=key;
+    $("stack-io-why-title").textContent=reason[0];
+    $("stack-io-why-cause").textContent=reason[1];
+    $("stack-io-why-case").textContent=reason[2];
+    $("stack-io-why-comparison").open=false;
+  }
+
   function sync(on, confirmed=onlyConfirmed) {
     stageVisible = on;
     onlyConfirmed = confirmed;
@@ -372,6 +391,7 @@ window.createStackPlayback = function ({
     $("stack-io-packet").textContent = packet();
     $("stack-io-location").textContent = segment.where+(confirmed ? " · 只看实物与标准" : "");
     const filtered = confirmed && segment.kind==="model";
+    syncReason(segment,filtered);
     $("stack-io-chip-note").hidden = !segment.detail || filtered;
     $("stack-io-chip-note").textContent = segment.detail || "";
     $("stack-io-note").textContent = current().detail.replace("NAND A","NAND "+nand.toUpperCase());
@@ -479,6 +499,9 @@ window.createStackPlayback = function ({
     for (const button of document.querySelectorAll("[data-stack-io]")) button.onclick=()=>start(button.dataset.stackIo);
     $("stack-io-close").onclick=()=>close();
     $("stack-io-play").onclick=toggle;
+    $("stack-io-why-comparison").querySelector("summary").onclick=()=>{
+      if(!$("stack-io-why-comparison").open)pause();
+    };
     $("stack-io-prev").onclick=()=>toLeg(position-1);
     $("stack-io-next").onclick=()=>toLeg(position+1);
     $("stack-io-leg").onchange=e=>toLeg(Number(e.target.value));

@@ -10,6 +10,7 @@ import { defaultLayerComputeMs, layerComputeOptions, planInferenceWindow } from 
 import { gpuProfile, gpuTopicLabels, cardLinkGBs, hostLinkGBs, vramGBs, gpuTransferBounds, gpuLinkColors, gpuLinkSteps } from './gpu-profile.mjs';
 import { buckExample, buckVoltages, powerColors, powerLabels, powerSignals, powerSteps, psuProfile } from './power-flow.mjs';
 import { powerFrame, showPowerStep } from './power-scene.mjs';
+import { componentReasons, reasonFor } from './why-flow.mjs';
 import anatomyLicense from './vendor/pc-anatomy/LICENSE.txt';
 
 const $=id=>document.getElementById(id);
@@ -349,7 +350,9 @@ function renderInspector() {
   const inspector=$('inspector');
   inspector.replaceChildren();
   if(topic.title!==$('section-title').textContent)inspector.append(node('h3',topic.title));
-  inspector.append(node('p',topic.text),refs(topic.refs));
+  inspector.append(node('p',topic.text));
+  if(!steps().length&&componentReasons[key])inspector.append(reasonPanel(componentReasons[key]));
+  inspector.append(refs(topic.refs));
   if(key!=='board' && key!=='package'){
     const focus=button('镜头聚焦',()=>focusTopic(key));focus.className='jump';
     inspector.append(focus);
@@ -484,6 +487,10 @@ function renderInferenceClock() {
     ? '下一层权重已在显存，当前层算完后立即开始下一层。'
     : '当前层 '+clockTime(plan.computeMs)+' 算完，下一层权重 '+clockTime(plan.readyAt)+' 就绪。'+
       (plan.waitMs>0?'GPU 等到权重就绪再开始下一层。':'下一层可在当前层算完时直接开始。');
+  const serial=$('clock-serial');
+  serial.hidden=resident;
+  serial.textContent='如果当前层算完才启动搬运，下一层要等 '+clockTime(plan.readyAt)+
+    '。提前预取后等 '+clockTime(plan.waitMs)+'，省下 '+clockTime(plan.readyAt-plan.waitMs)+'。';
 }
 
 function renderStatic() {
@@ -786,6 +793,67 @@ function buckPanel(focus) {
   return panel;
 }
 
+function reasonPanel([question,cause,comparison], {example,actions=[]}={}) {
+  const panel=node('section');panel.className='why-panel';
+  const details=node('details'),summary=node('summary','换个条件会怎样');
+  details.className='why-comparison';
+  summary.addEventListener('click',()=>{if(!details.open)stopPlay();});
+  details.append(summary,node('p',comparison));
+  if(example)details.append(example);
+  panel.append(node('h3',question),node('p',cause),details,...actions);
+  return panel;
+}
+
+function powerReadyExample() {
+  const example=node('div'),out=node('output');
+  example.className='why-example';out.className='why-outcome';
+  out.setAttribute('aria-live','polite');
+  const set=value=>{
+    const stable=value==='stable';
+    out.replaceChildren(node('strong',stable?'PWR_OK 高':'PWR_OK 低'),
+      node('span',stable?'主轨通过检查，主板可推进后续时序。':'整组主轨尚未就绪，主板继续等待。'));
+    out.dataset.passed=String(stable);
+  };
+  example.append(selectBox('示例主轨条件',[['stable','主轨全部就绪'],['undervoltage','3.3 V 仍欠压']],
+    'stable',set),out);
+  set('stable');
+  return example;
+}
+
+function cableCurrentExample() {
+  const example=node('div'),rows=node('dl');
+  const loadOptions=[100,150,200],vcore=1.10,scaleLimit=loadOptions.at(-1)/vcore;
+  example.className='why-example';rows.className='why-current';
+  rows.setAttribute('aria-live','polite');
+  const set=value=>{
+    const watts=Number(value);
+    rows.replaceChildren(...[[12,'EPS 输入合计'],[vcore,'Vcore 侧']].map(([volts,label])=>{
+      const row=node('div'),current=watts/volts;
+      const fill=node('span');fill.className='why-current-bar';fill.setAttribute('aria-hidden','true');
+      fill.style.setProperty('--current',100*current/scaleLimit+'%');
+      row.append(node('dt',label+' · '+volts.toFixed(volts===12?0:2)+' V'),
+        node('dd',current.toFixed(1)+' A'),fill);
+      return row;
+    }));
+  };
+  example.append(selectBox('示例负载功率',loadOptions.map(watts=>[watts,watts+' W']),150,set),
+    rows,node('p','同功率换算 I = P / V，取理想转换。'));
+  set(150);
+  return example;
+}
+
+function completionComparison(flow,id) {
+  const target=id==='data-mwr'?'cqe':'data-mwr';
+  const index=flow.findIndex(step=>step.id===target);
+  if(index<0)return [];
+  const jump=button(target==='cqe'?'对照 CQE 写入':'对照 4 KiB 写回',()=>{
+    moveTo(index);
+    $('flow-content').querySelector('.why-jump')?.focus({preventScroll:true});
+  });
+  jump.className='why-jump';
+  return [jump];
+}
+
 function renderFlow() {
   const flow=steps();
   const timeline=$('timeline'), panel=$('flow-details');
@@ -798,7 +866,18 @@ function renderFlow() {
   $('step-number').textContent=String(state.index+1).padStart(2,'0');
   $('step-total').textContent=' / '+flow.length;
   const bus=node('div',entry.bus);bus.className='bus';
-  sub.replaceChildren(bus,node('p',entry.text));
+  sub.replaceChildren(bus);
+  const scope=powerActive()?'power':inferenceActive()?'inference':gpuLinkActive()?'gpu-link':
+    systemActive()||state.view==='host'?'io':state.view;
+  const reason=reasonFor(scope,entry.id,{operation:systemActive()?state.ioOp:state.mode,
+    residency:state.inferenceMode,direction:state.gpuDirection});
+  if(reason){
+    const example=scope==='power'&&entry.id==='power-ok'?powerReadyExample():
+      scope==='power'&&entry.id==='eps'?cableCurrentExample():undefined;
+    const actions=scope==='io'&&['data-mwr','cqe'].includes(entry.id)?completionComparison(flow,entry.id):[];
+    sub.append(reasonPanel(reason,{example,actions}));
+  }
+  sub.append(node('p',entry.text));
   if(systemActive()){
     const memory=hostSnapshot(state.ioOp,flow,state.index);
     const link=entry.path.find(key=>key.startsWith('pcie-'));

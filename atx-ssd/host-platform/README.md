@@ -76,6 +76,12 @@ DRAM 的例子以每条 1Rx8、两个 ×32 子通道组织。两条以 5200 MT/s
 
 [DDR5](view.html#board/power/ddr5) 显示 5 V 经 A2/B2 送入各自 PMIC，[M.2](view.html#board/power/m2) 显示 990 PRO 的 3.3 V 接口，[显卡](view.html#board/power/gpu) 同时标出 PCI_E1 插槽供电和 PSU 直达 5090 的 12V-2x6 辅助线。电源器件的坐标取实拍区位近似，内部回路是功能模型。线束长度和弯折用于台架展示，回放时间用于观察。[Renesas UDIMM PMIC](https://www.renesas.com/en/document/sds/p8911-short-form-datasheet?r=1600131) · [Samsung 990 PRO 规格](https://www.samsung.com/us/memory-storage/nvme-ssd/990-pro-2tb-nvme-pcie-gen-4-mz-v9p2t0b-am/) · [NVIDIA 16-pin 接口](https://www.nvidia.com/content/geforce-gtx/geforce-rtx-5090-user-guide-r2.pdf)
 
+## 在回放里看原因和后果
+
+右侧在每一步解释它解决的约束。展开「换个条件会怎样」会暂停回放，可以看完再继续。先试 [PWR_OK](view.html#board/power/power-ok) 的欠压对照，再在 [双 EPS8](view.html#board/power/eps) 改示例功率，对比同功率下 12 V 线束与 1.10 V 输出侧的电流。[Intel ATX PWR_OK](https://edc.intel.com/content/www/us/en/design/ipla/software-development-platforms/client/platforms/alder-lake-desktop/atx-version-3-0-multi-rail-desktop-platform-power-supply-design-guide/2.01/pwr-ok-required/)
+
+在 [4 KiB 写回](view.html#board/io/read/data-mwr) 点「对照 CQE 写入」，可比较数据页和完成队列的变化。在 [DiT 计算与预取](view.html#board/inference/offload/dit-overlap) 切换权重来源或计算耗时，时间轴会对比「算完再搬」与「提前预取」的 GPU 等待。[NVM Express Base 规范](https://nvmexpress.org/specification/nvm-express-base-specification/) · [CUDA 传输与重叠](https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/index.html#asynchronous-and-overlapping-transfers-with-computation)
+
 ## 模型来源与精度
 
 - **PC Anatomy，MIT。** 直接复用上游的主板、配件、DIMM、FBGA、DRAM 裸片 / Bank / 单元、Ryzen 芯粒和 I/O 裸片生成器。主板由 Tomahawk 系列供体按 B650 手册重新定位，更新了 M.2 朝向、PCIe 槽、AM5、四槽内存、B650 散热外形和板边接口。CPU 改为 Raphael 的 Zen 4 示例，UDIMM 使用拆下上游散热罩的裸条几何。版权与许可随源码和查看器附带。[固定源版本](https://github.com/Yoosseph/pc-anatomy/tree/485a649b697a3e367a611860d278d8de26304e76) · [许可证](vendor/pc-anatomy/LICENSE.txt)

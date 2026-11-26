@@ -293,6 +293,25 @@ window.createBoardStack = function ({T, $, guides, parts, partById, visible, box
     }
   }
 
+  const layerReasons = [
+      ["为什么把接口扇出和封装放在元件面？","封装与卡边触点先用表层的短线接到焊盘或过孔。要跨过其他走线时，再借内层把它们送到目的地。"],
+      ["为什么高速信号层旁边要留连续的地？","信号电流要有闭合回路。邻近而连续的参考铜面让高频回流沿着信号线附近走，缩小电流环路。"],
+      ["为什么 PCIe 对线和参考时钟集中在同一示例层？","高速差分信号沿途要维持可控的阻抗和参考面。用一层把长段走线连起来，可以减少换层带来的电气不连续。"],
+      ["为什么从主控通往 NAND 的线要成组走？","同一次读写在数据线和选通线上同时传递。成组规划有助于控制到达时间差，接收端才有合适的采样窗口。"],
+      ["为什么靠近 NAND 总线也要放地参考面？","参考面提供邻近的回流通路，并帮助限制相邻线路间的耦合。遇到参考面开缝时，回流可能要绕路。"],
+      ["为什么背面还要从卡边短距离扇出？","M.2 的部分触点位于背面。先从同面的焊盘短距离引出，再在合适的地方换层，可以把错开的两排触点接入相应网络。"],
+  ];
+  const viaReason = ["为什么信号换层时旁边常有地过孔？","信号通过过孔换层，回流也要找到邻近的路径。给参考地之间留一条短通路，可减少回流绕远造成的环路。"];
+
+  function syncLayerReason() {
+    const panel=$("stack-layer-why");
+    panel.hidden=playback.active();
+    if(panel.hidden)return;
+    const [question,cause]=isViaFocus()?viaReason:mode==="explode"?layerReasons[1]:layerReasons[layer-1];
+    $("stack-layer-why-title").textContent=question;
+    $("stack-layer-why-cause").textContent=cause;
+  }
+
   function sync(active, ssd=false) {
     const showHost = active && system;
     const exploded = showHost && assembly.active();
@@ -355,6 +374,7 @@ window.createBoardStack = function ({T, $, guides, parts, partById, visible, box
       : confirmed && layer > 1 && layer < 6 && mode === "peel"
       ? "这层的铜和孔属于推演，已按证据筛选隐藏。"
       : mode === "explode" ? "各层沿 Z 方向拉开，元件和线路的平面坐标保持一致。上下两层地之间的孔位仍然同轴。" : note;
+    syncLayerReason();
     $("stack-path-note").hidden = !step;
     $("stack-path-note").textContent = pathNote();
     $("stack-focus").hidden = !step || step === "vias" || step === "route";

@@ -45,6 +45,13 @@ aside{padding:18px 17px 15px;border-left:1px solid var(--line);display:flex;flex
 .stack-layers button[aria-pressed=true]{border-color:#678876;background:#dcebe0;color:#194637}
 .stack-layers button:hover{border-color:#729481}.stack-layers button[data-removed=true]:not([aria-pressed=true]){opacity:.54}
 .stack-note{margin:0;font-size:12px;line-height:1.5;color:#46574b}
+.stack-why{margin:6px 0;padding:8px 9px;border:1px solid #a9b9a9;background:#edf1e7;color:#24372e}
+.stack-why h3{margin:0 0 4px;font-size:14px;line-height:1.44}
+.stack-why p{margin:0;color:#33493c;font-size:14px;line-height:1.52}
+.stack-why details{margin-top:6px;padding-top:5px;border-top:1px solid #bdc8b8}
+.stack-why summary{cursor:pointer;color:#2a523c;font-size:14px;font-weight:650}
+.stack-why summary:focus-visible{outline:2px solid #3b664a;outline-offset:2px}
+.stack-why details p{margin-top:5px}
 .stack-checks{display:flex;gap:7px 12px;flex-wrap:wrap;font-size:11px}
 .stack-checks label{display:flex;gap:4px;align-items:center}.stack-checks input{accent-color:#245b4e;margin:0}
 .stack-picker{display:grid;grid-template-columns:1fr 1fr;gap:4px}
@@ -152,6 +159,10 @@ body[data-view=system] .stage{background-color:#e7ece9;background-image:radial-g
 <label>事务<select id="stack-io-transaction"></select></label>
 <div class="stack-actions"><button class="mini" id="stack-io-prev-transaction">上一事务</button><button class="mini" id="stack-io-next-transaction">下一事务</button></div>
 <h3 id="stack-io-packet"></h3>
+<section class="stack-why" id="stack-io-why" aria-labelledby="stack-io-why-title" hidden>
+<h3 id="stack-io-why-title"></h3><p id="stack-io-why-cause"></p>
+<details id="stack-io-why-comparison"><summary>换个条件会怎样</summary><p id="stack-io-why-case"></p></details>
+</section>
 <label>经过的部位<select id="stack-io-leg"></select></label>
 <div class="row"><span class="io-phase" id="stack-io-location"></span><button class="mini" id="stack-io-focus">放大本段</button></div>
 <p id="stack-io-chip-note" class="stack-note" hidden></p>
@@ -164,6 +175,9 @@ body[data-view=system] .stage{background-color:#e7ece9;background-image:radial-g
 <div class="stack-mode" aria-label="叠层显示方式"><button class="mini" id="stack-peel">逐层剥开</button><button class="mini" id="stack-explode">展开叠层</button></div>
 <div class="stack-layers" id="stack-layers" aria-label="选择铜层"></div>
 <p class="stack-note" id="stack-layer-note"></p>
+<section class="stack-why" id="stack-layer-why" aria-labelledby="stack-layer-why-title">
+<h3 id="stack-layer-why-title"></h3><p id="stack-layer-why-cause"></p>
+</section>
 <div class="stack-checks"><label><input type="checkbox" id="stack-components">显示封装</label><label><input type="checkbox" id="stack-dielectric" checked>显示介质</label><label><input type="checkbox" id="stack-confirmed">只看实物与标准</label></div>
 <div class="stack-rule" id="stack-manual"><div class="row"><h3>从金手指追到 NAND</h3><button class="mini" id="stack-clear" hidden>结束追踪</button></div>
 <div class="stack-picker"><label>差分通道<select id="stack-lane"><option value="0">Lane 0</option><option value="1">Lane 1</option><option value="2">Lane 2</option><option value="3">Lane 3</option></select></label>
@@ -193,6 +207,7 @@ body[data-view=system] .stage{background-color:#e7ece9;background-image:radial-g
 <script type="application/octet-stream" id="asset">__MODEL__</script>
 <script type="application/octet-stream" id="framework-asset">__FRAMEWORK_MODEL__</script>
 <script type="application/json" id="link-guide">__LINK_GUIDE__</script>
+<script type="application/json" id="link-why">__IO_WHY__</script>
 <script type="application/json" id="stack-guide">__STACK_GUIDE__</script>
 <script>/*__THREE_LICENSE__*/</script>
 <script>/*__VENDOR__*/</script>
