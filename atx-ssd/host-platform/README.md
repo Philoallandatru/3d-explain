@@ -78,7 +78,9 @@ DRAM 的例子以每条 1Rx8、两个 ×32 子通道组织。两条以 5200 MT/s
 
 ## 在回放里看原因和后果
 
-右侧在每一步解释它解决的约束。展开「换个条件会怎样」会暂停回放，可以看完再继续。先试 [PWR_OK](view.html#board/power/power-ok) 的欠压对照，再在 [双 EPS8](view.html#board/power/eps) 改示例功率，对比同功率下 12 V 线束与 1.10 V 输出侧的电流。[Intel ATX PWR_OK](https://edc.intel.com/content/www/us/en/design/ipla/software-development-platforms/client/platforms/alder-lake-desktop/atx-version-3-0-multi-rail-desktop-platform-power-supply-design-guide/2.01/pwr-ok-required/)
+在供电回放条把「3.3 V 主轨」切到「欠压」，会跳到 [PWR_OK 检查](view.html#board/power/power-ok/undervoltage)。此情景保留正常的主 12 V、主 5 V 和 5VSB。3D 标出 3.3 V 检测未通过并用虚线显示 PWR_OK #8 低电平，回放停在主板的上电就绪检查。切回「已稳定」后可以进到[主板启动](view.html#board/power/boot-handoff)，看主板如何推进复位释放与固件初始化。主板后续时序为通用原理示意。[Intel ATX PWR_OK](https://edc.intel.com/content/www/us/en/design/ipla/software-development-platforms/client/platforms/alder-lake-desktop/atx-version-3-0-multi-rail-desktop-platform-power-supply-design-guide/2.01/pwr-ok-required/) · [TI 上电就绪与复位](https://www.ti.com/lit/eb/slyy168/slyy168.pdf)
+
+右侧的「换个条件会怎样」仍可暂停回放并展开解释。在[双 EPS8](view.html#board/power/eps)改示例功率，可以对比同功率下 12 V 线束与 1.10 V 输出侧的电流。
 
 在 [4 KiB 写回](view.html#board/io/read/data-mwr) 点「对照 CQE 写入」，可比较数据页和完成队列的变化。在 [DiT 计算与预取](view.html#board/inference/offload/dit-overlap) 切换权重来源或计算耗时，时间轴会对比「算完再搬」与「提前预取」的 GPU 等待。[NVM Express Base 规范](https://nvmexpress.org/specification/nvm-express-base-specification/) · [CUDA 传输与重叠](https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/index.html#asynchronous-and-overlapping-transfers-with-computation)
 

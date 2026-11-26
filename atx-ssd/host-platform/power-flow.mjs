@@ -10,6 +10,7 @@ export const powerSources = {
   atxPins:['Intel · ATX 24-pin 针位',intelAtx+'main-power-connector-required/'],
   atxEnable:['Intel · PS_ON#',intelAtx+'2.01/ps-on-required/'],
   atxOK:['Intel · PWR_OK',intelAtx+'2.01/pwr-ok-required/'],
+  resetSequence:['TI · 上电就绪与复位','https://www.ti.com/lit/eb/slyy168/slyy168.pdf'],
   atxGpu:['Intel · PCIe 辅助供电',intelAtx+'2.1/pcie-aic-auxiliary-power-connectors/'],
   psuTopology:['TI · 台式电源转换框图','https://www.ti.com/document-viewer/lit/html/SSZT909/GUID-14830977-F519-4B62-B81F-56283F683901'],
   buck:['TI · 同步 Buck 工作原理','https://www.ti.com/document-viewer/lit/html/SSZTCO3/GUID-292D8B9D-5297-46CB-98DA-C7099A8F41F7'],
@@ -115,7 +116,7 @@ export const powerLabels = {
 };
 
 export const powerColors = {
-  standby:'#cdb9f5', control:'#a6dbae', ready:'#a6cbf8',
+  standby:'#cdb9f5', control:'#a6dbae', ready:'#a6cbf8', fault:'#f2a38e', inactive:'#919996',
   ac:'#f2ab90', primary:'#f7aa6b', main:'#ffca85', core:'#ffe083', dimm:'#80dccd', m2:'#92c4ff', auxiliary:'#f4a8ab',
 };
 
@@ -154,12 +155,16 @@ export const powerSteps = [
     {label:'主 12 V',focus:'psu',openPsu:true}),
   step('main-rails','次级降压补齐 ATX 主轨','主 12 V → 次级 DC/DC → 5 V / 3.3 V → 模块面板',
     '次级降压电路生成主 5 V 和 3.3 V。模块面板将三条主轨同 5VSB 各自引到 ATX 线束。输出满足就绪条件后，电源才报告 PWR_OK。',
-    ['psuLab','atxOK','atxPins'],'main','psuDcDc',['dcdc','dcdcOut'],
+    ['psuLab','atxOK','atxPins'],'main','psuDcDc',['dcdc','dcdcOut','dcdc33Out'],
     {focus:'psu',openPsu:true,sourceDiagram:'main'}),
   step('power-ok','电源通过 PWR_OK 报告就绪','PSU → ATX_PWR1 #8 → 主板电源逻辑',
     '当 +12 V、+5 V 和 +3.3 V 满足电源正常条件，PSU 拉高 PWR_OK。主板随后依自己的电源就绪信号推进时钟、复位和初始化。',
-    ['atxOK','atxPins'],'ready','standbyLogic',['atxReady','ok'],
-    {label:'PWR_OK'}),
+    ['atxOK','atxPins'],'ready','standbyLogic',['check12','check5','check33','okSignal'],
+    {label:'PWR_OK',gate:'passed',focus:'gate',openPsu:true}),
+  step('boot-handoff','主板推进复位释放与初始化','PWR_OK 高 → 板上就绪检查 → 平台复位释放',
+    'PWR_OK 高表示电源允许上电时序继续。主板还会检查本地电源和时钟，条件齐备后才释放平台复位，让 CPU 进入固件初始化。路径为通用时序示意。',
+    ['atxOK','resetSequence','board'],'control','socket',['startBoard'],
+    {label:'主板启动',focus:'start'}),
   step('eps','双 EPS8 将 12 V 送到 CPU VRM','PSU → CPU_PWR1 / CPU_PWR2 → 输入去耦',
     'EPS 的 12 V 随 PSU 主 12 V 建立，两组插座把它和 COM 引入 CPU 区。输入电容位于功率级近处，缩短开关瞬态的电流回路。',
     ['board','msiVrm','buck'],'main','cpuEps',['eps1','eps2','eps2Input','input','inputCap'],
@@ -194,15 +199,37 @@ export const powerSteps = [
     {label:'关机',sourceDiagram:'standby'}),
 ];
 
+export const powerGoodIndex=powerSteps.findIndex(entry=>entry.id==='power-ok');
+const undervoltageSteps=powerSteps.map(entry=>{
+  if(entry.id==='main-rails')return {...entry,
+    title:'次级 DC/DC 的 3.3 V 仍欠压',bus:'主 12 V → 次级 DC/DC → 5 V 就绪 / 3.3 V 欠压',
+    text:'这个上电情景中，主 12 V 和 5 V 已进入工作范围，3.3 V 仍低于电源的就绪门限。下一步看电源如何报告这组主轨的状态。',
+    phase:'fault',color:powerColors.fault,railFault:true,tracks:['dcdc','dcdcOut','dcdc33Low']};
+  if(entry.id==='power-ok')return {...entry,
+    title:'PWR_OK 保持低，主板等待就绪',label:'PWR_OK · 停住',
+    bus:'3.3 V 欠压 → PWR_OK #8 保持低电平 → 主板等待',
+    text:'这次主 12 V、主 5 V 和 5VSB 仍然有效，EPS 输入也可以有 12 V。3.3 V 未通过电源检查，PWR_OK 保持低位，主板开机停在电源就绪检查，复位释放和初始化都在后面。',
+    phase:'fault',color:powerColors.fault,railFault:true,gate:'blocked',tracks:['check12','check5','check33Low']};
+  return entry;
+});
+
+export const powerFlow=condition=>condition==='undervoltage'?undervoltageSteps:powerSteps;
+
 export function powerSignals(entry) {
   const waiting=['ac-in','standby-convert','standby','shutdown'].includes(entry.id);
   const request=entry.id==='ps-on', ramping=['pfc','llc','sync-12','main-rails'].includes(entry.id);
   const standby=entry.id==='ac-in'?'未输出':entry.id==='standby-convert'?'建立中':'5 V';
+  const blocked=entry.gate==='blocked', starting=entry.id==='boot-handoff';
+  const rails=entry.railFault||entry.gate||starting ? [
+    ['+12 V / +5 V','有效','main'],
+    ['+3.3 V',entry.railFault?'欠压':'有效',entry.railFault?'fault':'main'],
+  ] : [['+12 / +5 / +3.3 V',waiting?'关闭':request?'待建立':ramping?'上升中':'有效','main']];
   return [
     ['+5VSB · #9',standby,'standby'],
     ['PS_ON# · #16',waiting?'高 · 释放':'低 · 请求','control'],
-    ['+12 / +5 / +3.3 V',waiting?'关闭':request?'待建立':ramping?'上升中':'有效','main'],
-    ['PWR_OK · #8',waiting||request||ramping?'低':'高 · 就绪','ready'],
+    ...rails,
+    ['PWR_OK · #8',blocked?'低 · 未就绪':waiting||request||ramping?'低':'高 · 就绪','ready'],
+    ...(entry.gate||starting?[['主板启动',blocked?'等待电源就绪':starting?'进入初始化':'可推进时序','board-start']]:[]),
   ];
 }
 

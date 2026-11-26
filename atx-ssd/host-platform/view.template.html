@@ -197,6 +197,7 @@ body[data-view=board]:is([data-mode=io],[data-mode=inference],[data-mode=gpu-lin
 .annotation.trace-target{color:var(--paper-ink);background:var(--flow-signal);border-color:var(--flow-signal);font-weight:700}
 .annotation.trace-target::after{background:var(--flow-signal)}
 .annotation.trace-target:focus-visible{outline-color:var(--flow-signal)}
+.annotation[data-power-cue]:not(.trace-target){color:var(--annotation-tone);border-color:currentColor}
 .render-message{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;pointer-events:none;color:var(--ink)}
 .hint{
   display:flex;align-items:center;gap:4px 14px;flex-wrap:wrap;min-height:33px;padding:5px 11px;
@@ -262,8 +263,6 @@ body[data-view=board]:is([data-mode=io],[data-mode=inference],[data-mode=gpu-lin
 .why-example{margin-top:8px;display:grid;gap:5px;color:#29362e}
 .why-example .choice{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:14px}
 .why-example select{color:#25302c;background:#fffdf6;border-color:#8b8d81}
-.why-example .why-outcome{display:grid;gap:2px;border:1px solid #aabaae;background:#e7ede1;padding:5px 7px;font-size:14px}
-.why-example .why-outcome[data-passed=false]{border-color:#c49a83;background:#f3e3d7;color:#723a21}
 .why-current{display:grid;gap:5px;margin:0;font-size:14px}
 .why-current > div{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:3px 7px}
 .why-current dd{margin:0;font:600 14px/1.35 var(--mono)}
@@ -300,6 +299,7 @@ body[data-view=board]:is([data-mode=io],[data-mode=inference],[data-mode=gpu-lin
 .power-status > div:nth-child(odd){border-left:0}
 .power-status > div:nth-child(n+3){border-top-width:1px}
 .power-status dd{margin-top:1px}
+.power-status [data-rail=fault] dd,.power-status [data-held] dd{color:#7b3828}
 .psu-diagram{padding:6px 0 1px;border-top:1px solid var(--paper-line)}
 .psu-diagram h3{margin:0 0 5px;font-size:14px}
 .psu-diagram ul{margin:0;padding:0;list-style:none;font-size:13px}
@@ -319,6 +319,19 @@ body[data-view=board]:is([data-mode=io],[data-mode=inference],[data-mode=gpu-lin
 .static{background:#dedcd2;border-top:1px solid var(--paper-line);padding:10px 15px 13px}
 .static .facts{margin-top:0}
 .timeline{--step-count:1;--thumb-size:12px;margin-top:8px;border:1px solid var(--line);background:#202123;min-width:0}
+.power-lab{
+  display:flex;align-items:center;justify-content:space-between;gap:5px 12px;flex-wrap:wrap;
+  padding:5px 8px;border-bottom:1px solid var(--line);background:#232526;
+}
+.power-conditions{display:flex;align-items:center;gap:8px;min-height:32px;color:var(--ink);font-size:14px}
+.power-conditions strong{white-space:nowrap;font-weight:650}
+.rail-options{display:flex;gap:2px}
+.rail-options button{min-height:32px;padding:3px 10px;white-space:nowrap}
+.rail-options button[aria-pressed=true]{color:#1d271f;background:#c6dfc5;border-color:#c6dfc5;font-weight:700}
+.rail-options [data-condition=undervoltage][aria-pressed=true]{color:#35211c;background:var(--fault-tone);border-color:var(--fault-tone)}
+.power-replay-state{margin:0;color:var(--muted);font-size:14px}
+.power-replay-state[data-gate=blocked]{color:var(--fault-tone);font-weight:650}
+.power-replay-state[data-gate=passed]{color:#b9d5f6}
 .transport{display:flex;align-items:stretch;gap:0;border-bottom:1px solid var(--line);background:#2b2c2e}
 .play-controls{display:flex;flex:none;align-items:stretch;background:#252628}
 .transport button{display:grid;place-items:center;min-width:38px;min-height:38px;padding:4px 8px;border:0;background:transparent}
@@ -354,6 +367,9 @@ body[data-view=board]:is([data-mode=io],[data-mode=inference],[data-mode=gpu-lin
 .milestones button:is([aria-pressed=true],[aria-current=step]){
   background:color-mix(in srgb,var(--point-tone) 18%,#242527);color:var(--ink);box-shadow:inset 0 -2px var(--point-tone);
 }
+.milestones button:disabled,.steps button:disabled{color:#93918a;opacity:1}
+.milestones button:disabled span{color:inherit}
+.milestones button:disabled strong{font-weight:500}
 .drill-arrow{
   position:relative;width:8px;height:8px;margin-left:1px;border-right:1px solid;border-bottom:1px solid;color:var(--point-tone);
 }
@@ -363,9 +379,15 @@ body[data-view=board]:is([data-mode=io],[data-mode=inference],[data-mode=gpu-lin
 }
 .seek-scroll{overflow-x:auto;min-width:0;scrollbar-width:thin;scrollbar-color:#696a68 transparent}
 .seek{display:grid;min-width:calc(var(--step-count) * 37px);padding:4px 5px 6px}
+.seek-ruler{display:grid;position:relative}
+.timeline[data-limited] .seek-ruler::before{
+  content:"";position:absolute;top:10px;left:calc(50% / var(--step-count));right:calc(50% / var(--step-count));
+  border-top:2px dashed #70736f;pointer-events:none;
+}
 .seek input{
-  appearance:none;justify-self:center;width:calc(100% - 100% / var(--step-count) + var(--thumb-size));
-  height:22px;margin:0;background:transparent;cursor:ew-resize;
+  appearance:none;position:relative;justify-self:start;margin-left:calc(50% / var(--step-count) - var(--thumb-size) / 2);
+  width:calc((100% - 100% / var(--step-count)) * var(--reach,1) + var(--thumb-size));
+  height:22px;margin-block:0;background:transparent;cursor:ew-resize;
 }
 .seek input:focus-visible{outline-offset:-2px}
 .seek input::-webkit-slider-runnable-track{height:2px;background:linear-gradient(to right,var(--flow-signal,var(--accent)) var(--progress),#686a66 var(--progress))}
@@ -387,6 +409,7 @@ body[data-view=board]:is([data-mode=io],[data-mode=inference],[data-mode=gpu-lin
 .steps button.done{color:var(--ink)}
 .steps button.done::before{background:var(--flow-signal,var(--accent))}
 .steps button.has-milestone::before{width:3px;left:calc(50% - 1.5px)}
+.steps button:disabled::before{background:#5b5d59}
 .steps button:focus-visible{outline-offset:-2px}
 .steps button[aria-pressed=true]{color:#24231d;background:var(--flow-signal,var(--paper));font-weight:700;clip-path:polygon(0 0,100% 0,calc(100% - 7px) 100%,0 100%)}
 .steps button[aria-pressed=true]:focus-visible{outline-color:#67521e}
@@ -584,6 +607,16 @@ body[data-view=board]:is([data-mode=io],[data-mode=inference],[data-mode=gpu-lin
         <div class="hint" id="hint"></div>
       </section>
       <section class="timeline" id="timeline" aria-label="流程回放" hidden>
+        <div class="power-lab" id="power-lab" hidden>
+          <div class="power-conditions">
+            <strong id="power-condition-title">3.3 V 主轨</strong>
+            <div class="rail-options" role="group" aria-labelledby="power-condition-title">
+              <button type="button" data-condition="stable" aria-pressed="true">已稳定</button>
+              <button type="button" data-condition="undervoltage" aria-pressed="false">欠压</button>
+            </div>
+          </div>
+          <p class="power-replay-state" id="power-replay-state" role="status"></p>
+        </div>
         <div class="transport">
           <div class="play-controls" role="group" aria-label="回放控制">
             <button type="button" id="prev" aria-label="上一步"><span class="step-arrow prev" aria-hidden="true"></span></button>
@@ -595,7 +628,9 @@ body[data-view=board]:is([data-mode=io],[data-mode=inference],[data-mode=gpu-lin
         <div class="milestones" id="milestones" role="group" aria-label="回放关键节点" hidden></div>
         <div class="seek-scroll" id="seek-scroll">
           <div class="seek" id="seek">
-            <input type="range" id="scrub" min="0" max="0" value="0" aria-label="流程进度">
+            <div class="seek-ruler">
+              <input type="range" id="scrub" min="0" max="0" value="0" aria-label="流程进度">
+            </div>
             <div class="steps" id="step-buttons" role="group" aria-label="逐步查看"></div>
           </div>
         </div>

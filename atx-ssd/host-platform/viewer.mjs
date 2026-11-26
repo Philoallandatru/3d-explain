@@ -8,7 +8,7 @@ import { inferenceBounds, inferenceCase, inferenceModes, inferenceStepColor, inf
 import { animateInference, inferenceFrame, showInferenceStep } from './inference-scene.mjs';
 import { defaultLayerComputeMs, layerComputeOptions, planInferenceWindow } from './inference-timing.mjs';
 import { gpuProfile, gpuTopicLabels, cardLinkGBs, hostLinkGBs, vramGBs, gpuTransferBounds, gpuLinkColors, gpuLinkSteps } from './gpu-profile.mjs';
-import { buckExample, buckVoltages, powerColors, powerLabels, powerSignals, powerSteps, psuProfile } from './power-flow.mjs';
+import { buckExample, buckVoltages, powerColors, powerFlow, powerGoodIndex, powerLabels, powerSignals, powerSteps, psuProfile } from './power-flow.mjs';
 import { powerFrame, showPowerStep } from './power-scene.mjs';
 import { componentReasons, reasonFor } from './why-flow.mjs';
 import anatomyLicense from './vendor/pc-anatomy/LICENSE.txt';
@@ -21,7 +21,7 @@ const state={view:'board',mode:'assembly',index:0,lane:0,direction:'both',spread
   dramExplode:.62,cpuExplode:0,cpuCap:false,labels:true,dramOp:'read',bit:1,irq:'irq',selection:null,
   ioOp:'read',follow:true,showGpu:true,gpuDirection:'h2d',gpuPayloadMiB:1024,inferenceMode:'offload',
   inferenceSource:'ssd',inferenceComputeMs:defaultLayerComputeMs,vrmOpen:false,powerCovers:'auto',buckVout:1.10,
-  showPsu:false,psuCover:'auto'};
+  showPsu:false,psuCover:'auto',powerCondition:'stable'};
 const modeTitle=(view,mode)=>modes[view].find(([id])=>id===mode)?.[1]||mode;
 const labels={
   ...gpuTopicLabels,
@@ -65,6 +65,10 @@ const systemActive=()=>currentKey()==='board/io';
 const inferenceActive=()=>currentKey()==='board/inference';
 const gpuLinkActive=()=>currentKey()==='board/gpu-link';
 const powerActive=()=>currentKey()==='board/power';
+const powerLimited=()=>powerActive()&&state.powerCondition==='undervoltage';
+const powerHints=[['','交流 / 初级',powerColors.primary],['','5VSB',powerColors.standby],['','控制',powerColors.control],
+  ['','主轨',powerColors.main],['','Vcore',powerColors.core],['','DDR5',powerColors.dimm],
+  ['','M.2',powerColors.m2],['','GPU 辅助',powerColors.auxiliary]];
 const drillTargets={
   'read-ssd':{mode:'io',step:'doorbell',branch:'#board/io/read/',title:'SSD 读权重 · 4 KiB 读示例',action:'下钻到一笔 4 KiB 读'},
   'load-vram':{mode:'gpu-link',step:'ddr5',branch:'#board/gpu-link/h2d/',title:'装入 GDDR7 · 1 GiB 权重拷贝',action:'单步查看从 DDR5 到 GDDR7 的拷贝'},
@@ -214,7 +218,8 @@ function readAddress() {
     return {view,mode,direction,index:Math.max(0,current)};
   }
   if(view==='board'&&mode==='power'){
-    return {view,mode,index:Math.max(0,powerSteps.findIndex(entry=>entry.id===index))};
+    return {view,mode,index:Math.max(0,powerSteps.findIndex(entry=>entry.id===index)),
+      condition:step==='undervoltage'?'undervoltage':'stable'};
   }
   const match=modes[view].some(([id])=>id===mode);
   return {view,mode:match?mode:(view==='host'?'read':modes[view][0][0]),index:Math.max(0,(Number.parseInt(index,10)||1)-1)};
@@ -224,7 +229,7 @@ function writeAddress() {
   const suffix=systemActive()?'/'+state.ioOp+'/'+(flow[state.index]?.id||flow[0].id):
     inferenceActive()?'/'+state.inferenceMode+'/'+(flow[state.index]?.id||flow[0].id):
     gpuLinkActive()?'/'+state.gpuDirection+'/'+(flow[state.index]?.id||flow[0].id):
-    powerActive()?'/'+(flow[state.index]?.id||flow[0].id):
+    powerActive()?'/'+(flow[state.index]?.id||flow[0].id)+(powerLimited()?'/undervoltage':''):
     flow.length?'/'+(state.index+1):'';
   const bookmark=inferenceDrill?{inferenceDrill,trace:tracePreferences()}:null;
   const path=state.view+'/'+state.mode+suffix;
@@ -318,10 +323,7 @@ function viewControls() {
     ? Object.values(inferenceTracks).map(({title,color})=>['',title,color])
     : gpuLinkActive()
     ? [['','DDR5 / CPU 根端口',gpuLinkColors.host],['','PCI_E1',gpuLinkColors.pcie],['','卡上拷贝',gpuLinkColors.local],['','显卡外廓','#83959e']]
-    : powerActive()
-    ? [['','交流 / 初级',powerColors.primary],['','5VSB',powerColors.standby],['','控制',powerColors.control],
-      ['','主轨',powerColors.main],['','Vcore',powerColors.core],['','DDR5',powerColors.dimm],
-      ['','M.2',powerColors.m2],['','GPU 辅助',powerColors.auxiliary]]
+    : powerActive() ? powerHints
     : state.view==='gpu'
     ? state.mode==='card' ? [['','FE 标称尺寸'],['spec','开源风扇几何']] :
       [['','可选部件'],['wire',state.mode==='pcb'?'板形与布局示意':'片上功能布局示意']]
@@ -330,6 +332,9 @@ function viewControls() {
     : state.view==='host'
       ? [['','当前事务'],['wire','主机逻辑地址与演示状态']]
       : [['','开源几何改编'],['wire','内部功能与相对尺寸示意']];
+  renderHints(hints);
+}
+function renderHints(hints) {
   $('hint').replaceChildren(...hints.map(([cls,text,color])=>{
     const chip=node('span'),dot=node('span');
     dot.className='dot '+cls;
@@ -567,9 +572,10 @@ function gpuFlow(direction=state.gpuDirection) {
 
 const steps = () => systemActive() ? systemSteps(state.ioOp,state.irq) :
   inferenceActive() ? inferenceSteps(state.inferenceMode,state.inferenceSource) : gpuLinkActive() ? gpuFlow() :
-  powerActive() ? powerSteps :
+  powerActive() ? powerFlow(state.powerCondition) :
   state.view==='host' ? hostSteps(state.mode,state.irq) :
   state.view==='dram' && ['bank','cell'].includes(state.mode) ? dramSteps(state.dramOp,state.bit) : [];
+const replayEnd=flow=>powerLimited()?powerGoodIndex:flow.length-1;
 
 function tracePreferences() {
   const {ioOp,lane,irq,follow,gpuDirection,gpuPayloadMiB}=state;
@@ -654,7 +660,7 @@ function replayCue(entry) {
   return {};
 }
 
-function renderMilestones(flow,cues) {
+function renderMilestones(flow,cues,end) {
   const row=$('milestones');
   const marks=cues.flatMap(({label,color},i)=>{
     if(!label)return [];
@@ -662,7 +668,8 @@ function renderMilestones(flow,cues) {
     const opener=flow[i].id, drill=inferenceActive()&&drillTargets[opener];
     const point=button('',drill?()=>startInferenceDrill(opener):()=>moveTo(i),drill?undefined:i===state.index);
     point.append(node('span',number),node('strong',label));
-    point.title=drill?drill.action:flow[i].title;
+    point.disabled=i>end;
+    point.title=point.disabled?'等待 PWR_OK · '+flow[i].title:drill?drill.action:flow[i].title;
     point.setAttribute('aria-label',number+' '+label);
     point.style.setProperty('--point-tone',color);
     if(drill){
@@ -704,21 +711,46 @@ function powerStatus(entry) {
   for(const [name,value,phase] of powerSignals(entry)){
     const row=node('div'),result=node('dd');
     row.dataset.rail=phase;
-    row.style.setProperty('--result-tone',powerColors[phase]);
-    if(phase===entry.phase)row.setAttribute('aria-current','step');
+    row.style.setProperty('--result-tone',powerColors[phase]??powerColors.control);
+    if(entry.id==='boot-handoff'?phase==='board-start':phase===entry.phase)row.setAttribute('aria-current','step');
+    if(entry.gate==='blocked'&&['ready','board-start'].includes(phase))row.dataset.held='';
     result.append(node('strong',value));
     row.append(node('dt',name),result);panel.append(row);
   }
   return panel;
 }
 
-function psuDiagram(active) {
+function renderPowerReplay(entry) {
+  const {gate,railFault,id}=entry;
+  const lab=$('power-lab'),status=$('power-replay-state');
+  lab.style.setProperty('--fault-tone',powerColors.fault);
+  for(const option of lab.querySelectorAll('[data-condition]')){
+    option.setAttribute('aria-pressed',String(option.dataset.condition===state.powerCondition));
+  }
+  status.dataset.gate=gate??'';
+  const message=gate==='blocked'?'开机停在 PWR_OK · 等待电源就绪':
+    gate==='passed'?'PWR_OK 已拉高 · 下一步进入主板启动':
+    id==='boot-handoff'?'主板已进入初始化':
+    powerLimited()?'欠压情景 · 回放将在 PWR_OK 停住':'切换条件可直接查看 PWR_OK 检查';
+  if(status.textContent!==message)status.textContent=message;
+  renderHints(gate||railFault ? [
+    ['','12 V 通过',powerColors.main],['','5 V 通过',powerColors.main],
+    ['',railFault?'3.3 V 欠压':'3.3 V 通过',railFault?powerColors.fault:powerColors.main],
+    ...(gate?[['',gate==='blocked'?'虚线 · PWR_OK 低电平':'实线 · PWR_OK 高电平',
+      gate==='blocked'?powerColors.inactive:powerColors.ready]]:[]),
+  ] : powerHints);
+  $('stage-name').replaceChildren(node('strong',gate?(gate==='blocked'?'PWR_OK 低 · 开机停住':'PWR_OK 高 · 电源就绪'):'ATX 供电'),
+    node('span',gate?(gate==='blocked'?'3.3 V 欠压 · 等待主轨就绪':'主板可以推进上电时序'):entry.title));
+  Object.assign(document.body.dataset,{powerStep:id,powerCondition:state.powerCondition,powerGate:gate??''});
+}
+
+function psuDiagram(active,railFault) {
   const panel=node('section'),list=node('ul');
   panel.className='psu-diagram';
   panel.append(node('h3','ATX 电源内部'));
   for(const [kind,parts] of [
     ['main',['交流','整流 / PFC','隔离 DC/DC','+12 V']],
-    ['main',['+12 V','次级 DC/DC','+5 V / +3.3 V']],
+    ['main',['+12 V','次级 DC/DC',railFault?'+5 V 有效 / +3.3 V 欠压':'+5 V / +3.3 V']],
     ['standby',['交流','待机变换器','+5VSB']],
   ]){
     const row=node('li');
@@ -804,22 +836,6 @@ function reasonPanel([question,cause,comparison], {example,actions=[]}={}) {
   return panel;
 }
 
-function powerReadyExample() {
-  const example=node('div'),out=node('output');
-  example.className='why-example';out.className='why-outcome';
-  out.setAttribute('aria-live','polite');
-  const set=value=>{
-    const stable=value==='stable';
-    out.replaceChildren(node('strong',stable?'PWR_OK 高':'PWR_OK 低'),
-      node('span',stable?'主轨通过检查，主板可推进后续时序。':'整组主轨尚未就绪，主板继续等待。'));
-    out.dataset.passed=String(stable);
-  };
-  example.append(selectBox('示例主轨条件',[['stable','主轨全部就绪'],['undervoltage','3.3 V 仍欠压']],
-    'stable',set),out);
-  set('stable');
-  return example;
-}
-
 function cableCurrentExample() {
   const example=node('div'),rows=node('dl');
   const loadOptions=[100,150,200],vcore=1.10,scaleLimit=loadOptions.at(-1)/vcore;
@@ -855,11 +871,13 @@ function completionComparison(flow,id) {
 }
 
 function renderFlow() {
-  const flow=steps();
+  const flow=steps(),end=replayEnd(flow);
   const timeline=$('timeline'), panel=$('flow-details');
   timeline.hidden=!flow.length;panel.hidden=!flow.length;
+  $('power-lab').hidden=!powerActive();
+  timeline.toggleAttribute('data-limited',powerLimited());
   if(!flow.length){stage.style.removeProperty('--flow-signal');syncScene();return;}
-  state.index=Math.max(0,Math.min(flow.length-1,state.index));
+  state.index=Math.max(0,Math.min(end,state.index));
   const entry=flow[state.index], cues=flow.map(replayCue), cue=cues[state.index], sub=$('flow-content');
   for(const surface of [stage,timeline,panel])surface.style.setProperty('--flow-signal',cue.color??'');
   $('flow-title').textContent=entry.title;
@@ -867,13 +885,13 @@ function renderFlow() {
   $('step-total').textContent=' / '+flow.length;
   const bus=node('div',entry.bus);bus.className='bus';
   sub.replaceChildren(bus);
+  if(powerActive()&&entry.gate)sub.append(powerStatus(entry));
   const scope=powerActive()?'power':inferenceActive()?'inference':gpuLinkActive()?'gpu-link':
     systemActive()||state.view==='host'?'io':state.view;
   const reason=reasonFor(scope,entry.id,{operation:systemActive()?state.ioOp:state.mode,
     residency:state.inferenceMode,direction:state.gpuDirection});
   if(reason){
-    const example=scope==='power'&&entry.id==='power-ok'?powerReadyExample():
-      scope==='power'&&entry.id==='eps'?cableCurrentExample():undefined;
+    const example=scope==='power'&&entry.id==='eps'?cableCurrentExample():undefined;
     const actions=scope==='io'&&['data-mwr','cqe'].includes(entry.id)?completionComparison(flow,entry.id):[];
     sub.append(reasonPanel(reason,{example,actions}));
   }
@@ -908,10 +926,9 @@ function renderFlow() {
     document.body.dataset.gpuDirection=state.gpuDirection;
   } else if(powerActive()){
     if(entry.buck)sub.append(buckPanel(entry.buck));
-    if(entry.sourceDiagram)sub.append(psuDiagram(entry.sourceDiagram));
-    sub.append(powerStatus(entry));
-    $('stage-name').replaceChildren(node('strong','ATX 供电'),node('span',entry.title));
-    document.body.dataset.powerStep=entry.id;
+    if(entry.sourceDiagram)sub.append(psuDiagram(entry.sourceDiagram,entry.railFault));
+    if(!entry.gate)sub.append(powerStatus(entry));
+    renderPowerReplay(entry);
     if(!state.selection)renderInspector();
   } else if(state.view==='host'){
     const memory=hostSnapshot(state.mode,flow,state.index);
@@ -922,28 +939,35 @@ function renderFlow() {
       ['电容 V / VDD',cell.toFixed(3)],...dramTiming(state.dramOp,entry.id)]));
   }
   sub.append(refs(entry.refs));
-  $('prev').disabled=state.index===0;$('next').disabled=state.index===flow.length-1;
+  $('prev').disabled=state.index===0;$('next').disabled=state.index===end;
+  updatePlayControl();
   $('seek').style.setProperty('--step-count',String(flow.length));
+  $('seek').style.setProperty('--reach',String(end/Math.max(1,flow.length-1)));
   const scrub=$('scrub');
-  scrub.max=String(flow.length-1);scrub.value=String(state.index);
-  scrub.style.setProperty('--progress',(100*state.index/Math.max(1,flow.length-1))+'%');
-  scrub.setAttribute('aria-valuetext',(state.index+1)+' / '+flow.length+'，'+entry.title);
+  scrub.max=String(end);scrub.value=String(state.index);
+  scrub.style.setProperty('--progress',(100*state.index/Math.max(1,end))+'%');
+  scrub.setAttribute('aria-valuetext',(state.index+1)+' / '+(end+1)+'，'+entry.title);
   $('step-pick').replaceChildren(...flow.map(({title},i)=>{
     const option=node('option',(i+1)+' · '+(cues[i].compact??title));
-    option.value=i;option.title=title;return option;
+    option.value=i;option.title=title;option.disabled=i>end;return option;
   }));
   $('step-pick').value=String(state.index);
   replaceChoices($('step-buttons'),flow.map(({title},i)=>{
     const b=button(String(i+1).padStart(2,'0'),()=>moveTo(i),i===state.index);
     if(cues[i].label)b.classList.add('has-milestone');
+    b.disabled=i>end;
     b.title=title;b.setAttribute('aria-label',(i+1)+' '+title);b.classList.toggle('done',i<state.index);return b;
   }),scrub.matches(':active')?undefined:$('seek-scroll'));
-  renderMilestones(flow,cues);
+  renderMilestones(flow,cues,end);
   writeAddress();syncScene();
+}
+function updatePlayControl(){
+  $('play-label').textContent=playTimer?'暂停':powerLimited()&&state.index===powerGoodIndex?'重播':'播放';
+  $('play').setAttribute('aria-pressed',String(Boolean(playTimer)));
 }
 function stopPlay(){
   clearTimeout(playTimer);playTimer=undefined;
-  $('play-label').textContent='播放';$('play').setAttribute('aria-pressed','false');
+  updatePlayControl();
   schedule();
 }
 function moveTo(index,fromPlayback=false) {
@@ -954,15 +978,16 @@ function playback(){
   if(playTimer){stopPlay();return;}
   const flow=steps();
   if(!flow.length)return;
-  if(state.index===flow.length-1)moveTo(0,true);
-  $('play-label').textContent='暂停';$('play').setAttribute('aria-pressed','true');
+  const end=replayEnd(flow);
+  if(state.index===end)moveTo(0,true);
   const period=powerActive()?2800:systemActive()||inferenceActive()?1750:1450;
   const advance=()=>{
-    if(state.index+1>=flow.length){stopPlay();return;}
+    if(state.index>=end){stopPlay();return;}
     moveTo(state.index+1,true);
+    if(powerLimited()&&state.index===end){stopPlay();return;}
     playTimer=setTimeout(advance,period);
   };
-  playTimer=setTimeout(advance,period);schedule();
+  playTimer=setTimeout(advance,period);updatePlayControl();schedule();
 }
 
 function syncTraceLabels() {
@@ -970,6 +995,11 @@ function syncTraceLabels() {
     const target=Boolean(tag.endpoint);
     tag.button.classList.toggle('active',target||tag.key===state.selection);
     tag.button.classList.toggle('trace-target',target);
+    if(active.power){
+      setAnnotationCaption(tag);
+      tag.button.toggleAttribute('data-power-cue',Boolean(tag.tone));
+      tag.button.style.setProperty('--annotation-tone',tag.tone??'');
+    }
   }
 }
 
@@ -1012,7 +1042,7 @@ function syncScene() {
   }
   if(active.power){
     const entry=steps()[state.index],focus=entry.focus??'board';
-    const signature=[entry.id,state.powerCovers,state.psuCover,state.evidence].join('/');
+    const signature=[entry.id,state.powerCondition,state.powerCovers,state.psuCover,state.evidence].join('/');
     if(active.trace!==signature){
       showPowerStep(active,entry,{covers:state.powerCovers,psuCover:state.psuCover,evidence:state.evidence});
       active.trace=signature;
@@ -1038,12 +1068,17 @@ function buildAnnotations() {
   if(!active)return;
   const assembly=currentKey()==='board/assembly';
   $('annotations').replaceChildren(...active.annotations.map(item=>{
-    const e=button(item.title,()=>selectTopic(item.key));e.className='annotation';
+    const e=button('',()=>selectTopic(item.key));e.className='annotation';
     if(assembly)e.classList.add(['socket','ram','m2_1','gpuCard'].includes(item.key)?'assembly-key':'assembly-secondary');
-    e.setAttribute('aria-label','选择 '+item.title);
-    item.halfWidth=Math.max(30,([...item.title].reduce((width,char)=>width+(char.charCodeAt(0)>255?14:8),0)+16)/2);
-    item.button=e;return e;
+    item.button=e;setAnnotationCaption(item);return e;
   }));
+}
+function setAnnotationCaption(item){
+  const title=item.caption??item.title;
+  if(item.button.textContent===title)return;
+  item.button.textContent=title;
+  item.button.setAttribute('aria-label','选择 '+title);
+  item.halfWidth=Math.max(30,([...title].reduce((width,char)=>width+(char.charCodeAt(0)>255?14:8),0)+16)/2);
 }
 async function changeView(view,mode,index=0,selection=null) {
   stopPlay();
@@ -1059,7 +1094,7 @@ async function changeView(view,mode,index=0,selection=null) {
   if(!systemActive())for(const key of ['ioStep','ioFocus','ioTarget'])delete document.body.dataset[key];
   if(!inferenceActive())for(const key of ['inferenceStep','inferenceMode'])delete document.body.dataset[key];
   if(!gpuLinkActive())for(const key of ['gpuStep','gpuDirection'])delete document.body.dataset[key];
-  if(!powerActive())delete document.body.dataset.powerStep;
+  if(!powerActive())for(const key of ['powerStep','powerCondition','powerGate'])delete document.body.dataset[key];
   $('render-message').textContent=renderer?'正在载入模型…':'当前浏览器未能初始化 WebGL2。仍可查看右侧资料和流程。';
   $('render-message').hidden=false;
   if (!renderer) return;
@@ -1363,6 +1398,13 @@ $('labels').onclick=()=>{
 $('prev').onclick=()=>moveTo(state.index-1);$('next').onclick=()=>moveTo(state.index+1);
 $('play').onclick=playback;
 $('return-inference').onclick=returnToInference;
+for(const option of $('power-lab').querySelectorAll('[data-condition]')){
+  option.onclick=()=>{
+    const {condition}=option.dataset;
+    if(condition===state.powerCondition)return;
+    state.powerCondition=condition;state.selection=null;moveTo(powerGoodIndex);
+  };
+}
 for(const id of ['scrub','step-pick'])$(id).oninput=e=>moveTo(Number(e.target.value));
 function openAddress(){
   const saved=history.state;
@@ -1377,6 +1419,7 @@ function openAddress(){
   if(loc.completion)state.irq=loc.completion;
   if(loc.residency)state.inferenceMode=loc.residency;
   if(loc.direction)state.gpuDirection=loc.direction;
+  if(loc.condition)state.powerCondition=loc.condition;
   changeView(loc.view,loc.mode,loc.index);
 }
 window.addEventListener('hashchange',openAddress);

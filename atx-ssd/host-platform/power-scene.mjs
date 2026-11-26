@@ -12,6 +12,18 @@ const pointAt = (object, lift=0) =>
   object.getWorldPosition(new T.Vector3()).add(new T.Vector3(0,lift,0)).toArray();
 const shift = ([x,y,z],dx,dy,dz) => [x+dx,y+dy,z+dz];
 
+function dashPath(points) {
+  const path=new T.CurvePath();
+  for(let i=1;i<points.length;i++){
+    path.add(new T.LineCurve3(new T.Vector3(...points[i-1]),new T.Vector3(...points[i])));
+  }
+  const length=path.getLength(), dashes=[];
+  for(let start=0;start<length;start+=7){
+    dashes.push([start,Math.min(start+3.5,length)].map(d=>path.getPoint(d/length).toArray()));
+  }
+  return dashes;
+}
+
 export function showVrmCovers(board, visible) {
   for (const cover of board.vrmCovers) cover.visible=visible;
 }
@@ -37,6 +49,12 @@ export function installPower(board, {route,clearRoutes}) {
   const inputNode=[-51,5,-135];
   const outputNode=shift(choke,0,-.8,5.4);
   const atxToLogic=[atx,[105,7,-20],logic];
+  const monitor=shift(psu.psuOut,8,-8,1);
+  const rail5=shift(psu.psuDcDc,1,3,8), rail33=shift(psu.psuDcDc,0,3,-3);
+  const dcdc33Out=[rail33,shift(psu.psuOut,0,-2,-9)];
+  const check33=[rail33,shift(monitor,9,-2,-8),monitor];
+  const okSignal=[monitor,...curves.atx,...atxToLogic.slice(1)];
+  const startBoard=[logic,[84,8,-15],[57,11,-37],socket];
   const tracks={
     ac:['ac',[shift(psu.psuAc,17,0,0),psu.psuAc,psu.psuEmi]],
     standbyPrimary:['standby',[psu.psuEmi,shift(psu.psuStandby,18,0,5),psu.psuStandby]],
@@ -48,15 +66,21 @@ export function installPower(board, {route,clearRoutes}) {
     sync:['main',[psu.psuLlc,psu.psuSync]],
     mainOut:['main',[psu.psuSync,shift(psu.psuOut,11,-28,26),psu.psuOut]],
     dcdc:['main',[psu.psuSync,shift(psu.psuDcDc,5,-11,21),psu.psuDcDc]],
-    dcdcOut:['main',[psu.psuDcDc,psu.psuOut]],
+    dcdcOut:['main',[rail5,psu.psuOut]],
+    dcdc33Out:['main',dcdc33Out],
+    dcdc33Low:['fault',dcdc33Out,false],
     atxStandby:['standby',curves.atx],
-    atxReady:['ready',curves.atx],
     atxMain:['main',curves.atx],
     atxBranch:['main',curves.atxBranch,false],
     standby:['standby',atxToLogic],
     switch:['control',[front,[119,6,138],[119,6,23],logic]],
     enable:['control',[...atxToLogic.slice(1).reverse(),...curves.atx.slice().reverse()]],
-    ok:['ready',atxToLogic],
+    check12:['main',[psu.psuSync,shift(monitor,11,-4,22),monitor]],
+    check5:['main',[rail5,shift(monitor,11,-1,7),monitor]],
+    check33:['main',check33],
+    check33Low:['fault',check33,false],
+    okSignal:['ready',okSignal],
+    startBoard:['control',startBoard],
     eps1:['main',curves.eps1],
     eps2:['main',curves.eps2],
     eps2Input:['main',[eps2,inputNode]],
@@ -110,15 +134,23 @@ export function installPower(board, {route,clearRoutes}) {
     'ac-in':['psuAc'], 'standby-convert':['psuEmi','psuStandby'], pfc:['psuBridge','psuEmi'],
     llc:['psuPfc'], 'sync-12':['psuLlc','psuOut'], 'main-rails':['psuSync','psuOut'],
     standby:['atxPsu','atx24','psuOut'], 'ps-on':['frontPanel','standbyLogic','atx24','atxPsu'],
-    'power-ok':['atxPsu','atx24'], eps:['atxPsu','psuOut'], 'buck-on':['vrmChoke','vrmCap','socket'],
+    'power-ok':['psuDcDc','atx24'], 'boot-handoff':['standbyLogic'],
+    eps:['atxPsu','psuOut'], 'buck-on':['vrmChoke','vrmCap','socket'],
     'buck-off':['vrmSps','vrmCap','socket'], regulate:['vrmPwm','vrmChoke','vrmCap'],
     ddr5:['atx24'], m2:['atx24'], gpu:['atxPsu','pcieSlots','atx24'], shutdown:['atxPsu','atx24'],
   };
-  board.power = {tracks,layer,route,clearRoutes,visibleTags};
+  board.power = {
+    tracks,layer,route,clearRoutes,visibleTags,monitor,logic,lowSignal:dashPath(okSignal),
+    gateFrame:{box:new T.Box3().setFromPoints([...okSignal,rail33,psu.psuSync].map(p=>new T.Vector3(...p)))
+      .expandByVector(new T.Vector3(22,6,18)),pose:[.18,2.7,.55]},
+    startFrame:{box:new T.Box3().setFromPoints(startBoard.map(p=>new T.Vector3(...p)))
+      .expandByVector(new T.Vector3(21,10,22)),pose:[.15,2.5,.65]},
+  };
 }
 
 export function showPowerStep(board, entry, {covers='auto', psuCover='auto', evidence=false}={}) {
-  const {tracks,layer,route,clearRoutes,visibleTags}=board.power;
+  const {tracks,layer,route,clearRoutes,visibleTags,monitor,logic,lowSignal}=board.power;
+  const blocked=entry.gate==='blocked';
   showVrmCovers(board,covers==='closed'||(covers==='auto'&&!entry.expose));
   board.gpu.visible=entry.focus!=='vrm';
   setPsuView(board,{
@@ -127,7 +159,8 @@ export function showPowerStep(board, entry, {covers='auto', psuCover='auto', evi
   });
   clearRoutes(layer);
   layer.name='ATX power replay · '+entry.id;
-  layer.userData={step:entry.id,landing:entry.landing,geometry:'functional paths'};
+  layer.userData={step:entry.id,landing:entry.landing,geometry:'functional paths',
+    ...(entry.gate?{powerGood:blocked?'low':'high'}:{})};
   if(!evidence){
     for(const key of entry.tracks){
       const [kind,points,arrow=true]=tracks[key];
@@ -136,17 +169,40 @@ export function showPowerStep(board, entry, {covers='auto', psuCover='auto', evi
       line.name='Power path · '+key;
       line.userData={topic:entry.landing,rail:kind};
     }
-    const ink=new T.MeshBasicMaterial({color:entry.color,depthTest:false,depthWrite:false,toneMapped:false});
-    const marker=new T.Mesh(pin,ink);
-    marker.name='Power landing · '+entry.landing;
-    marker.renderOrder=12;
-    marker.scale.setScalar(entry.focus==='vrm'?1.6:2.3);
-    pos(layer,marker,board.anchors[entry.landing]);
+    if(blocked){
+      for(const dash of lowSignal)route(layer,dash,.74,powerColors.inactive,{depth:false});
+      for(const anchor of [monitor,logic]){
+        for(const sign of [-1,1]){
+          route(layer,[shift(anchor,-3,1,-3*sign),shift(anchor,3,1,3*sign)],.94,entry.color,{depth:false});
+        }
+      }
+    }else{
+      const ink=new T.MeshBasicMaterial({color:entry.color,depthTest:false,depthWrite:false,toneMapped:false});
+      const marker=new T.Mesh(pin,ink);
+      marker.name='Power landing · '+entry.landing;
+      marker.renderOrder=12;
+      marker.scale.setScalar(entry.focus==='vrm'?1.6:2.3);
+      pos(layer,marker,board.anchors[entry.landing]);
+      if(entry.gate){
+        const check=new T.Mesh(pin,ink);
+        check.scale.setScalar(2.3);
+        pos(layer,check,monitor);
+      }
+    }
   }
+  const captions=entry.gate?{
+    psuDcDc:entry.railFault?'3.3 V 欠压':'3.3 V 就绪',
+    atx24:blocked?'#8 · PWR_OK 低':'#8 · PWR_OK 高',
+    standbyLogic:blocked?'主板等待就绪':'主板可继续上电',
+  }:entry.id==='boot-handoff'?{
+    standbyLogic:'主板电源时序',socket:'AM5 · 进入初始化',
+  }:entry.railFault?{psuDcDc:'3.3 V 欠压'}:{};
   for(const tag of board.annotations){
     tag.endpoint=tag.key===entry.landing;
     tag.show=tag.endpoint||visibleTags[entry.id].includes(tag.key);
-    tag.priority=tag.endpoint?2:0;
+    tag.caption=captions[tag.key];
+    tag.tone=tag.caption?(entry.gate&&tag.key==='psuDcDc'&&!blocked?powerColors.main:entry.color):null;
+    tag.priority=tag.endpoint?2:tag.caption?1:0;
   }
 }
 
@@ -156,5 +212,7 @@ const vrmFrame = {
 };
 export function powerFrame(focus,board) {
   if(focus==='psu')return psuFrame(board);
+  if(focus==='gate')return board.power.gateFrame;
+  if(focus==='start')return board.power.startFrame;
   return focus==='vrm'?vrmFrame:null;
 }
