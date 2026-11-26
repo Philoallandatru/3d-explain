@@ -1,3 +1,5 @@
+import { startupTiming } from './power-timing.mjs';
+
 const intelAtx = 'https://edc.intel.com/content/www/us/en/design/ipla/software-development-platforms/client/platforms/alder-lake-desktop/atx-version-3-0-multi-rail-desktop-platform-power-supply-design-guide/';
 
 export const psuProfile = Object.freeze({
@@ -10,6 +12,8 @@ export const powerSources = {
   atxPins:['Intel · ATX 24-pin 针位',intelAtx+'main-power-connector-required/'],
   atxEnable:['Intel · PS_ON#',intelAtx+'2.01/ps-on-required/'],
   atxOK:['Intel · PWR_OK',intelAtx+'2.01/pwr-ok-required/'],
+  atxTiming:['Intel · ATX 上电时序',intelAtx+'timing-housekeeping-and-control-required/'],
+  atxRegulation:['Intel · 主轨电压范围',intelAtx+'dc-voltage-regulation-required/'],
   resetSequence:['TI · 上电就绪与复位','https://www.ti.com/lit/eb/slyy168/slyy168.pdf'],
   atxGpu:['Intel · PCIe 辅助供电',intelAtx+'2.1/pcie-aic-auxiliary-power-connectors/'],
   psuTopology:['TI · 台式电源转换框图','https://www.ti.com/document-viewer/lit/html/SSZT909/GUID-14830977-F519-4B62-B81F-56283F683901'],
@@ -213,23 +217,47 @@ const undervoltageSteps=powerSteps.map(entry=>{
   return entry;
 });
 
-export const powerFlow=condition=>condition==='undervoltage'?undervoltageSteps:powerSteps;
+const {phases:[rampPhase,railPhase,okPhase,resetPhase],t3Ms,boardDelayMs}=startupTiming;
+const delayedSteps=powerSteps.flatMap(entry=>{
+  if(entry.id===rampPhase.id)return [
+    step(rampPhase.id,'3.3 V 正在建立','12 V / 5 V 已达标 → 等 3.3 V',
+      '在这段示意的起点，12 V 和 5 V 已经达标。3.3 V 还在上升，电源维持 PWR_OK 低电平，主板保持复位。',
+      ['atxRegulation','atxOK'],'fault','standbyLogic',['check12','check5','check33Low'],
+      {label:'3.3 V 建立中',startupMs:rampPhase.ms,gate:'waiting',focus:'gate',openPsu:true,railFault:true}),
+    step(railPhase.id,'3.3 V 达标，电源等待 T3','三条主轨达标 → 等待 PWR_OK 延迟',
+      `3.3 V 进入工作范围后三条主轨均已达标。示例从这时起等待 ${t3Ms} ms，再由电源拉高 PWR_OK。`,
+      ['atxRegulation','atxTiming','atxOK'],'main','standbyLogic',['check12','check5','check33'],
+      {label:railPhase.label,startupMs:railPhase.ms,gate:'waiting',focus:'gate',openPsu:true}),
+  ];
+  if(entry.id===okPhase.id)return [{...entry,
+    title:'PWR_OK 拉高，平台复位保持',label:okPhase.label,startupMs:okPhase.ms,
+    bus:'PSU → ATX_PWR1 #8 → 主板开始检查本地条件',
+    text:`这时主板收到 PWR_OK 高电平。示例中的本地电源和时钟再等 ${boardDelayMs} ms 就绪，平台复位在这段时间内保持。`,
+    refs:['atxOK','atxTiming','resetSequence']}];
+  if(entry.id===resetPhase.id)return [{...entry,label:resetPhase.label,startupMs:resetPhase.ms}];
+  return [entry];
+});
+
+export const powerFlow=condition=>condition==='delayed'?delayedSteps:condition==='undervoltage'?undervoltageSteps:powerSteps;
 
 export function powerSignals(entry) {
   const waiting=['ac-in','standby-convert','standby','shutdown'].includes(entry.id);
   const request=entry.id==='ps-on', ramping=['pfc','llc','sync-12','main-rails'].includes(entry.id);
   const standby=entry.id==='ac-in'?'未输出':entry.id==='standby-convert'?'建立中':'5 V';
-  const blocked=entry.gate==='blocked', starting=entry.id==='boot-handoff';
+  const blocked=entry.gate==='blocked', starting=entry.id==='boot-handoff', delayed=entry.gate==='waiting';
   const rails=entry.railFault||entry.gate||starting ? [
     ['+12 V / +5 V','有效','main'],
-    ['+3.3 V',entry.railFault?'欠压':'有效',entry.railFault?'fault':'main'],
+    ['+3.3 V',entry.railFault?(delayed?'上升中 · 未达标':'欠压'):'有效',entry.railFault?'fault':delayed?'rail33':'main'],
   ] : [['+12 / +5 / +3.3 V',waiting?'关闭':request?'待建立':ramping?'上升中':'有效','main']];
   return [
     ['+5VSB · #9',standby,'standby'],
     ['PS_ON# · #16',waiting?'高 · 释放':'低 · 请求','control'],
     ...rails,
-    ['PWR_OK · #8',blocked?'低 · 未就绪':waiting||request||ramping?'低':'高 · 就绪','ready'],
-    ...(entry.gate||starting?[['主板启动',blocked?'等待电源就绪':starting?'进入初始化':'可推进时序','board-start']]:[]),
+    ['PWR_OK · #8',blocked?'低 · 未就绪':delayed?(entry.railFault?'低 · 等 3.3 V':'低 · 等待 T3'):
+      waiting||request||ramping?'低':'高 · 就绪','ready'],
+    ...(entry.gate||starting?[[entry.startupMs===undefined?'主板启动':'平台复位',
+      blocked?'等待电源就绪':starting?(entry.startupMs===undefined?'进入初始化':'已释放 · 进入初始化'):
+        entry.startupMs===undefined?'可推进时序':'保持','board-start']]:[]),
   ];
 }
 

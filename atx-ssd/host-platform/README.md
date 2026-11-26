@@ -78,6 +78,8 @@ DRAM 的例子以每条 1Rx8、两个 ×32 子通道组织。两条以 5200 MT/s
 
 ## 在回放里看原因和后果
 
+选「3.3 V 主轨」的「延迟稳定」进入[上电时序](view.html#board/power/main-rails/delayed/0)。拖动波形或下方游标，也可直接点三个关键时刻。时间从 12 V 和 5 V 达标起算。示例的 3.3 V 在 18 ms 进入工作范围，等待 120 ms 的 T3 后，PWR_OK 在 138 ms 拉高。主板再等待示意的 40 ms，本地条件就绪后在 178 ms 释放平台复位。3D 高亮、当前回放步骤和事务面板随游标同步。[Intel ATX 上电时序](https://edc.intel.com/content/www/us/en/design/ipla/software-development-platforms/client/platforms/alder-lake-desktop/atx-version-3-0-multi-rail-desktop-platform-power-supply-design-guide/timing-housekeeping-and-control-required/) · [主轨电压范围](https://edc.intel.com/content/www/us/en/design/ipla/software-development-platforms/client/platforms/alder-lake-desktop/atx-version-3-0-multi-rail-desktop-platform-power-supply-design-guide/dc-voltage-regulation-required/)
+
 在供电回放条把「3.3 V 主轨」切到「欠压」，会跳到 [PWR_OK 检查](view.html#board/power/power-ok/undervoltage)。此情景保留正常的主 12 V、主 5 V 和 5VSB。3D 标出 3.3 V 检测未通过并用虚线显示 PWR_OK #8 低电平，回放停在主板的上电就绪检查。切回「已稳定」后可以进到[主板启动](view.html#board/power/boot-handoff)，看主板如何推进复位释放与固件初始化。主板后续时序为通用原理示意。[Intel ATX PWR_OK](https://edc.intel.com/content/www/us/en/design/ipla/software-development-platforms/client/platforms/alder-lake-desktop/atx-version-3-0-multi-rail-desktop-platform-power-supply-design-guide/2.01/pwr-ok-required/) · [TI 上电就绪与复位](https://www.ti.com/lit/eb/slyy168/slyy168.pdf)
 
 右侧的「换个条件会怎样」仍可暂停回放并展开解释。在[双 EPS8](view.html#board/power/eps)改示例功率，可以对比同功率下 12 V 线束与 1.10 V 输出侧的电流。

@@ -150,7 +150,8 @@ export function installPower(board, {route,clearRoutes}) {
 
 export function showPowerStep(board, entry, {covers='auto', psuCover='auto', evidence=false}={}) {
   const {tracks,layer,route,clearRoutes,visibleTags,monitor,logic,lowSignal}=board.power;
-  const blocked=entry.gate==='blocked';
+  const blocked=entry.gate==='blocked', timed=entry.startupMs!==undefined;
+  const low=blocked||entry.gate==='waiting';
   showVrmCovers(board,covers==='closed'||(covers==='auto'&&!entry.expose));
   board.gpu.visible=entry.focus!=='vrm';
   setPsuView(board,{
@@ -160,7 +161,8 @@ export function showPowerStep(board, entry, {covers='auto', psuCover='auto', evi
   clearRoutes(layer);
   layer.name='ATX power replay · '+entry.id;
   layer.userData={step:entry.id,landing:entry.landing,geometry:'functional paths',
-    ...(entry.gate?{powerGood:blocked?'low':'high'}:{})};
+    ...(entry.gate?{powerGood:low?'low':'high'}:{}),
+    ...(timed?{resetState:entry.gate?'held':'released'}:{})};
   if(!evidence){
     for(const key of entry.tracks){
       const [kind,points,arrow=true]=tracks[key];
@@ -169,8 +171,11 @@ export function showPowerStep(board, entry, {covers='auto', psuCover='auto', evi
       line.name='Power path · '+key;
       line.userData={topic:entry.landing,rail:kind};
     }
+    if(low)for(const dash of lowSignal){
+      const line=route(layer,dash,.74,powerColors.inactive,{depth:false});
+      line.name='PWR_OK · low';
+    }
     if(blocked){
-      for(const dash of lowSignal)route(layer,dash,.74,powerColors.inactive,{depth:false});
       for(const anchor of [monitor,logic]){
         for(const sign of [-1,1]){
           route(layer,[shift(anchor,-3,1,-3*sign),shift(anchor,3,1,3*sign)],.94,entry.color,{depth:false});
@@ -191,17 +196,17 @@ export function showPowerStep(board, entry, {covers='auto', psuCover='auto', evi
     }
   }
   const captions=entry.gate?{
-    psuDcDc:entry.railFault?'3.3 V 欠压':'3.3 V 就绪',
-    atx24:blocked?'#8 · PWR_OK 低':'#8 · PWR_OK 高',
-    standbyLogic:blocked?'主板等待就绪':'主板可继续上电',
+    psuDcDc:entry.railFault?(timed?'3.3 V 建立中':'3.3 V 欠压'):'3.3 V 达标',
+    atx24:low?'#8 · PWR_OK 低':'#8 · PWR_OK 高',
+    standbyLogic:blocked?'主板等待就绪':timed?'主板 · 复位保持':'主板可继续上电',
   }:entry.id==='boot-handoff'?{
-    standbyLogic:'主板电源时序',socket:'AM5 · 进入初始化',
+    standbyLogic:'主板电源时序',socket:timed?'AM5 · 复位已释放':'AM5 · 进入初始化',
   }:entry.railFault?{psuDcDc:'3.3 V 欠压'}:{};
   for(const tag of board.annotations){
     tag.endpoint=tag.key===entry.landing;
-    tag.show=tag.endpoint||visibleTags[entry.id].includes(tag.key);
     tag.caption=captions[tag.key];
-    tag.tone=tag.caption?(entry.gate&&tag.key==='psuDcDc'&&!blocked?powerColors.main:entry.color):null;
+    tag.show=tag.endpoint||Boolean(tag.caption)||(!timed&&visibleTags[entry.id].includes(tag.key));
+    tag.tone=tag.caption?(entry.gate&&tag.key==='psuDcDc'&&!entry.railFault?powerColors.main:entry.color):null;
     tag.priority=tag.endpoint?2:tag.caption?1:0;
   }
 }
