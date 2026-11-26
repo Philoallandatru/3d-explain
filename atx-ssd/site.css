@@ -1,0 +1,38 @@
+:root{color-scheme:dark;--bg:#171819;--panel:#232426;--line:#444648;--paper:#edeae1;--ink:#f2f0e9;--muted:#c4c4bd;--accent:#f2cb54}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.4 "Segoe UI","Microsoft YaHei",sans-serif;
+  height:100vh;height:100dvh;display:grid;grid-template-rows:auto minmax(0,1fr);overflow:hidden}
+[hidden]{display:none!important}
+a{color:inherit;text-decoration:none}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:-3px}
+.site-header{position:relative;z-index:2;background:var(--bg);border-bottom:1px solid var(--line)}
+.site-nav{max-width:1680px;margin:auto;padding:8px clamp(14px,3.2vw,48px);min-height:62px;display:flex;align-items:center;gap:clamp(10px,2.5vw,38px)}
+.site-nav h1{margin:0;flex:none;font-size:clamp(17px,2vw,26px);font-weight:750;letter-spacing:-.035em;
+  display:flex;align-items:center;gap:10px;white-space:nowrap}
+.site-nav h1::before{content:"";display:block;flex:none;width:.83em;height:.77em;transform:skewX(-24deg);
+  border-block:.15em solid var(--accent);background:linear-gradient(var(--accent),var(--accent)) center/100% .15em no-repeat}
+.site-sections,.site-shortcuts{display:flex;align-items:center;white-space:nowrap}
+.site-sections{background:var(--panel);border:1px solid var(--line)}
+.site-sections a{padding:9px clamp(12px,2.2vw,31px);font-weight:650;text-align:center;min-height:39px}
+.site-sections a+a{border-left:1px solid var(--line)}
+.site-sections a[aria-current=page]{position:relative;color:#22231f;background:var(--paper)}
+.site-sections a[aria-current=page]::after{content:"";position:absolute;inset:auto 12px 0;height:3px;background:#b68d2d}
+.site-sections a:not([aria-current]):hover,.site-shortcuts a:hover{background:#333537;color:var(--ink)}
+.site-sections a[aria-current]:focus-visible{outline-color:#654c16}
+.site-shortcuts{margin-left:auto;gap:4px;color:var(--muted);font-size:14px}
+.site-shortcuts a{padding:6px 9px;border:1px solid transparent}
+.site-shortcuts a[aria-current=location]{border-color:#776030;color:#ffe08b}
+#viewers{position:relative;min-height:0;isolation:isolate}
+iframe{position:absolute;inset:0;width:100%;height:100%;border:0;visibility:hidden}
+iframe[aria-hidden=false]{visibility:visible}
+#site-loading{position:absolute;z-index:1;inset:auto 0 50%;text-align:center;color:var(--muted);pointer-events:none}
+noscript{display:block;padding:16px}
+noscript a{text-decoration:underline}
+@media(max-width:680px){
+  .site-nav{display:grid;grid-template-columns:auto minmax(0,1fr);gap:5px 12px;padding-block:6px}
+  .site-nav h1{gap:5px}
+  .site-sections a{flex:1;padding:7px 9px;min-height:36px}
+  .site-shortcuts{grid-column:1/-1;margin:0;justify-content:flex-end;gap:4px}
+  .site-shortcuts a{padding:3px 8px}
+}
+@media(max-width:360px){.site-nav h1::before{display:none}.site-nav{gap:5px 8px}.site-sections a{font-size:14px}}

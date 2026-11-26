@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="交互式 990 PRO SSD 剖层和 NVMe 协议模型。">
+  <meta name="description" content="ATX 整机、RM1000x 供电、990 PRO SSD 剖层和 NVMe 协议模型。">
   <link rel="icon" href="data:,">
   <title>3D Explain · 交互模型</title>
   <style>
@@ -46,8 +46,12 @@
 <body>
   <main>
     <h1>3D Explain</h1>
-    <p>拆开 990 PRO SSD，再沿主板追踪 NVMe 的信号与数据。</p>
+    <p>在 ATX 整机里追踪供电与数据，再下钻到 990 PRO 的 PCB 和 NAND。</p>
     <div class="scenes">
+      <a class="scene" href="./atx-ssd/index.html">
+        <img src="./atx-ssd/preview.png" alt="" width="1580" height="980">
+        <div><h2>ATX 整机与 990 PRO</h2><p>剖开 RM1000x，沿线束到主板和显卡，再从整机 4 KiB 事务进入 SSD。</p></div>
+      </a>
       <a class="scene" href="./ssd-model/view.html#ssd-explode">
         <img src="./ssd-model/ssd-explosion-preview.png" alt="" width="1536" height="960">
         <div><h2>990 PRO SSD 结构</h2><p>爆炸展开、翻面、剥开 PCB，查看主控、NAND 和走线。</p></div>

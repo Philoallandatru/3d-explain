@@ -3,5 +3,7 @@
 *.step -text -diff
 ssd-model/parts.csv -text
 ssd-model/view.html -text -diff linguist-generated=true
+atx-ssd/host-platform/view.html -text -diff linguist-generated=true
+atx-ssd/host-platform/vendor/** linguist-vendored=true
 ssd-model/viewer/three.bundle.js linguist-vendored=true
 skills/upstream/** linguist-vendored=true

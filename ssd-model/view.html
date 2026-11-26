@@ -5,6 +5,12 @@
 <meta name="model-sha256" content="c4b71619248b3e59df397d5ae432cda2002d4b47163b01569e01bc7371635a47"><meta name="framework-sha256" content="09d8e072358d2e904b3486fbd6558e9b3cad5e4846a6045167df02ef5f520886"><meta name="color-scheme" content="light">
 <link rel="icon" href="data:,">
 <title>Samsung 990 PRO 2 TB · 三维结构</title>
+<script>
+if(parent!==window&&new URLSearchParams(location.search).get('site')==='1'){
+  document.documentElement.dataset.siteView='ssd';
+  const bridge=document.createElement('script');bridge.src='../atx-ssd/site-bridge.js';document.head.append(bridge);
+}
+</script>
 <style>
 :root{font-family:"Segoe UI","Microsoft YaHei",sans-serif;color:#222d2a;--ink:#222d2a;--muted:#58675f;--line:#c7ccc2;--paper:#f7f8f3;--active:#126451;--pale:#e0ebe2;--head:91px}
 *{box-sizing:border-box}body{margin:0;background:var(--paper)}button{font:inherit;color:inherit;cursor:pointer}button:focus-visible,canvas:focus-visible{outline:3px solid #16836b;outline-offset:2px}button:disabled{cursor:default;opacity:.44}button[hidden],[hidden]{display:none!important}header{border-bottom:1px solid var(--line);padding:17px 29px 15px;display:flex;align-items:center;gap:16px;justify-content:space-between;background:var(--paper)}
@@ -108,11 +114,13 @@ body[data-view=system] .stage{background-color:#e7ece9;background-image:radial-g
 @media(min-width:631px) and (max-width:1000px){.stack-layers button{grid-template-columns:24px 1fr}.stack-layers button small{display:none}}
 @media(max-width:630px){body:is([data-view=stack],[data-view=system]) .stage{position:sticky;top:0;z-index:2;height:clamp(268px,46dvh,470px)}.stack-overlay{left:9px;bottom:50px;max-width:calc(100% - 18px)}.stack-key{padding:4px 6px;gap:4px 8px}.stackQuick{padding:2px}.stackQuick button{min-height:24px}.stack-layers{grid-template-columns:1fr 1fr}.stack-layers button{grid-template-columns:25px 1fr}.stack-layers button small{display:none}}
 @media(max-width:630px){body[data-view=stack][data-stack-io-chip]:not([data-stack-io-chip=""]) #stack-layer-quick{display:none}}
+.atx-return{white-space:nowrap;color:var(--active);font-size:14px;text-underline-offset:3px}
 </style>
 </head>
 <body>
 <header><div><div class="title-line"><h1>Samsung 990 PRO</h1><span class="capacity">2 TB</span></div><p class="sub">M.2 2280 · PCIe 4.0 ×4 · NVMe SSD</p></div>
-<nav class="modes" aria-label="显示内容"><button data-view="system" aria-pressed="false">整机读写</button><button data-view="mounted" aria-pressed="true">整板原位剖视</button><button data-view="ssd-explode" aria-pressed="false">SSD 爆炸展开</button><button data-view="stack" aria-pressed="false">PCB 逐层剥开</button><button data-view="physical" aria-pressed="false">实物结构</button><button data-view="installed" aria-pressed="false">上机装配</button><button data-view="pcb" aria-pressed="false">独立电路示意</button><button data-view="asic" aria-pressed="false">主控 ASIC 剖视</button><button data-view="cell" aria-pressed="false">6T SRAM 单元</button><button data-view="flash" aria-pressed="false">V-NAND 单元</button></nav></header>
+<nav class="modes" aria-label="显示内容"><button data-view="system" aria-pressed="false">整机读写</button><button data-view="mounted" aria-pressed="true">整板原位剖视</button><button data-view="ssd-explode" aria-pressed="false">SSD 爆炸展开</button><button data-view="stack" aria-pressed="false">PCB 逐层剥开</button><button data-view="physical" aria-pressed="false">实物结构</button><button data-view="installed" aria-pressed="false">上机装配</button><button data-view="pcb" aria-pressed="false">独立电路示意</button><button data-view="asic" aria-pressed="false">主控 ASIC 剖视</button><button data-view="cell" aria-pressed="false">6T SRAM 单元</button><button data-view="flash" aria-pressed="false">V-NAND 单元</button></nav>
+<a class="atx-return" href="../atx-ssd/host-platform/view.html#board/io/read/doorbell">ATX 整机读写</a></header>
 <main><section class="stage" aria-label="三维视图"><canvas id="model" tabindex="0" aria-label="拖动旋转，滚轮缩放，点选零件，双击聚焦"></canvas><svg id="stack-io-flights" aria-hidden="true"></svg><svg id="anno" aria-hidden="true"></svg>
 <div class="stamp"><h2 id="mode-name">整板原位剖视</h2><p id="mode-tip"></p></div><svg class="axes" id="axes" viewBox="0 0 64 60" aria-hidden="true"></svg>
 <div class="flow-badge" id="trace-badge" hidden><strong id="trace-packet"></strong><span id="trace-direction"></span></div>
@@ -5423,6 +5431,7 @@ window.createBoardStack = function ({T, $, guides, parts, partById, visible, box
 
   return {show,showSystem,showSsdAssembly,ssdAssembling,useView,offset,color,colorSsdAssembly,sync,tags,layerLabels,hash,bind,evidence,
     isExploded: () => !peeled(), isViaFocus, drawPlayback:playback.draw, play:playback.start,
+    pause:()=>{playback.pause();if(assembly.active())assembly.pause();},
     openAssembly,openSsdAssembly,closeAssembly,focusAssembly:assembly.focus,drawAssembly:assembly.guides,
     enter:()=>{if (playback.active() && followChip) trackChip(true);}};
 };
@@ -6079,6 +6088,7 @@ function init(){
  $("mount-board").onclick=()=>{hideCarrier=!hideCarrier;mountOption();};
  $("mount-screw").onclick=()=>{liftScrew=!liftScrew;mountOption();if(focusOn)frame(focusOn,true);};
  window.addEventListener("hashchange",()=>{if(root)applyHash();});
+ window.addEventListener("nvmespec:visibility",event=>{if(!event.detail)stackView.pause();});
  $("show-nets").onchange=e=>{
   showNets=e.target.checked;if(!showNets&&story)stopTrace(false);showScene();if(selected?.items.every(p=>!visible(p)))choose(null);options();recolor();
  };

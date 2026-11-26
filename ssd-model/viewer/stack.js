@@ -615,6 +615,7 @@ window.createBoardStack = function ({T, $, guides, parts, partById, visible, box
 
   return {show,showSystem,showSsdAssembly,ssdAssembling,useView,offset,color,colorSsdAssembly,sync,tags,layerLabels,hash,bind,evidence,
     isExploded: () => !peeled(), isViaFocus, drawPlayback:playback.draw, play:playback.start,
+    pause:()=>{playback.pause();if(assembly.active())assembly.pause();},
     openAssembly,openSsdAssembly,closeAssembly,focusAssembly:assembly.focus,drawAssembly:assembly.guides,
     enter:()=>{if (playback.active() && followChip) trackChip(true);}};
 };

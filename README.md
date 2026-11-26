@@ -1,15 +1,16 @@
 # 3D Explain
 
-990 PRO 2 TB 的物理拆解和 NVMe 协议演示。
+ATX 整机供电、990 PRO 2 TB 拆解和 NVMe 协议演示。
 
 | 项目 | 入口 | 可查看的内容 |
 | --- | --- | --- |
+| ATX 整机与 990 PRO | [硬件剖视网站](atx-ssd/index.html) · [整机模型说明](atx-ssd/host-platform/README.md) | RM1000x 供电剖视、主板与显卡、4 KiB 读写、推理下钻和 SSD 叠层 |
 | 990 PRO 2 TB | [离线 3D 查看器](ssd-model/view.html) · [模型说明](ssd-model/README.md) | SSD 爆炸展开、PCB 正反面和分层、主控及 NAND 剖视、测量依据、STEP 与 GLB |
 | NVMe 上下电 | [应用源码与说明](nvme-power-cycle/) | 带电空闲、D3cold 复电、4 KiB 读写和关机，配有寄存器、事务方向和规范出处 |
 
 ## 本地运行
 
-SSD 的离线 HTML 在下载后可以直接用浏览器打开，Three.js 随文件一并提供。要从总入口查看 SSD 模型和 NVMe 演示，请安装 Node.js 22.12 或更新的版本，再在仓库根目录运行以下命令。
+直接打开 `atx-ssd/index.html` 可离线切换整机和 SSD，并保留各自的回放步骤。SSD 的离线 HTML 在下载后可以直接用浏览器打开，Three.js 随文件一并提供。要从总入口查看 SSD 模型和 NVMe 演示，请安装 Node.js 22.12 或更新的版本，再在仓库根目录运行以下命令。
 
 ```sh
 npm ci

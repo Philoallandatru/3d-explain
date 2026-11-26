@@ -1,0 +1,56 @@
+html[data-site-view=atx] .masthead{
+  grid-template-areas:"views links";grid-template-rows:auto;margin-bottom:7px;padding:9px 0 6px;
+}
+html[data-site-view=atx] .masthead .identity{display:none}
+html[data-site-view=atx] .views button{min-height:41px}
+html[data-site-view=atx] .toplinks{padding-bottom:0}
+html[data-site-view=atx] .page{padding-bottom:15px}
+
+html[data-site-view=ssd]{
+  color-scheme:dark;color:#f2f0e9;--paper:#171819;--ink:#f2f0e9;--muted:#c9c9bf;--line:#414547;
+  --active:#f2cb54;--head:62px;scrollbar-color:#696a68 #171819;
+}
+html[data-site-view=ssd] body{max-width:1680px;padding:0 clamp(14px,3.2vw,48px) 12px;margin:auto}
+html[data-site-view=ssd] header{min-height:60px;justify-content:initial;border:0;padding:8px 0;gap:12px}
+html[data-site-view=ssd] header > div:first-child{display:none}
+html[data-site-view=ssd] .modes{
+  flex:1;display:flex;flex-wrap:wrap;justify-content:flex-start;gap:2px;padding:3px;
+  background:#232426;border:1px solid #454748;border-radius:0;
+}
+html[data-site-view=ssd] .modes button{padding:6px 9px;font-size:14px;border-radius:0;color:#e4e4db}
+html[data-site-view=ssd] .modes button[data-view=ssd-explode]:not([aria-pressed=true]){color:#e4e4db;background:transparent}
+html[data-site-view=ssd] .modes button:hover,
+html[data-site-view=ssd] .modes button[data-view=ssd-explode]:not([aria-pressed=true]):hover{background:#3b3d3e}
+html[data-site-view=ssd] .modes button[aria-pressed=true]{color:#242620;background:#edeae1;box-shadow:inset 0 -2px #b99236}
+html[data-site-view=ssd] .modes [data-view=system]{display:none}
+html[data-site-view=ssd] .atx-return{
+  flex:none;color:#f2cb54;border:1px solid #585038;padding:6px 8px;text-decoration:none;font-size:14px;white-space:nowrap
+}
+html[data-site-view=ssd] .atx-return:hover{background:#403723}
+html[data-site-view=ssd] main{border:1px solid #464849;grid-template-columns:minmax(0,1fr) clamp(292px,25vw,363px)}
+html[data-site-view=ssd] .stage{
+  background-color:#202225;background-image:linear-gradient(#b5c5ba15 1px,transparent 1px),
+    linear-gradient(90deg,#b5c5ba15 1px,transparent 1px),radial-gradient(ellipse at 50% 42%,#2c3032,#1b1e20 80%);
+  background-size:32px 32px,32px 32px,100% 100%
+}
+html[data-site-view=ssd] .stage .stamp{
+  color:#f2f0e9;background:#242526ed;border:1px solid #555858;border-radius:0;padding:7px 10px;max-width:calc(100% - 36px)
+}
+html[data-site-view=ssd] .stage .stamp p{color:#dad9cf}
+html[data-site-view=ssd] .stage :is(.nav,.stackQuick){color:#262823}
+html[data-site-view=ssd] .stage .stack-key{color:#eeece3;background:#242629;border-color:#656963}
+html[data-site-view=ssd] .stage .notice{color:#2f3027}
+html[data-site-view=ssd] .stage .caption{fill:#f0f1e6;stroke:#222628}
+html[data-site-view=ssd] .stage .caption.active{fill:#ffcc78}
+html[data-site-view=ssd] .stage .leader{stroke:#a6bcb3}
+html[data-site-view=ssd] aside{color-scheme:light;--ink:#262823;--muted:#53564d;--line:#b1b3a8;color:var(--ink);background:#eae8df}
+html[data-site-view=ssd] aside a{color:#244966}
+html[data-site-view=ssd] :is(.modes button,.atx-return):focus-visible{outline:2px solid #f2cb54;outline-offset:2px}
+@media(max-width:760px){
+  html[data-site-view=atx] .masthead{grid-template-areas:"views" "links"}
+  html[data-site-view=ssd] header{display:flex;flex-wrap:wrap;gap:5px}
+  html[data-site-view=ssd] .modes{flex-basis:100%;padding:2px}
+  html[data-site-view=ssd] .modes button{padding:4px 6px;font-size:13px}
+  html[data-site-view=ssd] .atx-return{font-size:13px;padding:3px 6px}
+  html[data-site-view=ssd] main{height:auto}
+}

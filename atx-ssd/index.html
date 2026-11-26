@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>硬件剖视 · ATX 整机与 990 PRO</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="site.css">
+  <script src="site.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-nav">
+      <h1>硬件剖视</h1>
+      <nav class="site-sections" aria-label="查看对象">
+        <a href="#atx" data-section="atx">ATX 整机</a>
+        <a href="#ssd" data-section="ssd">990 PRO</a>
+      </nav>
+      <nav class="site-shortcuts" aria-label="常用入口">
+        <a href="#atx/board/power/ac-in">电源剖视</a>
+        <a href="#atx/board/io/read/doorbell">整机 4 KiB</a>
+        <a href="#ssd/stack">SSD 叠层</a>
+      </nav>
+    </div>
+  </header>
+  <main id="viewers" aria-label="交互模型">
+    <p id="site-loading" role="status">正在载入 3D 查看器…</p>
+    <iframe id="atx-frame" title="ATX 整机交互模型" aria-hidden="true" inert></iframe>
+    <iframe id="ssd-frame" title="Samsung 990 PRO 交互模型" aria-hidden="true" inert></iframe>
+    <noscript>
+      <p>启用 JavaScript 后可以在站内切换模型。也可以分别打开<a href="host-platform/view.html">整机查看器</a>和<a href="../ssd-model/view.html">SSD 查看器</a>。</p>
+    </noscript>
+  </main>
+</body>
+</html>

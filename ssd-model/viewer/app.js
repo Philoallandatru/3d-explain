@@ -650,6 +650,7 @@ function init(){
  $("mount-board").onclick=()=>{hideCarrier=!hideCarrier;mountOption();};
  $("mount-screw").onclick=()=>{liftScrew=!liftScrew;mountOption();if(focusOn)frame(focusOn,true);};
  window.addEventListener("hashchange",()=>{if(root)applyHash();});
+ window.addEventListener("nvmespec:visibility",event=>{if(!event.detail)stackView.pause();});
  $("show-nets").onchange=e=>{
   showNets=e.target.checked;if(!showNets&&story)stopTrace(false);showScene();if(selected?.items.every(p=>!visible(p)))choose(null);options();recolor();
  };
